@@ -20,11 +20,12 @@
         <video ref="siVideo" class="siVideo" controls autoplay muted @timeupdate="getCurrentTime()" @ended="onEnd()">
             <source src="../assets/myVideo.mp4" type="video/mp4" >
         </video>
-        <button @click="fnt()">click</button>     
+        <!-- <button @click="fnt()">click</button> -->
     </div>
 </template>
 
 <script>
+// work on a vertical video
 // many theme for each item
 
 
@@ -33,7 +34,7 @@ import SiBubble from './SiBubble';
 import SiLink from './SiLink';
 import SiForm from './SiForm';
 import SiReplayButton from './SiReplayButton';
-import SiList from './SiList';
+import SiSelect from './SiSelect';
 import SiMoveTo from './SiMoveTo';
 
 export default {
@@ -44,7 +45,7 @@ export default {
         SiLink,
         SiForm,
         SiReplayButton,
-        SiList,
+        SiSelect,
         SiMoveTo,
     },
     data() {
@@ -59,23 +60,27 @@ export default {
                         text: 'See more about camera',
                         style: 'visibility: visible; margin: 21% 0% 0% 48%;',
                         moveTo: 60.337806, start: 0.26, end: 0.27,
+                        theme: 'dark',
                     },
                 },
                 {
                     currentComponent: 'SiBubble',
                     currentProps: {
-                        text: 'Arrière : 12 MP f/1.8 + 12 MP f/2.4 | Avant : 7 MP f/2.2',
+                        text: 'Arrière : 12 MP f/1.8 + 12 MP f/2.4 | Avant : 7 MP f/2.2Arrière : 12 MP f/1.8 + 12 MP f/2.4 | Avant : 7 MP f/2.2',
                         style: 'visibility: visible; margin: 7% 0% 0% 50%;',
                         start: 0.12, end: 0.12,
+                        theme: 'light',
+                        arrow: 'left'
                     },
                 },
                 {
                     currentComponent: 'SiLink',
                     currentProps: {
                         text: 'Visit our web site and buy it now!',
-                        style: 'visibility: visible; margin: 6% 0% 0% 28%;',
+                        style: 'visibility: visible; margin: 10% 0% 0% 32%;',
                         url: 'https://www.apple.com/ma/iphone/',
                         start: 1.12, end: 1.18,
+                        theme: 'dark',
                     },
                 },
                 {
@@ -83,6 +88,7 @@ export default {
                     currentProps: {
                         style: 'visibility: visible; margin: 15% 0% 0% 32%;',
                         start: 1.4, end: 1.51,
+                        theme: 'dark',
                     },
                 },
                 {
@@ -91,10 +97,11 @@ export default {
                         text: 'Youtube.com', url: 'https://www.youtube.com',
                         style: 'visibility: visible; margin: 8% 0% 0% 45%;',
                         start: 0.26, end: 0.3,
+                        theme: 'dark',
                     },
                 },
                 {
-                    currentComponent: 'SiList',
+                    currentComponent: 'SiSelect',
                     currentProps: {
                         items: [
                             {name: 'blue', moveTo: 48.145067}, 
@@ -104,6 +111,7 @@ export default {
                         ],
                         style: 'visibility: visible; margin: 30% 0% 0% 32%;',
                         start: 1.19, end: 1.19,
+                        theme: 'dark',
                     },
                 },
                 // {

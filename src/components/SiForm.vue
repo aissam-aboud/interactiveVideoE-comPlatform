@@ -1,5 +1,5 @@
 <template>
-    <div ref="form" class="siForm">
+    <div ref="form" :class="`siForm siForm-${theme}`">
         <h3 class="title">Sign up for our newsletter</h3>
         <form>
             <label for="fname">Full name</label><br>
@@ -18,6 +18,7 @@ export default {
     props: {
         start: Number,
         end: Number,
+        theme: String,
     },
     data() {
         return {

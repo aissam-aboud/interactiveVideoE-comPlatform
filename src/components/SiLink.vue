@@ -1,5 +1,5 @@
 <template>
-    <a ref="link" class="link" :href="url" target="_blank">{{text}}</a>
+    <a ref="link" :class="`link link-${theme}`" :href="url" target="_blank">{{text}}</a>
 </template>
 
 <script>
@@ -10,6 +10,7 @@ export default {
         text: String,
         start: Number,
         end: Number,
+        theme: String,
     },
     created() {
         if( this.start == this.end) {

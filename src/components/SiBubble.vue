@@ -1,5 +1,5 @@
 <template>
-    <div ref="bubble" class="speechbubble">
+    <div ref="bubble" :class="`siBubble bbl-${arrow} siBubble-${theme}`">
         <button v-if="isStop" @click="closeBubble">X</button>
         <p>{{text}}</p>
     </div>
@@ -12,6 +12,8 @@ export default {
         text: String,
         start: Number,
         end: Number,
+        theme: String,
+        arrow: String,
     },
     data() {
         return {

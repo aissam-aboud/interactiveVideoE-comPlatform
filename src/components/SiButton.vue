@@ -1,5 +1,5 @@
 <template>
-    <button ref="btn" class="siButton" @click="clickButtonEvent()">{{text}}</button>
+    <button ref="btn" :class="`siButton siButton-${theme}`" @click="clickButtonEvent()">{{text}}</button>
 </template>
 
 <script>
@@ -10,6 +10,7 @@ export default {
         moveTo: Number,
         start: Number,
         end: Number,
+        theme: String,
     },
     created() {
         if( this.start == this.end) {

@@ -18,8 +18,8 @@
 } */
 
 .container {
-    width: 70%;
-    margin: 3% auto; 
+    width: 75%;
+    margin: 1% auto; 
     position: relative;
 }
 .container video{
@@ -36,42 +36,69 @@
     visibility: hidden;
 }
 
-
-.speechbubble {
-    background-color: #26272b;
-    color: white;
+/* ------------------------------  SiBubble  ------------------------------- */
+.siBubble {
     /* line-height: 1.50; */
-    padding: 0% 0% 0% 1%;
-    cursor: default;
     width: 30%;
-    border-left: 4px solid #ff8750;
+    cursor: default;
     position: absolute;
+    padding: 0px 0 -10px -100px;
+    font-family: Sans-serif;
+    color: white;
+    background-color: #26272b;
+    border-left: 4px solid #ff8750;
 }
-.speechbubble button {
-    background-color: #ff8750;
+.siBubble button {
     border: none;
     float: right;
-    padding: 1px 5px;
-    color: white;
-    font-weight: bold;
     cursor: pointer;
+    padding: 1px 5px;
+    font-weight: bold;
 }
-.speechbubble:after {
+.siBubble-dark {
+    color: white;
+    background-color: #26272b;
+    border-left: 4px solid #ff8750;
+}
+.siBubble-dark button {
+    color: white;
+    background-color: #ff8750;
+}
+.siBubble-light {
+    color: black;
+    background-color: #ffffff;
+    border-left: 4px solid #b368d6;
+}
+.siBubble-light button {
+    color: white;
+    background-color: #b368d6;
+}
+.siBubble:after {
     content: "";
     margin-top: -30px;
     padding-top: 0px;
     position: relative;
-    bottom: -30px;
-    left: 10%;
-    border-width: 30px 0 0 30px;
+    bottom: -25px;
     border-style: solid;
     border-color: #26272b transparent;
     display: block;
     width: 0;
-    
+    left: 2%;
+    z-index: -1;
+}
+.bbl-right:after {
+    left: 75%;
+    border-width: 30px 30px 0 0;
+}
+.bbl-left:after {
+    left: 2%;
+    border-width: 30px 0 0 30px;
+}
+.siBubble-light:after {
+    border-color: #ffffff transparent;
 }
 
-
+/* ------------------------------  SiButton  ------------------------------- */
 .siButton {
     padding: 0.5% 2%;
     width: 23%;
@@ -87,7 +114,7 @@
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
-
+/* ------------------------------  SiForm  ------------------------------- */
 .siForm {
     text-align: center;
     width: 250px;
@@ -99,7 +126,7 @@
     margin-left: 10px;
 }
 
-
+/* ------------------------------  SiLink  ------------------------------- */
 .link {
     color: black;
     background-color: white;
@@ -116,7 +143,7 @@
     padding: 3px 15px;
 }
 
-
+/* ------------------------------  SiList  ------------------------------- */
 .SiList {
     width: 200px;
     list-style: none;
@@ -136,7 +163,7 @@ li:hover {
     cursor: pointer;
 }
 
-
+/* ------------------------------  SiReplayButton  ------------------------------- */
 .btn-replay {
     width: 40px;
     height: 40px;
@@ -155,4 +182,40 @@ li:hover {
 }
 .btn-replay:hover .icon {
     transform: rotate(360deg) scale(1.2);
+}
+
+
+/* ------------------------------  responsive  ------------------------------- */
+
+@media only screen and (max-width: 411px) {
+    .container {
+        width: 100%;
+    }
+    .siBubble {
+        width: 42%;
+        height: auto;
+        font-size: 68%;
+        padding: 0 0 0 5px;
+    }
+    .siBubble p {
+        margin: 2px 0 0 0;
+        padding: 0 0 11px 0;
+    }
+    [class*="siBubble-"] {
+        border-left-width: 2px;
+    }
+    .siBubble button {
+        padding: 1% 2%;
+        font-weight: bold;
+        font-size: 80%;
+    }
+    .bbl-right:after {
+        left: 0%;
+        border-width: 22px 30px 0 0;
+    }
+    .bbl-left:after {
+        left: 2%;
+        border-width: 20px 0 0 25px;
+        bottom: -17px;
+    }
 }

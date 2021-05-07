@@ -2,10 +2,8 @@
     <div ref="form" :class="`siForm siForm-${theme}`">
         <h3 class="title">Sign up for our newsletter</h3>
         <form>
-            <label for="fname">Full name</label><br>
-            <input type="text" placeholder="..."><br>
-            <label for="lname">Email</label><br>
-            <input type="text" placeholder="..."><br><br>
+            <input type="text" placeholder="Full name">
+            <input type="text" placeholder="Email">
             <button>Sign up</button>
             <button v-if="isStop" @click="closeForm" class="btn-close">Close</button>
         </form> 

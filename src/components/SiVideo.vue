@@ -15,9 +15,10 @@
                 />
             </div>
             <SiReplayButton v-if="isVideoEnd" @replayVideo="replayVideo()" />
+            <SiPlayButton v-if="!isVideoStart" @playVideo="playVideo()" />
         </div>
         
-        <video ref="siVideo" class="siVideo" controls autoplay muted @timeupdate="getCurrentTime()" @ended="onEnd()">
+        <video ref="siVideo" class="siVideo" @timeupdate="getCurrentTime()" @ended="onEnd()">
             <source src="../assets/myVideo.mp4" type="video/mp4" >
         </video>
         <!-- <button @click="fnt()">click</button> -->
@@ -25,17 +26,15 @@
 </template>
 
 <script>
-// work on a vertical video
-// many theme for each item
-
 
 import SiButton from './SiButton';
 import SiBubble from './SiBubble';
 import SiLink from './SiLink';
 import SiForm from './SiForm';
-import SiReplayButton from './SiReplayButton';
 import SiSelect from './SiSelect';
 import SiMoveTo from './SiMoveTo';
+import SiReplayButton from './SiReplayButton';
+import SiPlayButton from './SiPlayButton';
 
 export default {
     name: 'SiVideo',
@@ -44,15 +43,17 @@ export default {
         SiBubble,
         SiLink,
         SiForm,
-        SiReplayButton,
         SiSelect,
         SiMoveTo,
+        SiReplayButton,
+        SiPlayButton,
     },
     data() {
         return {
 
             currentTime: 0,
             isVideoEnd: false,
+            isVideoStart: false,
             elements: [
                 {
                     currentComponent: 'SiButton',
@@ -67,7 +68,7 @@ export default {
                     currentComponent: 'SiBubble',
                     currentProps: {
                         text: 'Arrière : 12 MP f/1.8 + 12 MP f/2.4 | Avant : 7 MP f/2.2Arrière : 12 MP f/1.8 + 12 MP f/2.4 | Avant : 7 MP f/2.2',
-                        style: 'visibility: visible; margin: 7% 0% 0% 50%;',
+                        style: 'visibility: visible; margin: 6% 0% 0% 50%;',
                         start: 0.12, end: 0.12,
                         theme: 'light',
                         arrow: 'left'
@@ -86,7 +87,7 @@ export default {
                 {
                     currentComponent: 'SiForm', 
                     currentProps: {
-                        style: 'visibility: visible; margin: 15% 0% 0% 32%;',
+                        style: 'visibility: visible; margin: 15% 0% 0% 36%;',
                         start: 1.4, end: 1.51,
                         theme: 'dark',
                     },
@@ -139,6 +140,10 @@ export default {
         replayVideo() {
             this.isVideoEnd = false;
             this.$refs.siVideo.currentTime = 0;
+            this.$refs.siVideo.play();
+        },
+        playVideo() {
+            this.isVideoStart = true;
             this.$refs.siVideo.play();
         },
     },

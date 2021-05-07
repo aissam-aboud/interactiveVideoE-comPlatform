@@ -35,14 +35,13 @@
     position: absolute;
     visibility: hidden;
 }
-
-/* ------------------------------  SiBubble  ------------------------------- */
+/* ------------------------------  SiBubble  ------------------------------ */
 .siBubble {
     /* line-height: 1.50; */
     width: 30%;
     cursor: default;
     position: absolute;
-    padding: 0px 0 -10px -100px;
+    padding: 0px 0 0px 11px;
     font-family: Sans-serif;
     color: white;
     background-color: #26272b;
@@ -97,7 +96,6 @@
 .siBubble-light:after {
     border-color: #ffffff transparent;
 }
-
 /* ------------------------------  SiButton  ------------------------------- */
 .siButton {
     padding: 0.5% 2%;
@@ -113,11 +111,10 @@
     color: white;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
-
 /* ------------------------------  SiForm  ------------------------------- */
 .siForm {
     text-align: center;
-    width: 250px;
+    width: 24%;
     padding: 10px 20px;
     background-color: white;
     position: absolute;
@@ -125,7 +122,13 @@
 .siForm .btn-close {
     margin-left: 10px;
 }
-
+.siForm input {
+    width: 80%;
+    margin-bottom: 5px;
+}
+.siForm button {
+    width: 30%;
+}
 /* ------------------------------  SiLink  ------------------------------- */
 .link {
     color: black;
@@ -142,10 +145,9 @@
     background-color: white;
     padding: 3px 15px;
 }
-
 /* ------------------------------  SiList  ------------------------------- */
 .SiList {
-    width: 200px;
+    width: 19%;
     list-style: none;
     text-align: center;
     position: absolute;
@@ -162,7 +164,6 @@
 li:hover {
     cursor: pointer;
 }
-
 /* ------------------------------  SiReplayButton  ------------------------------- */
 .btn-replay {
     width: 40px;
@@ -183,18 +184,38 @@ li:hover {
 .btn-replay:hover .icon {
     transform: rotate(360deg) scale(1.2);
 }
-
+/* ------------------------------  SiPlayButton  ------------------------------- */
+.btn-play {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: black;
+    border: 2px solid white;
+    margin: 27% 0% 0% 48%;
+    position: absolute;
+    visibility: visible;
+    text-align: center;
+}
+.btn-play .icon {
+    width: 18px;
+    height: 18px;
+    margin: 3px 0 0 5px;
+    transition: all 0.4s ease-in-out;
+}
+.btn-play:hover .icon {
+    transform: scale(1.1);
+}
 
 /* ------------------------------  responsive  ------------------------------- */
-
 @media only screen and (max-width: 411px) {
     .container {
         width: 100%;
     }
+    /* ------------------------------  SiBubble  ------------------------------- */
     .siBubble {
-        width: 42%;
+        width: 46%;
         height: auto;
-        font-size: 68%;
+        font-size: 13px;
         padding: 0 0 0 5px;
     }
     .siBubble p {
@@ -210,12 +231,75 @@ li:hover {
         font-size: 80%;
     }
     .bbl-right:after {
-        left: 0%;
-        border-width: 22px 30px 0 0;
+        left: 80%;
+        border-width: 20px 25px 0 0;
+        bottom: -17px;
     }
     .bbl-left:after {
         left: 2%;
         border-width: 20px 0 0 25px;
         bottom: -17px;
     }
+    /* ------------------------------  SiButton  ------------------------------- */
+    .siButton {
+        width: 30%;
+        font-size: 13px;
+    }
+    /* ------------------------------  SiForm  ------------------------------- */
+    .siForm {
+        width: 45%;
+        padding: 7px 2px 10px 2px;
+    }
+    .siForm h3 {
+        margin: 3px 0 10px 0;
+    }
+    .siForm input {
+        width: 80%;
+        margin-bottom: 8px;
+    }
+    .siForm button {
+        width: 40%;
+    }    
+    /* ------------------------------  SiLink  ------------------------------- */
+    .link {
+        font-size: 16px;
+    }
+    .link:hover {
+        /* color: orangered; */
+        font-size: 16px;
+        /* text-decoration: none;
+        background-color: white;
+        padding: 3px 15px; */
+    }
+    /* ------------------------------  SiList  ------------------------------- */
+    .SiList {
+        width: 25%;
+    }
+    .SiList li {
+        margin-bottom: 0px;
+        padding: 0px 0px;
+    }
+    /* ------------------------------  SiReplayButton  ------------------------------- */
+    .btn-replay {
+        width: 27px;
+        height: 27px;
+        margin: 22% 0% 0% 47%;
+    }
+    .btn-replay .icon {
+        width: 12px;
+        height: 12px;
+        margin-top: 3px;
+    }
+    /* ------------------------------  SiPlayButton  ------------------------------- */
+    .btn-play {
+        width: 28px;
+        height: 28px;
+        margin: 25% 0% 0% 46%;
+    }
+    .btn-play .icon {
+        width: 12px;
+        height: 12px;
+        margin: 4px 0 0 2px;
+    }
+
 }

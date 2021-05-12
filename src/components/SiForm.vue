@@ -15,8 +15,8 @@
 export default {
     name: 'SiForm',
     props: {
-        start: Number,
         end: Number,
+        start: Number,
         theme: String,
     },
     data() {

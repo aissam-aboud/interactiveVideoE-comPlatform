@@ -1,6 +1,6 @@
 <template>
     <ul :class="`si-select si-select-${theme}`" ref="SiList">
-        <li class="si-select-text">{{header_text}}</li>
+        <li class="si-select-text">{{list_header}}</li>
         <div class="si-select-options">
             <li class="si-select-item" v-for="(item, index) in items" :key="index" @click="chooseOption(item.moveTo)">{{item.name}}</li>
         </div>
@@ -19,7 +19,7 @@ export default {
         items: Array,
         theme: String,
         start: Number,
-        header_text: String,
+        list_header: String,
     },
     created() {
         if( this.start == this.end) {

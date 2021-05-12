@@ -32,9 +32,9 @@
 
 <script>
 
-// make divElements height same as video
+// trate the case of unskipable elements : skip btn should get ele.skipable in props => skip btn in loop
 // add a play pause video btn in the buttom and it change automatically using the data we have in this page
-// get start nd end time but take them like seconds to put them in settimeout
+// get the start and end time but take them like seconds to put them in settimeout
 // find a way to make divElement on top of video in fullscreen
 
 import SiForm from './SiForm';
@@ -78,7 +78,7 @@ export default {
                     id: 0,
                     currentComponent: 'SiSelect',
                     currentProps: {
-                        header_text: 'Choose what do you want to know about this phone',
+                        list_header: 'Choose what do you want to know about this phone',
                         items: [
                             {name: 'display', moveTo: 17.810878}, 
                             {name: 'plateform', moveTo: 26.751889}, 
@@ -91,9 +91,10 @@ export default {
                             {name: 'colors', moveTo: 93.489768},
                             {name: 'design', moveTo: 103.686094},
                         ],
-                        style: 'visibility: visible; top: 2%; left: 1%;',
+                        style: 'visibility: visible; top: 5%; left: 3%;',
                         start: 0.16, end: 0.16,
                         theme: 'light',
+                        skipable: false,
                     },
                 },
                 {
@@ -105,6 +106,7 @@ export default {
                         url: 'https://youtube.com',
                         start: 0.58, end: 0.62,
                         theme: 'light',
+                        skipable: true,
                     },
                 },
                 {
@@ -115,6 +117,7 @@ export default {
                         url: 'https://www.apple.com/shop/buy-iphone/iphone-12-pro',
                         start: 1.02, end: 1.02,
                         theme: 'light',
+                        skipable: true,
                     },
                 },
                 {
@@ -125,6 +128,7 @@ export default {
                         url: 'https://google.com',
                         start: 1.02, end: 1.02,
                         theme: 'light',
+                        skipable: true,
                     },
                 },
                 {
@@ -135,6 +139,7 @@ export default {
                         url: 'https://google.com',
                         start: 1.02, end: 1.02,
                         theme: 'light',
+                        skipable: true,
                     },
                 },
                 {
@@ -145,6 +150,7 @@ export default {
                         url: 'https://google.com',
                         start: 1.02, end: 1.02,
                         theme: 'light',
+                        skipable: true,
                     },
                 },
                 {
@@ -156,6 +162,7 @@ export default {
                         start: 0.23, end: 0.25,
                         theme: 'light',
                         arrow: 'right',
+                        skipable: true,
                     },
                 },
                 {
@@ -167,6 +174,7 @@ export default {
                         start: 0.23, end: 0.25,
                         theme: 'light',
                         arrow: 'left',
+                        skipable: true,
                     },
                 },
 
@@ -177,7 +185,7 @@ export default {
                 //         text: 'move to button',
                 //         style: 'visibility: visible; top: 53%; left: 12%;',
                 //         moveTo: 60.337806, start: 0.01, end: 0.01,
-                //         theme: 'light',
+                //         theme: 'dark',
                 //     },
                 // },                
                 {
@@ -189,7 +197,6 @@ export default {
                         theme: 'light',
                     },
                 },
-
                 
                 // {
                 //     currentComponent: 'SiMoveTo',
@@ -207,16 +214,15 @@ export default {
         },
         onEnd() {
             this.isVideoEnd = true;
-            // console.log(window.passedComponents);
-            // console.log(this.elements);
             this.elements.forEach(element => {
                 element.currentProps.style += 'visibility: visible;';
             });
+            console.log(this.elements)
         },
         getCurrentTime() {
-            this.isVidepPaused = window.isVidepPaused;
             // console.log(((this.$refs.siVideo.currentTime)/100).toFixed(3));
             window.siVideo = this.$refs.siVideo;
+            this.isVidepPaused = window.isVidepPaused;
             this.currentTime = (((this.$refs.siVideo.currentTime).toFixed(0))/100);
 
             this.elements.forEach(element => {

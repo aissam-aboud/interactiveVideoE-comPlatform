@@ -1,22 +1,3 @@
-/* .container {
-    width: 900px;
-    margin: 30px auto 0px auto;
-}
-.container video{
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    position: relative;
-}
-.container .elementsDiv {
-    background-color: red;
-    width: 900px;
-    height: 506px;
-    visibility: hidden;
-    position: absolute;
-    z-index: 1;
-} */
-
 .container {
     width: 75%;
     margin: 1% auto; 
@@ -41,7 +22,7 @@
     width: 20%;
     cursor: default;
     position: absolute;
-    border-radius: 5px;
+    border-radius: 3px;
     font-family: Sans-serif;
     padding: 10px 0px 10px 10px;
 }
@@ -53,17 +34,14 @@
     width: 0;
     left: -5%;
     content: "";
-    z-index: -1;
-    bottom: -25px;
+    z-index: 1;
+    bottom: -28px;
     display: block;
-    color: black;
     padding-top: 0px;
     margin-top: -30px;
     position: relative;
     border-style: solid;
     border-width: 30px 0 0 30px;
-    border-left: 4px solid #b368d6;
-    border-color: #26272b transparent;
 }
 .si-bubble-right:after {
     left: 82%;
@@ -73,18 +51,24 @@
     left: -5%;
     border-width: 30px 0 0 30px;
 }
+
+
 .si-bubble-light {
     color: black;
+    border: 2px solid #2196f3;
     background-color: #ffffff;
-    border-left: 4px solid #b368d6;
+    box-shadow: 0px 0px 12px white;
+    border-left: 6px solid #2196f3;
 }
 .si-bubble-light:after {
     border-color: #ffffff transparent;
 }
 .si-bubble-dark {
     color: white;
+    border: 2px solid #5600ff;
     background-color: #26272b;
-    border-left: 4px solid #ff8750;
+    box-shadow: 0px 0px 20px #26272b;
+    border-left: 6px solid #5600ff;
 }
 .si-bubble-dark:after {
     border-color: #26272b transparent;
@@ -121,7 +105,7 @@
     padding: 5px 10px 12px 10px;
     position: absolute;
     text-align: center;
-    border-radius: 6px;
+    border-radius: 2px;
 }
 .si-form input {
     width: 87%;
@@ -139,12 +123,14 @@
 }
 .si-form h3 {
     margin: 2px;
+    font-size: 17px;
     padding: 2px 0 10px 0;
+    font-family: sans-serif;
 }
 .si-form-light {
-    background-color: #b368d6;
-    border-right: 2px solid white;
-    border-bottom: 1px solid white;
+    border: 2px solid white;
+    background-color: #2196f3;
+    box-shadow: 0px 0px 24px white;
 }
 .si-form-light h3 {
     color: white;
@@ -154,12 +140,12 @@
     background-color: white;
 }
 .si-form-dark {
-    background-color: #ff8750;
-    border-right: 2px solid black;
-    border-bottom: 1px solid black;
+    border: 2px solid black;
+    background-color: #5600ff;
+    box-shadow: 0px 0px 24px black;
 }
 .si-form-dark h3 {
-    color: black;
+    color: white;
 }
 .si-form-dark button {
     color: white;
@@ -167,36 +153,29 @@
 }
 /* ------------------------------  SiLink  ------------------------------- */
 .si-link {
-    color: white;
-    font-size: 22px;
+    font-size: 21px;
     font-weight: bold;
     font-family: serif;
     position: absolute;
+    text-transform: uppercase;
 }
 .si-link:hover {
-    color: #b368d6;
-    background-color: white;
+    transform: scale(1.06);
 }
 .si-link-light {
     color: white;
-}
-.si-link-light:hover {
-    color: #b368d6;
-    background-color: white;
+    /* text-shadow: 5px 0px 5px white; */
 }
 .si-link-dark {
     color: black;
+    /* text-shadow: 5px 0px 5px black; */
 }
-.si-link-dark:hover {
-    color: #ff8750;
-    background-color: #26272b;
-}
+
 /* ------------------------------  SiSelect  ------------------------------- */
 .si-select {
-    z-index: 2147483647;
     margin: 0;
     padding: 0;
-    width: 19%;
+    width: 24%;
     list-style: none;
     position: absolute;
     text-align: center;
@@ -204,13 +183,16 @@
 .si-select li {
     padding: 2px 0px;
     text-decoration: none;
-    background-color: white;
-    border-bottom: 1px solid black;
+    font-family: sans-serif;
+    text-transform: uppercase;
+}
+.si-select .si-select-text {
+    padding: 5px 0;
+    width: 100%;
+    /* cursor: none; */
 }
 .si-select-options li:hover {
-    color: white;
     cursor: pointer;
-    background-color: #b368d6;
 }
 .si-select .si-select-options {
     width: 100%;
@@ -227,43 +209,63 @@
     border-radius: 3px;
 }
 
-.si-select .si-select-text {
-    width: 100%;
-    cursor: text;
-    border: none;
+
+
+.si-select-light .si-select-options li {
     color: white;
-    background-color: #b368d6;
+    background-color: #0000009e;
+    border-bottom: 1px solid #2196f3;
 }
-.si-select-light li {
-    color: black;
-    background-color: white;
-    border-bottom: 1px solid #b368d6;
+.si-select-light .si-select-options {
+    border: 2px solid white;
+    box-shadow: 0px 0px 20px #2196f3;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 .si-select-light .si-select-options li:hover {
     color: white;
-    background-color: #b368d6;
+    background-color: #2196f3;
 }
 .si-select-light .si-select-text {
     color: white;
-    background-color: #b368d6;
+    border: 2px solid white;
+    border-bottom: none;
+    background-color: #2196f3;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    box-shadow: 0px 0px 24px #2196f3;
 }
-.si-select-dark li {
+
+
+
+.si-select-dark .si-select-options li {
     color: white;
-    background-color: #26272b;
-    border-bottom: 1px solid #ff8750;
+    background-color: #0000009e;
+    border-bottom: 1px solid #5600ff;
+}
+.si-select-dark .si-select-options {
+    border: 2px solid black;
+    box-shadow: 0px 0px 20px #5600ff;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 .si-select-dark .si-select-options li:hover {
-    color: black;
-    background-color: white;
+    color: white;
+    background-color: #5600ff;
 }
 .si-select-dark .si-select-text {
-    color: #26272b;
-    background-color: #ff8750;
+    color: white;
+    border: 2px solid black;
+    border-bottom: none;
+    background-color: #5600ff;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    box-shadow: 0px -8px 24px #5600ff;
 }
 /* ------------------------------  SiReplayButton  ------------------------------- */
 .btn-replay {
     top: 46%;
-    left: 50%;
+    left: 48%;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -283,13 +285,12 @@
 }
 /* ------------------------------  SiPlayButton  ------------------------------- */
 .btn-play {
-    top: 43%;
+    top: 46%;
     left: 48%;
     width: 40px;
     height: 40px;
-    position: absolute;
-    text-align: center;
     border-radius: 50%;
+    position: absolute;
     visibility: visible;
     background: black;
     border: 2px solid white;
@@ -341,7 +342,7 @@
     border-radius: 50%;
     position: absolute;
     text-align: center;
-    background-color: rgba(61, 60, 60, 0.6);
+    background-color: 2196f3;
     border: 2px solid rgba(255, 255, 255, 0.70);
 }
 /* .si-btn-tag a {
@@ -356,21 +357,18 @@
 }
 .si-btn-tag:hover {
     transform: scale(1.1);
-    border: 1px solid white;
+    transition-duration: 0.5s;
+    /* border: 1px solid white; */
 }
 .btn-tag-light {
-    background-color: #b368d68e;
-    border: 2px solid rgba(255, 255, 255, 0.70);
-}
-.btn-tag-light a {
-    color: white;
+    background-color: #2196f3;
+    border: 2px solid white;
+    box-shadow: 0 0 15px white;
 }
 .btn-tag-dark {
-    background-color: #ff87508e;
-    border: 2px solid rgba(255, 255, 255, 0.70);
-}
-.btn-tag-dark a {
-    color: black;
+    background-color: #5600ff;
+    border: 2px solid black;
+    box-shadow: 0 0 15px black;
 }
 
 /* ------------------------------  responsive  ------------------------------- */
@@ -381,7 +379,6 @@
     /* ------------------------------  SiBubble  ------------------------------- */
     .si-bubble {
         width: 40%;
-        /* height: auto; */
         font-size: 13px;
         padding: 2px 0px 5px 10px;
     }
@@ -438,15 +435,18 @@
         font-size: 16px;
     }
     /* ------------------------------  SiSelect  ------------------------------- */
-    .si-select {
-        width: 25%;
-    }
+     .si-select {
+        width: 35%;
+    } 
     .si-select li {
-        padding: 0 0 1px 0;
-        margin-bottom: 0px;
+        font-size: 15px;
+        padding: 3px 0 3px 0;
     }
     .si-select .si-select-options {
-        max-height: 135%;
+        max-height: 150px;
+    }
+    .si-select-light .si-select-text {
+        font-size: 13px;
     }
     /* ------------------------------  SiReplayButton  ------------------------------- */
     .btn-replay {

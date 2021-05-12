@@ -21,8 +21,8 @@
             <SiReplayButton v-if="isVideoEnd" @replayVideo="replayVideo()" />
         </div>
         
-        <video @click="getCursorPosition()" ref="siVideo" controls class="siVideo" @timeupdate="getCurrentTime()" @ended="onEnd()">
-        <!-- <video ref="siVideo" class="siVideo" controls @timeupdate="getCurrentTime()" @ended="onEnd()"> -->
+        <!-- <video @click="getCursorPosition()" ref="siVideo" class="siVideo" controls @timeupdate="getCurrentTime()" @ended="onEnd()"> -->
+        <video ref="siVideo" class="siVideo" controls @timeupdate="getCurrentTime()" @ended="onEnd()">
             <source src="../assets/video.mp4" type="video/mp4" >
         </video>
 
@@ -31,6 +31,8 @@
 </template>
 
 <script>
+
+// make divElements height same as video
 // add a play pause video btn in the buttom and it change automatically using the data we have in this page
 // get start nd end time but take them like seconds to put them in settimeout
 // find a way to make divElement on top of video in fullscreen

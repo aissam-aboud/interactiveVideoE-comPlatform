@@ -2,51 +2,67 @@
     <div class="container">
         <div class="elementsDiv">
             <div v-for="(element, index) in this.elements" :key="index">
-                <component v-if="element.currentProps.start <= `${currentTime}` 
-                                && element.currentProps.end >= `${currentTime}`"
-                    :is="element.currentComponent" 
-                    v-bind="element.currentProps" 
+
+                <component
+                    id="myComponent" 
+                    v-if="element.currentProps.start <= `${currentTime}` 
+                    && element.currentProps.end >= `${currentTime}`" 
+                    :is="element.currentComponent" v-bind="element.currentProps" 
                 />
                 <!-- v-on="element.currentMethodes" -->
-                <component   v-if="element.currentProps.start <= `${currentTime}`
-                            && element.currentComponent =='SiMoveTo'" 
-                            :is="element.currentComponent" 
-                            v-bind="element.currentProps"
+                <component 
+                    v-if="element.currentComponent =='SiMoveTo' 
+                    && element.currentProps.start <= `${currentTime}`" 
+                    :is="element.currentComponent" v-bind="element.currentProps"
                 />
             </div>
-            <SiReplayButton v-if="isVideoEnd" @replayVideo="replayVideo()" />
+            <SiSkipButton :elements="elements" v-if="isVidepPaused" />
             <SiPlayButton v-if="!isVideoStart" @playVideo="playVideo()" />
+            <SiReplayButton v-if="isVideoEnd" @replayVideo="replayVideo()" />
         </div>
         
-        <video ref="siVideo" class="siVideo" @timeupdate="getCurrentTime()" @ended="onEnd()">
-            <source src="../assets/myVideo.mp4" type="video/mp4" >
+        <video @click="getCursorPosition()" ref="siVideo" controls class="siVideo" @timeupdate="getCurrentTime()" @ended="onEnd()">
+        <!-- <video ref="siVideo" class="siVideo" controls @timeupdate="getCurrentTime()" @ended="onEnd()"> -->
+            <source src="../assets/video.mp4" type="video/mp4" >
         </video>
+
         <!-- <button @click="fnt()">click</button> -->
     </div>
 </template>
 
 <script>
+// add a play pause video btn in the buttom and it change automatically using the data we have in this page
+// get start nd end time but take them like seconds to put them in settimeout
+// find a way to make divElement on top of video in fullscreen
 
+import SiForm from './SiForm';
+import SiLink from './SiLink';
 import SiButton from './SiButton';
 import SiBubble from './SiBubble';
-import SiLink from './SiLink';
-import SiForm from './SiForm';
 import SiSelect from './SiSelect';
 import SiMoveTo from './SiMoveTo';
-import SiReplayButton from './SiReplayButton';
 import SiPlayButton from './SiPlayButton';
+import SiTagProduct from './SiTagProduct';
+import SiSkipButton from './SiSkipButton';
+import SiReplayButton from './SiReplayButton';
+
+
+window.passedComponents = [];
+window.isVidepPaused = false;
 
 export default {
     name: 'SiVideo',
     components: {
+        SiForm,
+        SiLink,
         SiButton,
         SiBubble,
-        SiLink,
-        SiForm,
         SiSelect,
         SiMoveTo,
-        SiReplayButton,
         SiPlayButton,
+        SiTagProduct,
+        SiSkipButton,
+        SiReplayButton,
     },
     data() {
         return {
@@ -54,67 +70,125 @@ export default {
             currentTime: 0,
             isVideoEnd: false,
             isVideoStart: false,
+            isVidepPaused: false,
             elements: [
                 {
-                    currentComponent: 'SiButton',
-                    currentProps: {
-                        text: 'See more about camera',
-                        style: 'visibility: visible; margin: 21% 0% 0% 48%;',
-                        moveTo: 60.337806, start: 0.26, end: 0.27,
-                        theme: 'dark',
-                    },
-                },
-                {
-                    currentComponent: 'SiBubble',
-                    currentProps: {
-                        text: 'Arrière : 12 MP f/1.8 + 12 MP f/2.4 | Avant : 7 MP f/2.2Arrière : 12 MP f/1.8 + 12 MP f/2.4 | Avant : 7 MP f/2.2',
-                        style: 'visibility: visible; margin: 6% 0% 0% 50%;',
-                        start: 0.12, end: 0.12,
-                        theme: 'light',
-                        arrow: 'left'
-                    },
-                },
-                {
-                    currentComponent: 'SiLink',
-                    currentProps: {
-                        text: 'Visit our web site and buy it now!',
-                        style: 'visibility: visible; margin: 10% 0% 0% 32%;',
-                        url: 'https://www.apple.com/ma/iphone/',
-                        start: 1.12, end: 1.18,
-                        theme: 'dark',
-                    },
-                },
-                {
-                    currentComponent: 'SiForm', 
-                    currentProps: {
-                        style: 'visibility: visible; margin: 15% 0% 0% 36%;',
-                        start: 1.4, end: 1.51,
-                        theme: 'dark',
-                    },
-                },
-                {
-                    currentComponent: 'SiLink', 
-                    currentProps: {
-                        text: 'Youtube.com', url: 'https://www.youtube.com',
-                        style: 'visibility: visible; margin: 8% 0% 0% 45%;',
-                        start: 0.26, end: 0.3,
-                        theme: 'dark',
-                    },
-                },
-                {
+                    id: 0,
                     currentComponent: 'SiSelect',
                     currentProps: {
+                        header_text: 'Choose what do you want to know about this phone',
                         items: [
-                            {name: 'blue', moveTo: 48.145067}, 
-                            {name: 'golden', moveTo: 54.59333}, 
-                            {name: 'black', moveTo: 131.892914}, 
-                            {name: 'white', moveTo: 70.317959}
+                            {name: 'display', moveTo: 17.810878}, 
+                            {name: 'plateform', moveTo: 26.751889}, 
+                            {name: 'storage', moveTo: 38.131214}, 
+                            {name: 'processor', moveTo: 48.607019}, 
+                            {name: 'back camera', moveTo: 62.933575}, 
+                            {name: 'touch ID', moveTo: 66.586525},
+                            {name: 'wireless charging', moveTo: 73.697076},
+                            {name: 'front camera', moveTo: 88.855526},
+                            {name: 'colors', moveTo: 93.489768},
+                            {name: 'design', moveTo: 103.686094},
                         ],
-                        style: 'visibility: visible; margin: 30% 0% 0% 32%;',
-                        start: 1.19, end: 1.19,
-                        theme: 'dark',
+                        style: 'visibility: visible; top: 2%; left: 1%;',
+                        start: 0.16, end: 0.16,
+                        theme: 'light',
                     },
                 },
+                {
+                    id: 1,
+                    currentComponent: 'SiLink',
+                    currentProps: {
+                        text: 'Read more about A15 Bionic',
+                        style: 'visibility: visible; top: 8%; left: 37%;',
+                        url: 'https://youtube.com',
+                        start: 0.58, end: 0.62,
+                        theme: 'light',
+                    },
+                },
+                {
+                    id: 2,
+                    currentComponent: 'SiTagProduct',
+                    currentProps: {
+                        style: 'visibility: visible; top: 49%; left: 19.5%;',
+                        url: 'https://www.apple.com/shop/buy-iphone/iphone-12-pro',
+                        start: 1.02, end: 1.02,
+                        theme: 'light',
+                    },
+                },
+                {
+                    id: 3,
+                    currentComponent: 'SiTagProduct',
+                    currentProps: {
+                        style: 'visibility: visible; top: 49%; left: 37.5%;',
+                        url: 'https://google.com',
+                        start: 1.02, end: 1.02,
+                        theme: 'light',
+                    },
+                },
+                {
+                    id: 4,
+                    currentComponent: 'SiTagProduct',
+                    currentProps: {
+                        style: 'visibility: visible; top: 49%; left: 56%;',
+                        url: 'https://google.com',
+                        start: 1.02, end: 1.02,
+                        theme: 'light',
+                    },
+                },
+                {
+                    id: 5,
+                    currentComponent: 'SiTagProduct',
+                    currentProps: {
+                        style: 'visibility: visible; top: 49%; left: 76%;',
+                        url: 'https://google.com',
+                        start: 1.02, end: 1.02,
+                        theme: 'light',
+                    },
+                },
+                {
+                    id: 6,
+                    currentComponent: 'SiBubble',
+                    currentProps: {
+                        text: '120Hz OLED',
+                        style: 'visibility: visible; top: 18%; left: 21%;',
+                        start: 0.23, end: 0.25,
+                        theme: 'light',
+                        arrow: 'right',
+                    },
+                },
+                {
+                    id: 7,
+                    currentComponent: 'SiBubble',
+                    currentProps: {
+                        text: 'HDR10+',
+                        style: 'visibility: visible; top: 46%; left: 60%;',
+                        start: 0.23, end: 0.25,
+                        theme: 'light',
+                        arrow: 'left',
+                    },
+                },
+
+                // {
+                //     id: 8,
+                //     currentComponent: 'SiButton',
+                //     currentProps: {
+                //         text: 'move to button',
+                //         style: 'visibility: visible; top: 53%; left: 12%;',
+                //         moveTo: 60.337806, start: 0.01, end: 0.01,
+                //         theme: 'light',
+                //     },
+                // },                
+                {
+                    id: 9,
+                    currentComponent: 'SiForm', 
+                    currentProps: {
+                        style: 'visibility: visible; top: 15%; left: 36%;',
+                        start: 1.33, end: 1.33,
+                        theme: 'light',
+                    },
+                },
+
+                
                 // {
                 //     currentComponent: 'SiMoveTo',
                 //     currentProps: {
@@ -127,15 +201,27 @@ export default {
     },
     methods: {
         fnt() {
-            // console.log((this.$refs.siVideo.currentTime));
+            console.log((this.$refs.siVideo.currentTime));
         },
         onEnd() {
             this.isVideoEnd = true;
+            // console.log(window.passedComponents);
+            // console.log(this.elements);
+            this.elements.forEach(element => {
+                element.currentProps.style += 'visibility: visible;';
+            });
         },
         getCurrentTime() {
+            this.isVidepPaused = window.isVidepPaused;
             // console.log(((this.$refs.siVideo.currentTime)/100).toFixed(3));
             window.siVideo = this.$refs.siVideo;
             this.currentTime = (((this.$refs.siVideo.currentTime).toFixed(0))/100);
+
+            this.elements.forEach(element => {
+                if(element.currentProps.start == this.currentTime) {
+                    window.passedComponents.push(element);
+                }
+            });
         },
         replayVideo() {
             this.isVideoEnd = false;
@@ -146,6 +232,23 @@ export default {
             this.isVideoStart = true;
             this.$refs.siVideo.play();
         },
+
+        getCursorPosition() {
+            var divElements = document.querySelector("#app > div > div");
+            // var element = document.getElementById('myComponent');
+            
+            divElements.onclick = function clickEvent(e) {
+                var rect = e.target.getBoundingClientRect();
+                var x = e.clientX - rect.left;
+                var y = e.clientY - rect.top;
+                
+                var xp = x / (document.querySelector("#app > div > div > div").offsetWidth) * 100;
+                var yp = y / (document.querySelector("#app > div > div > div").offsetHeight) * 100;
+                // element.style.top = yp+"%";
+                // element.style.left = xp+"%";
+                console.log("x: "+ xp +" ; y: "+ yp);
+            }
+        }
     },
 }
 </script>

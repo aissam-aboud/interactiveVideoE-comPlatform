@@ -1,6 +1,5 @@
 <template>
-    <div ref="bubble" :class="`siBubble bbl-${arrow} siBubble-${theme}`">
-        <button v-if="isStop" @click="closeBubble">X</button>
+    <div ref="bubble" :class="`si-bubble si-bubble-${theme} si-bubble-${arrow}`">
         <p>{{text}}</p>
     </div>
 </template>
@@ -15,22 +14,11 @@ export default {
         theme: String,
         arrow: String,
     },
-    data() {
-        return {
-            isStop: false,
-        }
-    },
     created() {
         if( this.start == this.end) {
             window.siVideo.pause();
-            this.isStop = true;
+            window.isVidepPaused = true;
         }
-    },
-    methods: {
-        closeBubble() {
-            this.$refs.bubble.style='visibility: hidden;';
-            window.siVideo.play();
-        },
     },
 }
 </script>

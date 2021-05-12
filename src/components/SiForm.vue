@@ -1,11 +1,12 @@
 <template>
-    <div ref="form" :class="`siForm siForm-${theme}`">
-        <h3 class="title">Sign up for our newsletter</h3>
+    <div ref="form" :class="`si-form si-form-${theme}`">
+        <h3>Sign up for our newsletter</h3>
         <form>
-            <input type="text" placeholder="Full name">
-            <input type="text" placeholder="Email">
+            <input type="text" placeholder="First name" required>
+            <input type="email" placeholder="Last name" required>
+            <input type="email" placeholder="Email" required>
+            <input type="email" placeholder="Phone number" required>
             <button>Sign up</button>
-            <button v-if="isStop" @click="closeForm" class="btn-close">Close</button>
         </form> 
     </div>
 </template>
@@ -20,13 +21,12 @@ export default {
     },
     data() {
         return {
-            isStop: false,
         }
     },
     created() {
         if( this.start == this.end) {
             window.siVideo.pause();
-            this.isStop = true;
+            window.isVidepPaused = true;
         }
     },
     methods: {

@@ -1,5 +1,5 @@
 <template>
-    <button ref="btn" :class="`siButton siButton-${theme}`" @click="clickButtonEvent()">{{text}}</button>
+    <button ref="btn" :class="`si-button si-button-${theme}`" @click="clickButtonEvent()">{{text}}</button>
 </template>
 
 <script>
@@ -15,12 +15,14 @@ export default {
     created() {
         if( this.start == this.end) {
             window.siVideo.pause();
+            window.isVidepPaused = true;
         }
     },
     methods: {
         clickButtonEvent() {
             this.$refs.btn.style='visibility: hidden;';
             window.siVideo.currentTime = this.moveTo;
+            window.isVidepPaused = false;
             window.siVideo.play();
         },
     },

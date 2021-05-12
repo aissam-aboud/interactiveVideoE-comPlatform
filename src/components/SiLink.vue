@@ -1,5 +1,5 @@
 <template>
-    <a ref="link" :class="`link link-${theme}`" :href="url" target="_blank">{{text}}</a>
+    <a ref="link" :class="`si-link si-link-${theme}`" :href="url" target="_blank">{{text}}</a>
 </template>
 
 <script>
@@ -15,6 +15,7 @@ export default {
     created() {
         if( this.start == this.end) {
             window.siVideo.pause();
+            window.isVidepPaused = true;
         }
     },
 }

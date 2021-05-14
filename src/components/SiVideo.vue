@@ -177,7 +177,6 @@ export default {
                         skipable: true,
                     },
                 },
-
                 // {
                 //     id: 8,
                 //     currentComponent: 'SiButton',
@@ -186,15 +185,17 @@ export default {
                 //         style: 'visibility: visible; top: 53%; left: 12%;',
                 //         moveTo: 60.337806, start: 0.01, end: 0.01,
                 //         theme: 'dark',
+                //         skipable: true,
                 //     },
                 // },                
                 {
                     id: 9,
                     currentComponent: 'SiForm', 
                     currentProps: {
-                        style: 'visibility: visible; top: 15%; left: 36%;',
+                        style: 'visibility: visible; top: 21%; left: 36%;',
                         start: 1.33, end: 1.33,
                         theme: 'light',
+                        skipable: true,
                     },
                 },
                 

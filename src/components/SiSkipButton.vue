@@ -5,7 +5,6 @@
     </button>
 </template>
 
-
 <script>
 export default {
     name: 'SiButton',
@@ -21,9 +20,7 @@ export default {
 
             this.elements.forEach(element => {
                 window.passedComponents.forEach(passedComponent => {
-                    if( element.id == passedComponent.id 
-                        && element.currentProps.start == element.currentProps.end
-                        && element.currentProps.skipable) 
+                    if(element.id == passedComponent.id && element.currentProps.start == element.currentProps.end) 
                         element.currentProps.style+= 'visibility: hidden;';            
                 });
             });

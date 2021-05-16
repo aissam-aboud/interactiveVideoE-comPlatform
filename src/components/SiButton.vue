@@ -2,7 +2,7 @@
     <button ref="btn" :class="`si-button si-button-${theme}`" @click="clickButtonEvent()">{{text}}</button>
 </template>
 
-<script>
+<script> 
 export default {
     name: 'SiButton',
     props: {
@@ -13,10 +13,11 @@ export default {
         theme: String,
     },
     created() {
-        if( this.start == this.end) {
+        if(this.start && this.end && this.start == this.end) {
             window.siVideo.pause();
             window.isVidepPaused = true;
         }
+        console.log('eee ::'+this.theme);
     },
     methods: {
         clickButtonEvent() {

@@ -1,12 +1,12 @@
 <template>
     <div class="main-menu">
         <ul>
-                <li class="menu-item"><i class="fas fa-list"></i>Select</li>
-                <li class="menu-item"><i class="fas fa-paperclip"></i>Link</li>
-                <li class="menu-item"><i class="fas fa-comment-dots"></i>Bubble</li>
-                <li class="menu-item"><i class="fas fa-align-left"></i>Form</li>
-                <li class="menu-item"><i class="fas fa-mouse"></i>Gaming</li>
-                <li class="menu-item"><i class="fas fa-tags"></i>Gaming</li>
+                <li @click="getComponentName('SiSelect')" class="menu-item"><i class="fas fa-list"></i>Select</li>
+                <li @click="getComponentName('SiLink') " class="menu-item"><i class="fas fa-paperclip"></i>Link</li>
+                <li @click="getComponentName('SiBubble') " class="menu-item"><i class="fas fa-comment-dots"></i>Bubble</li>
+                <li @click="getComponentName('SiForm') " class="menu-item"><i class="fas fa-align-left"></i>Form</li>
+                <li @click="getComponentName('SiButton') " class="menu-item"><i class="fas fa-mouse"></i>Button</li>
+                <li @click="getComponentName('SiTagProduct') " class="menu-item"><i class="fas fa-tags"></i>Tag product</li>
         </ul>
     </div>
 </template>
@@ -14,6 +14,12 @@
 <script>
 export default {
     name: 'SiSidebar',
+
+    methods: {
+        getComponentName(componentName) {
+            this.$emit("getComponentName", componentName);
+        }
+    }
 
 }
 </script>
@@ -37,16 +43,13 @@ export default {
     background-color: #fff;
     box-shadow: 0px 0px 20px #d4d4d4;
 }
-/* .main-menu:hover{
-    width : 16%;
-    overflow-y: scroll;
-} */
 .main-menu .menu-item{
     padding: 10px;
 }
 .main-menu .menu-item:hover{
     cursor: pointer;
-    background-color: #d6d6d6;
+    color: white;
+    background-color: #6bb8fd;
 }
 .main-menu .menu-item .fas{
     width:40px;
@@ -58,11 +61,8 @@ export default {
     list-style: none;
 }
 .main-menu .menu-item:hover > .fas{
-    color: #1d0daa;
+    color: white;
 }
-/* section.home{
-    background-color: #f3f3f3;
-} */
 ::-webkit-scrollbar {
     width: 5px;
 }

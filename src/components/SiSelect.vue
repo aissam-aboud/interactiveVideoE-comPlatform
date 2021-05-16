@@ -22,7 +22,7 @@ export default {
         list_header: String,
     },
     created() {
-        if( this.start == this.end) {
+        if(this.start && this.end && this.start == this.end) {
             window.siVideo.pause();
             window.isVidepPaused = true;
         }

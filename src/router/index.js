@@ -19,7 +19,7 @@ const routes = [
   },
   {
     path: "/admin",
-    name: "ind",
+    name: "admin",
     component: admin,
   },
 ];

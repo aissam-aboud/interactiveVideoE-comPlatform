@@ -25,6 +25,14 @@
     border-radius: 3px;
     font-family: Sans-serif;
     padding: 10px 0px 10px 10px;
+
+
+    color: black;
+    border: 2px solid #2196f3;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 12px white;
+    border-left: 6px solid #2196f3;
+
 }
 .si-bubble p {
     margin: 0;
@@ -42,6 +50,7 @@
     position: relative;
     border-style: solid;
     border-width: 30px 0 0 30px;
+    border-color: #ffffff transparent;
 }
 .si-bubble-right:after {
     left: 82%;
@@ -77,35 +86,48 @@
 .si-button {
     width: 15%;
     color: black;
+    cursor: pointer;
     padding: 4px 0px;
     font-weight: bold;
     position: absolute;
     border-radius: 4px;
-    background-color: white;
-    border: 2px solid #b368d6;
+    background-color: #2196f3b0;
+    border: 2px solid white;
 }
 .si-button:hover {
     color: white;
     background-color: #b368d6;
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 .si-button-light {
-    color: black;
-    background-color: white;
-    border: 2px solid #b368d6;
+    color: white;
+    border: 2px solid white;
+    background-color: #2196f3b0;
+    box-shadow: 0 12px 16px 0 rgba(255, 255, 255, 0.24), 0 17px 50px 0 rgba(255, 255, 255, 0.19);
+}
+.si-button-light:hover {
+    background-color: #2196f3;
+    box-shadow: 0px 0px 12px white;
 }
 .si-button-dark {
-    color: white;
-    background-color: #26272b;
-    border: 2px solid #ff8750;
+    color: black;
+    background-color: #5600ff7a;
+    border: 2px solid black;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.si-button-dark:hover {
+    box-shadow: 0 0 10px black;
+    background-color: #5600ffc7;
 }
 /* ------------------------------  SiForm  ------------------------------- */
 .si-form {
     width: 22%;
-    padding: 5px 10px 12px 10px;
     position: absolute;
     text-align: center;
     border-radius: 2px;
+    padding: 5px 10px 12px 10px;
+    border: 2px solid white;
+    background-color: #2196f399;
+    box-shadow: 0px 0px 24px white;
 }
 .si-form input {
     width: 87%;
@@ -120,9 +142,12 @@
     padding: 3px 10px;
     font-weight: bold;
     border-radius: 3px;
+    color: black;
+    background-color: white;
 }
 .si-form h3 {
     margin: 2px;
+    color: white;
     font-size: 17px;
     padding: 2px 0 10px 0;
     font-family: sans-serif;
@@ -158,6 +183,7 @@
     font-family: serif;
     position: absolute;
     text-transform: uppercase;
+    color: white;
 }
 .si-link:hover {
     transform: scale(1.06);
@@ -189,15 +215,33 @@
 .si-select .si-select-text {
     padding: 5px 0;
     width: 100%;
+    color: white;
+    border: 2px solid white;
+    border-bottom: none;
+    background-color: #2196f3;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    box-shadow: 0px 0px 24px #2196f3;
 }
-.si-select-options li:hover {
+.si-select .si-select-options li:hover {
     cursor: pointer;
+    color: white;
+    background-color: #2196f3;
 }
 .si-select .si-select-options {
     width: 100%;
     max-height: 350px;
     overflow-y: scroll;
     position: absolute;
+    border: 2px solid white;
+    box-shadow: 0px 0px 20px #2196f3;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+.si-select .si-select-options li {
+    color: white;
+    background-color: #0000009e;
+    border-bottom: 1px solid #2196f3;
 }
 .si-select-options::-webkit-scrollbar {
     width: 6px;
@@ -207,16 +251,16 @@
     background: #aaa;
     border-radius: 3px;
 }
-.si-select-light .si-select-options li {
-    color: white;
-    background-color: #0000009e;
-    border-bottom: 1px solid #2196f3;
-}
 .si-select-light .si-select-options {
     border: 2px solid white;
     box-shadow: 0px 0px 20px #2196f3;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
+}
+.si-select-light .si-select-options li {
+    color: white;
+    background-color: #0000009e;
+    border-bottom: 1px solid #2196f3;
 }
 .si-select-light .si-select-options li:hover {
     color: white;
@@ -335,7 +379,9 @@
     border-radius: 50%;
     position: absolute;
     text-align: center;
-    background-color: 2196f3;
+    border: 2px solid white;
+    background-color: #2196f3;
+    box-shadow: 0 0 15px white;
     border: 2px solid rgba(255, 255, 255, 0.70);
 }
 .si-btn-tag img {

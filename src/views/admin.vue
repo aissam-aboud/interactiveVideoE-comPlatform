@@ -26,7 +26,7 @@
                     />
                     <SiLink v-if="componentName == 'SiLink'" 
                         :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
-                        :text="text"
+                        :text="text" :url="url"
                     />
                     <SiForm v-if="componentName == 'SiForm'" 
                         :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
@@ -40,87 +40,144 @@
                     />
                     <SiTagProduct v-if="componentName == 'SiTagProduct'" 
                         :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
+                         :url="url"
                     />
                 </div>
                 <video class="siVideo" controls @timeupdate="getCurrentTime()" @ended="onEnd()">
                     <source src="../assets/video.mp4" type="video/mp4" >
                 </video>
+
                 <div class="input-group">
                     <h2>Fill in this form please</h2>
+                    <div v-if="componentName!='SiMoveTo'">
+                        <div class="form-block">
+                            <div class="form-block-item">
+                                <label class="input-label">Start Time</label>
+                                <input class="input-group-item" type="number">
+                            </div>
+                            <div class="form-block-item">
+                                <label class="input-label">End Time</label>
+                                <input class="input-group-item" type="number">
+                            </div>
+                        </div>
 
-                    <div class="form-block">
+                        <div class="form-block">
+                            <div class="form-block-item">
+                                <label class="input-label">Position X</label>
+                                <input 
+                                    class="input-group-item" 
+                                    type="number" min="0" max="100"
+                                    v-model="left"
+                                >
+                            </div>
+                            <div class="form-block-item">
+                                <label class="input-label">Position Y</label>
+                                <input 
+                                    class="input-group-item" 
+                                    type="number" min="0" max="100"
+                                    v-model="top"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-block">
+                            <div class="form-block-item">
+                                <label class="input-label">Skippable</label>
+                                <select class="input-group-item" name="skippable" v-model="skippable">
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
+                            </div>
+                            <div class="form-block-item">
+                                <label class="input-label">Theme</label>
+                                <select class="input-group-item" name="theme" v-model="theme">
+                                    <option value="light">Light</option>
+                                    <option value="dark">Dark</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Bubble -->
+                        <div class="form-block" v-if="componentName=='SiBubble'">
+                            <div class="form-block-item">
+                                <label class="input-label">Text</label>
+                                <input class="input-group-item" type="text" v-model="text">
+                            </div>
+                            <div class="form-block-item">
+                                <label class="input-label">Arrow</label>
+                                <select class="input-group-item" name="arrow" v-model="arrow">
+                                    <option value="left">Left</option>
+                                    <option value="right">right</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Button -->
+                        <div class="form-block" v-if="componentName=='SiButton'">
+                            <div class="form-block-item">
+                                <label class="input-label">Text</label>
+                                <input class="input-group-item" type="text" v-model="text">
+                            </div>
+                            <div class="form-block-item">
+                                <label class="input-label">Move to</label>
+                                <input class="input-group-item" type="number" v-model="moveTo">
+                            </div>
+                        </div>
+                        <!-- Link -->
+                        <div class="form-block" v-if="componentName=='SiLink'">
+                            <div class="form-block-item">
+                                <label class="input-label">Text</label>
+                                <input class="input-group-item" type="text" v-model="text">
+                            </div>
+                            <div class="form-block-item">
+                                <label class="input-label">URL</label>
+                                <input class="input-group-item" type="text" v-model="url">
+                            </div>
+                        </div>
+                        <!-- Select -->
+                        <!-- <div class="form-block" v-if="componentName=='SiSelect'">
+                            <div class="form-block-item">
+                                <label class="input-label">Text</label>
+                                <input class="input-group-item" type="text" v-model="text">
+                            </div>
+                            <div class="form-block-item">
+                                <label class="input-label">URL</label>
+                                <input class="input-group-item" type="text" v-model="url">
+                            </div>
+                        </div> -->
+                        <!-- Tag product -->
+                        <div class="form-block" v-if="componentName=='SiTagProduct'">
+                            <div class="form-block-item">
+                                <label class="input-label">URL</label>
+                                <input class="input-group-item" type="text" v-model="url">
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    
+
+                    <!-- Move to -->
+                    <div class="form-block" v-if="componentName=='SiMoveTo'">
                         <div class="form-block-item">
                             <label class="input-label">Start Time</label>
                             <input class="input-group-item" type="number">
                         </div>
                         <div class="form-block-item">
-                            <label class="input-label">End Time</label>
-                            <input class="input-group-item" type="number">
-                        </div>
-                    </div>
-
-                    <div class="form-block">
-                        <div class="form-block-item">
-                            <label class="input-label">Position X</label>
-                            <input 
-                                class="input-group-item" 
-                                type="number" min="0" max="100"
-                                v-model="left"
-                            >
-                        </div>
-                        <div class="form-block-item">
-                            <label class="input-label">Position Y</label>
-                            <input 
-                                class="input-group-item" 
-                                type="number" min="0" max="100"
-                                v-model="top"
-                            >
-                        </div>
-                    </div>
-
-                    <div class="form-block">
-                        <div class="form-block-item">
-                            <label class="input-label-skip">Skippable</label><br>
-                            <div class="skippable">
-                                <input type="checkbox" id="yes" checked>
-                                <label for="yes">Yes</label>
-                            </div>
-                            <div class="skippable">
-                                <input type="checkbox" id="no">
-                                <label for="no">No</label>
-                            </div>
-                        </div>
-                        <div class="form-block-item">
-                            <label class="input-label">Theme</label>
-                            <select v-model="theme" class="input-group-item" name="theme">
-                                <option value="light">Light</option>
-                                <option value="dark">Dark</option>
-                            </select>
+                            <label class="input-label">Move to</label>
+                            <input class="input-group-item" type="number" v-model="moveTo">
                         </div>
                     </div>
 
 
 
-                    <div>
-                        <label class="input-label">Text</label>
-                        <input class="input-group-item" type="text" v-model="text">
-                    </div>
-                    <div>
-                        <label class="input-label">Arrow</label>
-                        <select v-model="arrow" class="input-group-item" name="arrow">
-                            <option value="left">Left</option>
-                            <option value="right">right</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="input-label">URL</label>
-                        <input class="input-group-item" type="text">
-                    </div>
-                    <div>
-                        <label class="input-label">Move to</label>
-                        <input class="input-group-item" type="number">
-                    </div>
+
+
                 </div>
+                
+
+
             </div>
             
         </div>
@@ -135,7 +192,7 @@ import SiForm from '../components/SiForm';
 import SiLink from '../components/SiLink';
 import SiSelect from '../components/SiSelect';
 import SiTagProduct from '../components/SiTagProduct';
-import SiSidebar from '../components/SiSidebar';
+import SiSidebar from '../components/adminComponents/SiSidebar';
 
 export default {
     components: {
@@ -158,8 +215,11 @@ export default {
             top: 0,
             maxX: 0,
             maxY: 0,
+            url: '',
             componentName: '',
             componentProps: {},
+            moveTo: 0,
+            skippable: false,
         }
     },
     methods: {

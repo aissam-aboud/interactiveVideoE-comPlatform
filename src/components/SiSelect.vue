@@ -15,10 +15,10 @@
 export default {
     name: 'SiList',
     props: {
-        end: Number,
         items: Array,
         theme: String,
         start: Number,
+        end: Number,
         list_header: String,
     },
     created() {

@@ -7,6 +7,7 @@
                 <li @click="getComponentName('SiForm') " class="menu-item"><i class="fas fa-align-left"></i>Form</li>
                 <li @click="getComponentName('SiButton') " class="menu-item"><i class="fas fa-mouse"></i>Button</li>
                 <li @click="getComponentName('SiTagProduct') " class="menu-item"><i class="fas fa-tags"></i>Tag product</li>
+                <li @click="getComponentName('SiMoveTo') " class="menu-item"><i class="fas fa-forward"></i>Move video to</li>
         </ul>
     </div>
 </template>

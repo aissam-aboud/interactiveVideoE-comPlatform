@@ -78,7 +78,7 @@ export default {
                     id: 0,
                     currentComponent: 'SiSelect',
                     currentProps: {
-                        list_header: 'Choose what do you want to know about this phone',
+                        select_title: 'Choose what do you want to know about this phone',
                         items: [
                             {name: 'display', moveTo: 17.810878}, 
                             {name: 'plateform', moveTo: 26.751889}, 

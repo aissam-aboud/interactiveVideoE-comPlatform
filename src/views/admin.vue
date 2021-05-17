@@ -32,7 +32,8 @@
                         :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
                     />
                     <SiSelect v-if="componentName == 'SiSelect'" 
-                        :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
+                        :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme"
+                        :select_title="selectTitle" :items="selectItems"
                     />
                     <SiButton v-if="componentName == 'SiButton'" 
                         :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme"  
@@ -66,7 +67,7 @@
                                 <label class="input-label">Position X</label>
                                 <input 
                                     class="input-group-item" 
-                                    type="number" min="0" max="100"
+                                    type="number" min="0" :max="maxX"
                                     v-model="left"
                                 >
                             </div>
@@ -74,7 +75,7 @@
                                 <label class="input-label">Position Y</label>
                                 <input 
                                     class="input-group-item" 
-                                    type="number" min="0" max="100"
+                                    type="number" min="0" :max="maxY"
                                     v-model="top"
                                 >
                             </div>
@@ -133,17 +134,29 @@
                                 <input class="input-group-item" type="text" v-model="url">
                             </div>
                         </div>
+
+
                         <!-- Select -->
-                        <!-- <div class="form-block" v-if="componentName=='SiSelect'">
-                            <div class="form-block-item">
-                                <label class="input-label">Text</label>
-                                <input class="input-group-item" type="text" v-model="text">
+                        <form v-if="componentName=='SiSelect'" class="form-block" @submit.prevent="addSelectItem({name: selectItemName, moveTo: selectItemMoveto})">
+                            <div class="form-block">
+                                <div class="form-block-item">
+                                    <label class="input-label">Select title</label>
+                                    <input class="input-group-item" type="text" v-model="selectTitle" required>
+                                </div>
                             </div>
                             <div class="form-block-item">
-                                <label class="input-label">URL</label>
-                                <input class="input-group-item" type="text" v-model="url">
+                                <label class="input-label">Item name</label>
+                                <input class="input-group-item" type="text" v-model="selectItemName" required>
                             </div>
-                        </div> -->
+                            <div class="form-block-item" style="margin-right: 10px;">
+                                <label class="input-label">Item value(Move to)</label>
+                                <input class="input-group-item" type="text" v-model="selectItemMoveto" required>
+                            </div>
+                            <button class="add-select-btn">+</button>
+                        </form>
+
+
+
                         <!-- Tag product -->
                         <div class="form-block" v-if="componentName=='SiTagProduct'">
                             <div class="form-block-item">
@@ -166,7 +179,7 @@
                         </div>
                         <div class="form-block-item">
                             <label class="input-label">Move to</label>
-                            <input class="input-group-item" type="number" v-model="moveTo">
+                            <input class="input-group-item" type="number" v-model="moveTo" required>
                         </div>
                     </div>
 
@@ -213,13 +226,17 @@ export default {
             arrow: '',
             left: 0,
             top: 0,
-            maxX: 0,
-            maxY: 0,
+            maxX: 100,
+            maxY: 100,
             url: '',
             componentName: '',
             componentProps: {},
             moveTo: 0,
             skippable: false,
+            selectItems: [],
+            selectTitle: '',
+            selectItemName: '',
+            selectItemMoveto: '',
         }
     },
     methods: {
@@ -233,7 +250,11 @@ export default {
         },
         getComponentName(componentName){
             this.componentName = componentName;
-            // console.log('tt : '+componentName);
+        },
+        addSelectItem(item) {
+            this.selectItems.push(item);
+            this.selectItemName = '';
+            this.selectItemMoveto = '';
         }
     }
 }
@@ -272,8 +293,7 @@ export default {
     left: 0;
     z-index: 1;
     width: 70%;
-    height: 394px;  
-    /* height: auto; */
+    height: 345;
     position: absolute;
     visibility: hidden;
 }
@@ -315,14 +335,13 @@ export default {
 }
 
 
-
+.video-container .input-group {
+    width: 29%;
+    float: right;
+}
 .video-container .input-group h2{
     color: #2196f3;
     margin-bottom: 15px;
-}
-.video-container .input-group {
-    width: 25%;
-    float: right;
 }
 .video-container .input-group .input-group-item{
     padding: 5px 5px;
@@ -337,18 +356,6 @@ export default {
     margin-top: 5px;
     position: absolute;
 }
-.video-container .input-group .input-label-skip{
-    font-size: 12px;
-    margin-top: 5px;
-}
-.video-container .input-group .skippable {
-    display: inline;
-    margin-right: 20px;
-}
-.video-container .input-group .skippable input {
-    margin: 0 0 8px 0;
-}
-
 
 
 .video-container .input-group .form-block {
@@ -356,10 +363,17 @@ export default {
     overflow: hidden;
 }
 .video-container .input-group .form-block .form-block-item{
-    width: 40%;
+    width: 35%;
+    margin-right: 9%;
     display: inline-block;
-    margin-right: 10%;
-    background-repeat: no-repeat;
 }
 
+.add-select-btn {
+    width: 20px; 
+    height: 20px;
+    margin: 0 0 0 15px;
+    background-color: white;
+    border: 2px solid #2196f3;
+    border-radius: 4px;
+}
 </style>

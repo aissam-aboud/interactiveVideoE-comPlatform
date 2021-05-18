@@ -13,16 +13,21 @@
                 <button v-if="isOpened" class="btn1" @click="closeNavbar(), isOpened = false">Close</button>
             </div>
             <div class="video-container">
-                <div class="elementsDiv">
+                <div id="elementsDiv" class="elementsDiv">
+                        
                     <!-- <component
+                        :is="componentName" 
+                        v-bind="{theme: theme,arrow: arrow,text: text,}" 
                         :style="{visibility: 'visible', top: top+'%', left: left+'%'}"
-                        :theme="theme" 
-                        :is="componentName" v-bind="componentProps" 
-                    /> -->
+                    />
+                    -->
+                    <!-- <div  v-drag class="si-bubble" style="visibility: visible; top: 0%, left: 0%.">
 
-                    <SiBubble v-if="componentName == 'SiBubble'"
-                        :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme"
-                        :arrow="arrow" :text="text"
+                    </div> -->
+
+                    <SiBubble id="compoo"
+                        :style="{visibility: 'visible', top: '1%', left: '1%'}" :theme="'light'"
+                        :arrow="'left'" :text="'text'"
                     />
                     <SiLink v-if="componentName == 'SiLink'" 
                         :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
@@ -44,21 +49,21 @@
                          :url="url"
                     />
                 </div>
-                <video class="siVideo" controls @timeupdate="getCurrentTime()" @ended="onEnd()">
+                <video class="siVideo" controls>
                     <source src="../assets/video.mp4" type="video/mp4" >
                 </video>
 
-                <div class="input-group">
+                <div v-if="componentName!='' && isOpened" class="input-group">
                     <h2>Fill in this form please</h2>
                     <div v-if="componentName!='SiMoveTo'">
                         <div class="form-block">
                             <div class="form-block-item">
                                 <label class="input-label">Start Time</label>
-                                <input class="input-group-item" type="number">
+                                <input class="input-group-item" type="number" min="0">
                             </div>
                             <div class="form-block-item">
                                 <label class="input-label">End Time</label>
-                                <input class="input-group-item" type="number">
+                                <input class="input-group-item" type="number" min="0">
                             </div>
                         </div>
 
@@ -199,6 +204,89 @@
 </template>
 
 <script>
+
+setTimeout( function() {
+    document.onselectstart = function(e) {
+      e.preventDefault();
+        return false;
+      }
+
+      window.sliderr = document.getElementById('compoo');
+      window.containerr = document.getElementById('elementsDiv');
+
+      document.mouseState = 'up';
+      window.sliderr.mouseState = 'up';
+      window.sliderr.lastMousePosY = null;
+      window.sliderr.lastMousePosX = null;
+      window.sliderr.proposedNewPosY = parseInt( window.sliderr.style.top, 10);
+      window.sliderr.proposedNewPosX = parseInt( window.sliderr.style.left, 10);
+    
+      window.sliderr.style.top = 0;
+      window.sliderr.style.left = 0;
+      window.sliderr.style.padding = 0;
+      window.sliderr.style.margin = 0;
+      window.sliderr.style.border = 0;
+      window.containerr.style.top = 0;
+      window.containerr.style.left = 0;
+
+      window.sliderr.style.height = '20px';
+      window.sliderr.style.width = '90px';
+      window.containerr.style.height = document.querySelector("#app > div > div.container > div.video-container > video").offsetHeight+'px';
+      window.containerr.style.width = document.querySelector("#app > div > div.container > div.video-container > video").offsetWidth+'px';
+
+      document.onmousedown = function() {
+        document.mouseState = 'down';
+      };
+
+      document.onmouseup = function() {
+        document.mouseState = 'up';
+        window.sliderr.mouseState = 'up';
+      };
+
+      window.sliderr.onmousedown = function(e) {
+        window.sliderr.lastMousePosY = e.pageY;
+        window.sliderr.lastMousePosX = e.pageX;
+        window.sliderr.mouseState = 'down';
+        document.mouseState = 'down';
+      };
+
+      window.sliderr.onmouseup = function() {
+        window.sliderr.mouseState = 'up';
+        document.mouseState = 'up';
+      };    
+
+      var getAtInt = function getAtInt(obj, attrib) {
+        return parseInt(obj.style[attrib], 10);
+      };   
+
+      document.onmousemove = function(e) {
+        if ((document.mouseState === 'down') && (window.sliderr.mouseState === 'down')) {
+          window.sliderr.proposedNewPosY = getAtInt(window.sliderr, 'top') + e.pageY - window.sliderr.lastMousePosY;
+          window.sliderr.proposedNewPosX = getAtInt(window.sliderr, 'left') + e.pageX - window.sliderr.lastMousePosX;
+
+          if (window.sliderr.proposedNewPosY < getAtInt(window.containerr, 'top')) {
+            window.sliderr.style.top = window.containerr.style.top;
+          } else if (window.sliderr.proposedNewPosY > getAtInt(window.containerr, 'top') + getAtInt(window.containerr, 'height') - getAtInt(window.sliderr, 'height')) {
+            window.sliderr.style.top = getAtInt(window.containerr, 'top') + getAtInt(window.containerr, 'height') - getAtInt(window.sliderr, 'height') + 'px';
+          } else {
+            window.sliderr.style.top = window.sliderr.proposedNewPosY + 'px';
+          }
+
+          if (window.sliderr.proposedNewPosX < getAtInt(window.containerr, 'left')) {
+            window.sliderr.style.left = window.containerr.style.left;
+          } else if (window.sliderr.proposedNewPosX > getAtInt(window.containerr, 'left') + getAtInt(window.containerr, 'width') - getAtInt(window.sliderr, 'width')) {
+            window.sliderr.style.left = getAtInt(window.containerr, 'left') + getAtInt(window.containerr, 'width') - getAtInt(window.sliderr, 'width') + 'px';
+          } else {
+            window.sliderr.style.left = window.sliderr.proposedNewPosX + 'px';
+          }
+          window.sliderr.lastMousePosY = e.pageY;
+          window.sliderr.lastMousePosX = e.pageX;
+        }
+      };
+    },2000);
+
+
+
 import SiBubble from '../components/SiBubble';
 import SiButton from '../components/SiButton';
 import SiForm from '../components/SiForm';
@@ -239,7 +327,13 @@ export default {
             selectItemMoveto: '',
         }
     },
+    created() {
+        window.ele = this.$refs.sliderr;
+    },
     methods: {
+        aa() {
+            console.log('mouse down');
+        },
         openNavbar() {
             document.getElementsByClassName("main-menu")[0].style.width = "16%";
             document.getElementsByClassName("container")[0].style.width = "80%";
@@ -250,17 +344,35 @@ export default {
         },
         getComponentName(componentName){
             this.componentName = componentName;
+            this.isOpened = true;
+            document.getElementsByClassName("main-menu")[0].style.width = "16%";
+            document.getElementsByClassName("container")[0].style.width = "80%";
+
+            // if(componentName == 'SiBubble') {
+            //     this.componentProps = {
+            //         theme: this.theme,
+            //         arrow: this.arrow,
+            //         text: this.text,
+            //     }
+            // }
+            // elseif(componentName == '') {}
+            // elseif(componentName == '') {}
+            // elseif(componentName == '') {}
+            // elseif(componentName == '') {}
+            // elseif(componentName == '') {}
+            // elseif(componentName == '') {}
         },
         addSelectItem(item) {
             this.selectItems.push(item);
             this.selectItemName = '';
             this.selectItemMoveto = '';
         }
-    }
+    },
 }
 </script>
 
 <style scoped>
+
 *, body{
     margin:0;
     padding:0;
@@ -371,9 +483,12 @@ export default {
 .add-select-btn {
     width: 20px; 
     height: 20px;
+    color: #2196f3;
+    /* font-size: 17px; */
     margin: 0 0 0 15px;
     background-color: white;
     border: 2px solid #2196f3;
     border-radius: 4px;
+    box-shadow: 0 0 10px rgb(163, 163, 163);
 }
 </style>

@@ -15,25 +15,23 @@
             <div class="video-container">
                 <div id="elementsDiv" class="elementsDiv">
                         
-                    <!-- <component
-                        :is="componentName" 
+                    <!-- <component id="compoo"
+                        :is="'SiBubble'" 
                         v-bind="{theme: theme,arrow: arrow,text: text,}" 
                         :style="{visibility: 'visible', top: top+'%', left: left+'%'}"
-                    />
-                    -->
-                    <!-- <div  v-drag class="si-bubble" style="visibility: visible; top: 0%, left: 0%.">
-
-                    </div> -->
-
+                    /> -->
+                   
+       
                     <SiBubble id="compoo"
-                        :style="{visibility: 'visible', top: '1%', left: '1%'}" :theme="'light'"
-                        :arrow="'left'" :text="'text'"
+                        :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme"
+                        :arrow="arrow" :text="text"
                     />
+
                     <SiLink v-if="componentName == 'SiLink'" 
                         :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
                         :text="text" :url="url"
                     />
-                    <SiForm v-if="componentName == 'SiForm'" 
+                    <SiForm v-if="componentName == 'SiForm'"  id="compoo"
                         :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
                     />
                     <SiSelect v-if="componentName == 'SiSelect'" 
@@ -66,26 +64,18 @@
                                 <input class="input-group-item" type="number" min="0">
                             </div>
                         </div>
-
                         <div class="form-block">
                             <div class="form-block-item">
                                 <label class="input-label">Position X</label>
-                                <input 
-                                    class="input-group-item" 
-                                    type="number" min="0" :max="maxX"
-                                    v-model="left"
-                                >
+                                <input class="input-group-item" v-model="left"
+                                    type="number" min="0" :max="maxX">
                             </div>
                             <div class="form-block-item">
                                 <label class="input-label">Position Y</label>
-                                <input 
-                                    class="input-group-item" 
-                                    type="number" min="0" :max="maxY"
-                                    v-model="top"
-                                >
+                                <input class="input-group-item" v-model="top"
+                                    type="number" min="0" :max="maxY">
                             </div>
                         </div>
-
                         <div class="form-block">
                             <div class="form-block-item">
                                 <label class="input-label">Skippable</label>
@@ -102,7 +92,6 @@
                                 </select>
                             </div>
                         </div>
-
                         <!-- Bubble -->
                         <div class="form-block" v-if="componentName=='SiBubble'">
                             <div class="form-block-item">
@@ -139,8 +128,6 @@
                                 <input class="input-group-item" type="text" v-model="url">
                             </div>
                         </div>
-
-
                         <!-- Select -->
                         <form v-if="componentName=='SiSelect'" class="form-block" @submit.prevent="addSelectItem({name: selectItemName, moveTo: selectItemMoveto})">
                             <div class="form-block">
@@ -159,9 +146,6 @@
                             </div>
                             <button class="add-select-btn">+</button>
                         </form>
-
-
-
                         <!-- Tag product -->
                         <div class="form-block" v-if="componentName=='SiTagProduct'">
                             <div class="form-block-item">
@@ -169,13 +153,7 @@
                                 <input class="input-group-item" type="text" v-model="url">
                             </div>
                         </div>
-
-
-
                     </div>
-
-                    
-
                     <!-- Move to -->
                     <div class="form-block" v-if="componentName=='SiMoveTo'">
                         <div class="form-block-item">
@@ -187,111 +165,98 @@
                             <input class="input-group-item" type="number" v-model="moveTo" required>
                         </div>
                     </div>
-
-
-
-
-
                 </div>
-                
-
-
             </div>
-            
         </div>
-        
     </div>
 </template>
 
 <script>
 
-setTimeout( function() {
-    document.onselectstart = function(e) {
-      e.preventDefault();
-        return false;
-      }
-
-      window.sliderr = document.getElementById('compoo');
-      window.containerr = document.getElementById('elementsDiv');
-
-      document.mouseState = 'up';
-      window.sliderr.mouseState = 'up';
-      window.sliderr.lastMousePosY = null;
-      window.sliderr.lastMousePosX = null;
-      window.sliderr.proposedNewPosY = parseInt( window.sliderr.style.top, 10);
-      window.sliderr.proposedNewPosX = parseInt( window.sliderr.style.left, 10);
-    
-      window.sliderr.style.top = 0;
-      window.sliderr.style.left = 0;
-      window.sliderr.style.padding = 0;
-      window.sliderr.style.margin = 0;
-      window.sliderr.style.border = 0;
-      window.containerr.style.top = 0;
-      window.containerr.style.left = 0;
-
-      window.sliderr.style.height = '20px';
-      window.sliderr.style.width = '90px';
-      window.containerr.style.height = document.querySelector("#app > div > div.container > div.video-container > video").offsetHeight+'px';
-      window.containerr.style.width = document.querySelector("#app > div > div.container > div.video-container > video").offsetWidth+'px';
-
-      document.onmousedown = function() {
-        document.mouseState = 'down';
-      };
-
-      document.onmouseup = function() {
-        document.mouseState = 'up';
-        window.sliderr.mouseState = 'up';
-      };
-
-      window.sliderr.onmousedown = function(e) {
-        window.sliderr.lastMousePosY = e.pageY;
-        window.sliderr.lastMousePosX = e.pageX;
-        window.sliderr.mouseState = 'down';
-        document.mouseState = 'down';
-      };
-
-      window.sliderr.onmouseup = function() {
-        window.sliderr.mouseState = 'up';
-        document.mouseState = 'up';
-      };    
-
-      var getAtInt = function getAtInt(obj, attrib) {
-        return parseInt(obj.style[attrib], 10);
-      };   
-
-      document.onmousemove = function(e) {
-        if ((document.mouseState === 'down') && (window.sliderr.mouseState === 'down')) {
-          window.sliderr.proposedNewPosY = getAtInt(window.sliderr, 'top') + e.pageY - window.sliderr.lastMousePosY;
-          window.sliderr.proposedNewPosX = getAtInt(window.sliderr, 'left') + e.pageX - window.sliderr.lastMousePosX;
-
-          if (window.sliderr.proposedNewPosY < getAtInt(window.containerr, 'top')) {
-            window.sliderr.style.top = window.containerr.style.top;
-          } else if (window.sliderr.proposedNewPosY > getAtInt(window.containerr, 'top') + getAtInt(window.containerr, 'height') - getAtInt(window.sliderr, 'height')) {
-            window.sliderr.style.top = getAtInt(window.containerr, 'top') + getAtInt(window.containerr, 'height') - getAtInt(window.sliderr, 'height') + 'px';
-          } else {
-            window.sliderr.style.top = window.sliderr.proposedNewPosY + 'px';
-          }
-
-          if (window.sliderr.proposedNewPosX < getAtInt(window.containerr, 'left')) {
-            window.sliderr.style.left = window.containerr.style.left;
-          } else if (window.sliderr.proposedNewPosX > getAtInt(window.containerr, 'left') + getAtInt(window.containerr, 'width') - getAtInt(window.sliderr, 'width')) {
-            window.sliderr.style.left = getAtInt(window.containerr, 'left') + getAtInt(window.containerr, 'width') - getAtInt(window.sliderr, 'width') + 'px';
-          } else {
-            window.sliderr.style.left = window.sliderr.proposedNewPosX + 'px';
-          }
-          window.sliderr.lastMousePosY = e.pageY;
-          window.sliderr.lastMousePosX = e.pageX;
+    setTimeout( function() {
+        document.onselectstart = function(e) {
+            e.preventDefault();
+            return false;
         }
-      };
+
+        window.sliderr = document.getElementById('compoo');
+        window.containerr = document.getElementById('elementsDiv');
+
+        document.mouseState = 'up';
+        window.sliderr.mouseState = 'up';
+        window.sliderr.lastMousePosY = null;
+        window.sliderr.lastMousePosX = null;
+        window.sliderr.proposedNewPosY = parseInt(window.sliderr.style.top, 10);
+        window.sliderr.proposedNewPosX = parseInt(window.sliderr.style.left, 10);
+       
+        window.sliderr.style.top = 0;
+        window.sliderr.style.left = 0;
+        window.containerr.style.top = 0;
+        window.containerr.style.left = 0;
+
+        // window.sliderr.style.maxHeight = '50px';
+        // window.sliderr.style.width = '20%';
+
+        window.containerr.style.height = '357px';
+        window.containerr.style.width = '780px';
+
+        document.onmousedown = function() {
+            document.mouseState = 'down';
+        };
+
+        document.onmouseup = function() {
+            document.mouseState = 'up';
+            window.sliderr.mouseState = 'up';
+        };
+
+        window.sliderr.onmousedown = function(e) {
+            window.sliderr.lastMousePosY = e.pageY;
+            window.sliderr.lastMousePosX = e.pageX;
+            window.sliderr.mouseState = 'down';
+            document.mouseState = 'down';
+        };
+
+        window.sliderr.onmouseup = function() {
+            window.sliderr.mouseState = 'up';
+            document.mouseState = 'up';
+        };    
+
+        var getAtInt = function getAtInt(obj, attrib) {
+            return parseInt(obj.style[attrib], 10);
+        };   
+
+        document.onmousemove = function(e) {
+            if ((document.mouseState === 'down') && (window.sliderr.mouseState === 'down')) {
+            window.sliderr.proposedNewPosY = getAtInt(window.sliderr, 'top') + e.pageY - window.sliderr.lastMousePosY;
+            window.sliderr.proposedNewPosX = getAtInt(window.sliderr, 'left') + e.pageX - window.sliderr.lastMousePosX;
+
+            if (window.sliderr.proposedNewPosY < getAtInt(window.containerr, 'top')) {
+                window.sliderr.style.top = window.containerr.style.top;
+            } else if (window.sliderr.proposedNewPosY > getAtInt(window.containerr, 'top') + getAtInt(window.containerr, 'height') - getAtInt(window.sliderr, 'height')) {
+                window.sliderr.style.top = getAtInt(window.containerr, 'top') + getAtInt(window.containerr, 'height') - getAtInt(window.sliderr, 'height') + 'px';
+            } else {
+                window.sliderr.style.top = window.sliderr.proposedNewPosY + 'px';
+            }
+
+            if (window.sliderr.proposedNewPosX < getAtInt(window.containerr, 'left')) {
+                window.sliderr.style.left = window.containerr.style.left;
+            } else if (window.sliderr.proposedNewPosX > getAtInt(window.containerr, 'left') + getAtInt(window.containerr, 'width') - getAtInt(window.sliderr, 'width')) {
+                window.sliderr.style.left = getAtInt(window.containerr, 'left') + getAtInt(window.containerr, 'width') - getAtInt(window.sliderr, 'width') + 'px';
+            } else {
+                window.sliderr.style.left = window.sliderr.proposedNewPosX + 'px';
+            }
+            window.sliderr.lastMousePosY = e.pageY;
+            window.sliderr.lastMousePosX = e.pageX;
+            }
+        };
     },2000);
 
 
-
-import SiBubble from '../components/SiBubble';
-import SiButton from '../components/SiButton';
-import SiForm from '../components/SiForm';
 import SiLink from '../components/SiLink';
+import SiForm from '../components/SiForm';
+import SiBubble from '../components/SiBubble';
 import SiSelect from '../components/SiSelect';
+import SiButton from '../components/SiButton';
 import SiTagProduct from '../components/SiTagProduct';
 import SiSidebar from '../components/adminComponents/SiSidebar';
 
@@ -397,14 +362,14 @@ export default {
     z-index: 0;
 }
 .container .video-container .siVideo {
-    width: 70%;
+    width: 780px;
     height: auto;
 }
 .container .video-container .elementsDiv {
     top: 0;
     left: 0;
     z-index: 1;
-    width: 70%;
+    width: 800px;
     height: 345;
     position: absolute;
     visibility: hidden;
@@ -448,7 +413,7 @@ export default {
 
 
 .video-container .input-group {
-    width: 29%;
+    width: 260px;
     float: right;
 }
 .video-container .input-group h2{

@@ -22,7 +22,8 @@
                     /> -->
                    
        
-                    <SiBubble id="compoo"
+                    <SiBubble 
+                        id="compoo"
                         :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme"
                         :arrow="arrow" :text="text"
                     />

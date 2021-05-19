@@ -173,84 +173,87 @@
 </template>
 
 <script>
+// https://esstudio.site/2018/11/01/create-draggable-elements-with-javascript.html
 
-    setTimeout( function() {
-        document.onselectstart = function(e) {
-            e.preventDefault();
-            return false;
-        }
+    // setTimeout( function() {
+    //     document.onselectstart = function(e) {
+    //         e.preventDefault();
+    //         return false;
+    //     }
 
-        window.sliderr = document.getElementById('compoo');
-        window.containerr = document.getElementById('elementsDiv');
+    //     window.sliderr = document.getElementById('compoo');
+    //     window.containerr = document.getElementById('elementsDiv');
 
-        document.mouseState = 'up';
-        window.sliderr.mouseState = 'up';
-        window.sliderr.lastMousePosY = null;
-        window.sliderr.lastMousePosX = null;
-        window.sliderr.proposedNewPosY = parseInt(window.sliderr.style.top, 10);
-        window.sliderr.proposedNewPosX = parseInt(window.sliderr.style.left, 10);
+    //     document.mouseState = 'up';
+    //     window.sliderr.mouseState = 'up';
+    //     window.sliderr.lastMousePosY = null;
+    //     window.sliderr.lastMousePosX = null;
+    //     window.sliderr.proposedNewPosY = parseInt(window.sliderr.style.top, 10);
+    //     window.sliderr.proposedNewPosX = parseInt(window.sliderr.style.left, 10);
        
-        window.sliderr.style.top = 0;
-        window.sliderr.style.left = 0;
-        window.containerr.style.top = 0;
-        window.containerr.style.left = 0;
+    //     window.sliderr.style.top = 0;
+    //     window.sliderr.style.left = 0;
+    //     window.containerr.style.top = 0;
+    //     window.containerr.style.left = 0;
 
-        // window.sliderr.style.maxHeight = '50px';
-        // window.sliderr.style.width = '20%';
+    //     // window.sliderr.style.maxHeight = '50px';
+    //     // window.sliderr.style.width = '20%';
+    //     window.sliderr.style.height = document.querySelector("#compoo").offsetWidth+'px';
+    //     window.sliderr.style.width = document.querySelector("#compoo").offsetWidth+'px';
 
-        window.containerr.style.height = '357px';
-        window.containerr.style.width = '780px';
+    //     window.containerr.style.height = '357px';
+    //     window.containerr.style.width = '780px';
 
-        document.onmousedown = function() {
-            document.mouseState = 'down';
-        };
+    //     document.onmousedown = function() {
+    //         document.mouseState = 'down';
+    //     };
 
-        document.onmouseup = function() {
-            document.mouseState = 'up';
-            window.sliderr.mouseState = 'up';
-        };
+    //     document.onmouseup = function() {
+    //         document.mouseState = 'up';
+    //         window.sliderr.mouseState = 'up';
+    //     };
 
-        window.sliderr.onmousedown = function(e) {
-            window.sliderr.lastMousePosY = e.pageY;
-            window.sliderr.lastMousePosX = e.pageX;
-            window.sliderr.mouseState = 'down';
-            document.mouseState = 'down';
-        };
+    //     window.sliderr.onmousedown = function(e) {
+    //         window.sliderr.lastMousePosY = e.pageY;
+    //         window.sliderr.lastMousePosX = e.pageX;
+    //         window.sliderr.mouseState = 'down';
+    //         document.mouseState = 'down';
+    //     };
 
-        window.sliderr.onmouseup = function() {
-            window.sliderr.mouseState = 'up';
-            document.mouseState = 'up';
-        };    
+    //     window.sliderr.onmouseup = function() {
+    //         window.sliderr.mouseState = 'up';
+    //         document.mouseState = 'up';
+    //     };    
 
-        var getAtInt = function getAtInt(obj, attrib) {
-            return parseInt(obj.style[attrib], 10);
-        };   
+    //     var getAtInt = function getAtInt(obj, attrib) {
+    //         return parseInt(obj.style[attrib], 10);
+    //     };   
 
-        document.onmousemove = function(e) {
-            if ((document.mouseState === 'down') && (window.sliderr.mouseState === 'down')) {
-            window.sliderr.proposedNewPosY = getAtInt(window.sliderr, 'top') + e.pageY - window.sliderr.lastMousePosY;
-            window.sliderr.proposedNewPosX = getAtInt(window.sliderr, 'left') + e.pageX - window.sliderr.lastMousePosX;
+    //     document.onmousemove = function(e) {
+    //         if ((document.mouseState === 'down') && (window.sliderr.mouseState === 'down')) {
+    //         window.sliderr.proposedNewPosY = getAtInt(window.sliderr, 'top') + e.pageY - window.sliderr.lastMousePosY;
+    //         window.sliderr.proposedNewPosX = getAtInt(window.sliderr, 'left') + e.pageX - window.sliderr.lastMousePosX;
 
-            if (window.sliderr.proposedNewPosY < getAtInt(window.containerr, 'top')) {
-                window.sliderr.style.top = window.containerr.style.top;
-            } else if (window.sliderr.proposedNewPosY > getAtInt(window.containerr, 'top') + getAtInt(window.containerr, 'height') - getAtInt(window.sliderr, 'height')) {
-                window.sliderr.style.top = getAtInt(window.containerr, 'top') + getAtInt(window.containerr, 'height') - getAtInt(window.sliderr, 'height') + 'px';
-            } else {
-                window.sliderr.style.top = window.sliderr.proposedNewPosY + 'px';
-            }
+    //         if (window.sliderr.proposedNewPosY < getAtInt(window.containerr, 'top')) {
+    //             window.sliderr.style.top = window.containerr.style.top;
+    //         } else if (window.sliderr.proposedNewPosY > getAtInt(window.containerr, 'top') + getAtInt(window.containerr, 'height') - getAtInt(window.sliderr, 'height')) {
+    //             window.sliderr.style.top = getAtInt(window.containerr, 'top') + getAtInt(window.containerr, 'height') - getAtInt(window.sliderr, 'height') + 'px';
+    //         } else {
+    //             window.sliderr.style.top = window.sliderr.proposedNewPosY + 'px';
+    //         }
 
-            if (window.sliderr.proposedNewPosX < getAtInt(window.containerr, 'left')) {
-                window.sliderr.style.left = window.containerr.style.left;
-            } else if (window.sliderr.proposedNewPosX > getAtInt(window.containerr, 'left') + getAtInt(window.containerr, 'width') - getAtInt(window.sliderr, 'width')) {
-                window.sliderr.style.left = getAtInt(window.containerr, 'left') + getAtInt(window.containerr, 'width') - getAtInt(window.sliderr, 'width') + 'px';
-            } else {
-                window.sliderr.style.left = window.sliderr.proposedNewPosX + 'px';
-            }
-            window.sliderr.lastMousePosY = e.pageY;
-            window.sliderr.lastMousePosX = e.pageX;
-            }
-        };
-    },2000);
+    //         if (window.sliderr.proposedNewPosX < getAtInt(window.containerr, 'left')) {
+    //             window.sliderr.style.left = window.containerr.style.left;
+    //         } else if (window.sliderr.proposedNewPosX > getAtInt(window.containerr, 'left') + getAtInt(window.containerr, 'width') - getAtInt(window.sliderr, 'width')) {
+    //             window.sliderr.style.left = getAtInt(window.containerr, 'left') + getAtInt(window.containerr, 'width') - getAtInt(window.sliderr, 'width') + 'px';
+    //         } else {
+    //             window.sliderr.style.left = window.sliderr.proposedNewPosX + 'px';
+    //         }
+    //         window.sliderr.lastMousePosY = e.pageY;
+    //         window.sliderr.lastMousePosX = e.pageX;
+    //         }
+    //     };
+    // },2000);
 
 
 import SiLink from '../components/SiLink';

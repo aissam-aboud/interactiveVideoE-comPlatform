@@ -1,104 +1,54 @@
 <template>
-    <div id="container" class="container">
+    <div class="container">
       <!-- <div> -->
-        <SiBubble id="slider" :style="{visibility: 'visible', top: '0%', left: '0%'}" theme="light"
-                          arrow="left" text="hhh hhh"
-        />
-<!-- 
-        <component
-                        :is="'SiBubble'" 
-                        v-bind="{theme: 'light',arrow: 'left',text: 'ttttt',}" 
-                        :style="{visibility: 'visible', top: '0%', left: '0%'}"
-        /> -->
-      <!-- </div> -->
+        <div class="draggable dragger">
+          <SiBubble :style="{visibility: 'visible', top: '0%', left: '0%'}" theme="light"
+                            arrow="left" text="hhh bbbb bbbb hhh"
+          />
+          <!-- <div class="dragger">
+            
+          </div> -->
+        </div>
+
     </div>
 </template>
 
 <script>
+  var x, y, target = null;
 
-  setTimeout( function() {
+document.addEventListener('mousedown', function(e) {
+  var clickedDragger = false;
+  for(var i = 0; e.path[i] !== document.body; i++) {
+    if (e.path[i].classList.contains('dragger')) {
+      clickedDragger = true;
+    }
+    else if (clickedDragger && e.path[i].classList.contains('draggable')) {
+      target = e.path[i];
+      target.classList.add('dragging');
+      x = e.clientX - target.style.left.slice(0, -2);
+      y = e.clientY - target.style.top.slice(0, -2);
+      return;
+    }
+  }
+});
 
-    document.onselectstart = function(e) {
-      e.preventDefault();
-        return false;
-      }
+document.addEventListener('mouseup', function() {
+  if (target !== null) target.classList.remove('dragging');
+  target = null;
+});
 
-      window.slider = document.getElementById('slider');
-      window.container = document.getElementById('container');
+document.addEventListener('mousemove', function(e) {
+  if (target === null) return;
+  target.style.left = e.clientX - x + 'px';
+  target.style.top = e.clientY - y + 'px';
+  var pRect = target.parentElement.getBoundingClientRect();
+  var tgtRect = target.getBoundingClientRect();
 
-      document.mouseState = 'up';
-      window.slider.mouseState = 'up';
-      window.slider.lastMousePosY = null;
-      window.slider.lastMousePosX = null;
-      window.slider.proposedNewPosY = parseInt( window.slider.style.top, 10);
-      window.slider.proposedNewPosX = parseInt( window.slider.style.left, 10);
-    
-      window.slider.style.top = 0;
-      window.slider.style.left = 0;
-      window.slider.style.height = '60px';
-      window.slider.style.width = '60px';
-      window.container.style.top = 0;
-      window.container.style.left = 0;
-      window.container.style.height = '300px';
-      window.container.style.width = '600px';
-
-      document.onmousedown = function() {
-        document.mouseState = 'down';
-      };
-
-      document.onmouseup = function() {
-        document.mouseState = 'up';
-        window.slider.mouseState = 'up';
-      };
-
-      window.slider.onmousedown = function(e) {
-        window.slider.lastMousePosY = e.pageY;
-        window.slider.lastMousePosX = e.pageX;
-        window.slider.mouseState = 'down';
-        document.mouseState = 'down';
-      };
-
-      window.slider.onmouseup = function() {
-        window.slider.mouseState = 'up';
-        document.mouseState = 'up';
-      };    
-
-      var getAtInt = function getAtInt(obj, attrib) {
-        return parseInt(obj.style[attrib], 10);
-      };   
-
-      document.onmousemove = function(e) {
-        if ((document.mouseState === 'down') && (window.slider.mouseState === 'down')) {
-          window.slider.proposedNewPosY = getAtInt(window.slider, 'top') + e.pageY - window.slider.lastMousePosY;
-          window.slider.proposedNewPosX = getAtInt(window.slider, 'left') + e.pageX - window.slider.lastMousePosX;
-
-          if (window.slider.proposedNewPosY < getAtInt(window.container, 'top')) {
-            window.slider.style.top = window.container.style.top;
-          } else if (window.slider.proposedNewPosY > getAtInt(window.container, 'top') + getAtInt(window.container, 'height') - getAtInt(window.slider, 'height')) {
-            window.slider.style.top = getAtInt(window.container, 'top') + getAtInt(window.container, 'height') - getAtInt(window.slider, 'height') + 'px';
-          } else {
-            window.slider.style.top = window.slider.proposedNewPosY + 'px';
-          }
-
-          if (window.slider.proposedNewPosX < getAtInt(window.container, 'left')) {
-            window.slider.style.left = window.container.style.left;
-          } else if (window.slider.proposedNewPosX > getAtInt(window.container, 'left') + getAtInt(window.container, 'width') - getAtInt(window.slider, 'width')) {
-            window.slider.style.left = getAtInt(window.container, 'left') + getAtInt(window.container, 'width') - getAtInt(window.slider, 'width') + 'px';
-          } else {
-            window.slider.style.left = window.slider.proposedNewPosX + 'px';
-          }
-          window.slider.lastMousePosY = e.pageY;
-          window.slider.lastMousePosX = e.pageX;
-        }
-      };
-    },1);
-
-  
-
-
-
-
-
+  if (tgtRect.left < pRect.left) target.style.left = 0;
+  if (tgtRect.top < pRect.top) target.style.top = 0;
+  if (tgtRect.right > pRect.right) target.style.left = pRect.width - tgtRect.width + 'px';
+  if (tgtRect.bottom > pRect.bottom) target.style.top = pRect.height - tgtRect.height + 'px';
+});
 
 import SiBubble from '../components/SiBubble';
 
@@ -108,72 +58,35 @@ export default {
   },
   
   created() {
-    // setTimeout( function() {
-      
-    //   document.onselectstart = function(e) {
-    //     e.preventDefault();
-    //     return false;
-    //   }
-
-    //   window.slider = document.getElementById('slider');
-    //   window.container = document.getElementById('container');
-
-    //   document.mouseState = 'up';
-    //   window.slider.mouseState = 'up';
-    //   window.slider.lastMousePosY = null;
-    //   window.slider.lastMousePosX = null;
-    //   window.slider.proposedNewPosY = parseInt( window.slider.style.top, 10);
-    //   window.slider.proposedNewPosX = parseInt( window.slider.style.left, 10);
-    // },1);
+   
   },
     methods: {
-      // dMousedown() {
-      //   window.slider.lastMousePosY = 10;
-      //   window.slider.lastMousePosX = 10;
-      //   window.slider.mouseState = 'down';
-      //   document.mouseState = 'down';
-      //   // console.log('div down');
-      // },
-      // dMouseup() {
-      //   window.slider.mouseState = 'up';
-      //   document.mouseState = 'up';
-      //   // console.log('div up');
-      // },
+     
     },
 }
 </script>
 
 <style>
-    body {
-      margin: 0;
-      padding: 0;
+   .container {
+        width: 500px;
+        height: 320px;
+        position: relative;
+        margin: 30px 0 0 40px;
+        border: 1px solid #ccc;
+        background-color:darkgoldenrod;
     }
-    #container {
-      top: 0;
-      left: 0;
-      margin: 0;
-      padding: 0;
-      width: 600px;
-      height: 300px;
-      position : relative;
-      background-color : red;
-      top: 0;
-      left: 0;
+    .draggable {
+        /* width: 300px; */
+        /* height: 50px; */
+        /* background: black; */
+        position: relative;
     }
-    #slider {
-      /* top: 0; */
-      /* left: 0; */
-      margin: 0;
-      padding: 0;
-      /* width: 60px; */
-      /* height: 60px; */
-      cursor: move;
-      /* background: blue; */
-      /* position : absolute; */
-      border: 1px solid black;
-    } 
-    div {
-      cursor : default;
+    .dragger {
+      width: 300px;
+        /* height: 20px;
+        width: 200px; */
+        /* background: red; */
+        position: absolute;
     }
   </style>
 

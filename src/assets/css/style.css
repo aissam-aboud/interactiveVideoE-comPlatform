@@ -17,26 +17,29 @@
     position: absolute;
     visibility: hidden;
 }
+
+[class*="-draggable"] {
+    visibility: hidden;
+}
+
 /* ------------------------------  SiBubble  ------------------------------ */
 .si-bubble {
     width: 20%;
+    color: black;
     cursor: default;
+    user-select: none;
     position: absolute;
     border-radius: 3px;
     font-family: Sans-serif;
-    padding: 10px 0px 10px 10px;
-
-
-    color: black;
-    border: 2px solid #2196f3;
     background-color: #ffffff;
+    border: 2px solid #2196f3;
+    padding: 10px 0px 10px 10px;
     box-shadow: 0px 0px 12px white;
     border-left: 6px solid #2196f3;
-
 }
 .si-bubble p {
-    margin: 0;
     padding: 0;
+    margin: 0;
 }
 .si-bubble:after {
     width: 0;
@@ -53,14 +56,13 @@
     border-color: #ffffff transparent;
 }
 .si-bubble-right:after {
-    left: 82%;
+    left: 78%;
     border-width: 30px 30px 0 0;
 }
 .si-bubble-left:after {
     left: -5%;
     border-width: 30px 0 0 30px;
 }
-
 
 .si-bubble-light {
     color: black;
@@ -82,21 +84,37 @@
 .si-bubble-dark:after {
     border-color: #26272b transparent;
 }
+
+.si-bubble-draggable {
+    width: 20%;
+    height: auto;
+    position: absolute;
+    padding: 0  18px 0 0;
+}
+.si-bubble-dragger {
+    width: 100%;
+    cursor: move;
+    user-select: none;
+    position: relative;
+}
 /* ------------------------------  SiButton  ------------------------------- */
 .si-button {
     width: 15%;
-    color: black;
+    color: white;
     cursor: pointer;
     padding: 4px 0px;
+    user-select: none;
     font-weight: bold;
     position: absolute;
     border-radius: 4px;
     background-color: #2196f3b0;
-    border: 2px solid white;
+    border: 2px solid white;    
+    box-shadow: 0 12px 16px 0 rgba(255, 255, 255, 0.24), 0 17px 50px 0 rgba(255, 255, 255, 0.19);
 }
 .si-button:hover {
     color: white;
-    background-color: #b368d6;
+    background-color: #2196f3;
+    box-shadow: 0px 0px 12px white;
 }
 .si-button-light {
     color: white;
@@ -105,6 +123,7 @@
     box-shadow: 0 12px 16px 0 rgba(255, 255, 255, 0.24), 0 17px 50px 0 rgba(255, 255, 255, 0.19);
 }
 .si-button-light:hover {
+    color: white;
     background-color: #2196f3;
     box-shadow: 0px 0px 12px white;
 }
@@ -115,19 +134,34 @@
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 .si-button-dark:hover {
+    color: black;
     box-shadow: 0 0 10px black;
     background-color: #5600ffc7;
 }
+
+.si-button-draggable {
+    width: 15%;
+    height: auto;
+    position: absolute;
+}
+.si-button-dragger {
+    width: 100%;
+    cursor: move;
+    user-select: none;
+    position: relative;
+}
+
 /* ------------------------------  SiForm  ------------------------------- */
 .si-form {
     width: 22%;
+    user-select: none;
     position: absolute;
     text-align: center;
     border-radius: 2px;
     padding: 5px 10px 12px 10px;
     border: 2px solid white;
     background-color: #2196f399;
-    box-shadow: 0px 0px 24px white;
+    box-shadow: 0px 0px 10px white;
 }
 .si-form input {
     width: 87%;
@@ -155,7 +189,7 @@
 .si-form-light {
     border: 2px solid white;
     background-color: #2196f399;
-    box-shadow: 0px 0px 24px white;
+    box-shadow: 0px 0px 10px white;
 }
 .si-form-light h3 {
     color: white;
@@ -167,7 +201,7 @@
 .si-form-dark {
     border: 2px solid black;
     background-color: #5600ff99;
-    box-shadow: 0px 0px 24px black;
+    box-shadow: 0px 0px 10px black;
 }
 .si-form-dark h3 {
     color: black;
@@ -176,14 +210,32 @@
     color: white;
     background-color: black;
 }
+
+.si-form-draggable {
+    width: 22%;
+    height: auto;
+    position: absolute;
+    padding: 0 24px 0 0;
+}
+.si-form-dragger {
+    width: 100%;
+    cursor: move;
+    user-select: none;
+    position: relative;
+}
 /* ------------------------------  SiLink  ------------------------------- */
 .si-link {
+    color: white;
     font-size: 21px;
+    /* user-select: none; */
     font-weight: bold;
     font-family: serif;
     position: absolute;
     text-transform: uppercase;
-    color: white;
+}
+.si-link p{
+    padding: 0;
+    margin: 0;
 }
 .si-link:hover {
     transform: scale(1.06);
@@ -194,7 +246,21 @@
 }
 .si-link-dark {
     color: black;
-    /* text-shadow: 5px 0px 5px black; */
+}
+
+.si-link-draggable {
+    width: auto;
+    height: auto;
+    position: absolute;
+}
+.si-link-dragger {
+    width: 100%;
+    cursor: move;
+    user-select: none;
+    position: relative;
+}
+.si-link-dragger:hover a{
+    pointer-events: none;
 }
 
 /* ------------------------------  SiSelect  ------------------------------- */
@@ -213,26 +279,22 @@
     text-transform: uppercase;
 }
 .si-select .si-select-text {
-    padding: 5px 0;
     width: 100%;
+    padding: 5px 0;
     color: white;
-    border: 2px solid white;
+    user-select: none;
     border-bottom: none;
+    border: 2px solid white; 
     background-color: #2196f3;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     box-shadow: 0px 0px 24px #2196f3;
 }
-.si-select .si-select-options li:hover {
-    cursor: pointer;
-    color: white;
-    background-color: #2196f3;
-}
 .si-select .si-select-options {
     width: 100%;
     max-height: 200px;
     overflow-y: scroll;
-    position: absolute;
+    /* position: absolute; */
     border: 2px solid white;
     box-shadow: 0px 0px 20px #2196f3;
     border-bottom-left-radius: 3px;
@@ -240,8 +302,14 @@
 }
 .si-select .si-select-options li {
     color: white;
+    user-select: none;
     background-color: #0000009e;
     border-bottom: 1px solid #2196f3;
+}
+.si-select .si-select-options li:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #2196f3;
 }
 .si-select-options::-webkit-scrollbar {
     width: 6px;
@@ -299,12 +367,26 @@
     border-top-right-radius: 3px;
     box-shadow: 0px -8px 24px #5600ff;
 }
+
+.si-select-draggable {
+    width: 24%;
+    height: auto;
+    position: absolute;
+}
+.si-select-dragger {
+    height: 100%;
+    width: 100%;
+    cursor: move;
+    user-select: none;
+    position: relative;
+}
 /* ------------------------------  SiReplayButton  ------------------------------- */
 .btn-replay {
     top: 46%;
     left: 48%;
     width: 40px;
     height: 40px;
+    user-select: none;
     border-radius: 50%;
     position: absolute;
     visibility: visible;
@@ -326,6 +408,7 @@
     left: 48%;
     width: 40px;
     height: 40px;
+    user-select: none;
     border-radius: 50%;
     position: absolute;
     visibility: visible;
@@ -348,9 +431,10 @@
     height: 30px;
     width: 120px; 
     color: white;
-    padding: 0 16px 0 0;
+    user-select: none;
     border-radius: 4px;
     position: absolute;
+    padding: 0 16px 0 0;
     visibility: visible;
     background-color: rgba(61, 60, 60, 0.644);
     border: 2px solid rgba(255, 255, 255, 0.60);
@@ -376,6 +460,7 @@
     padding: 0;
     width: 57px;
     height: 57px;
+    user-select: none;
     border-radius: 50%;
     position: absolute;
     text-align: center;
@@ -388,19 +473,39 @@
     width: 40px;
     filter: invert(99%) sepia(0%) saturate(500%) hue-rotate(0deg);
 }
+
 .si-btn-tag:hover {
     transform: scale(1.1);
     transition-duration: 0.5s;
 }
 .btn-tag-light {
-    background-color: #2196f3;
     border: 2px solid white;
+    background-color: #2196f3;
     box-shadow: 0 0 15px white;
 }
 .btn-tag-dark {
-    background-color: #5600ff;
     border: 2px solid black;
+    background-color: #5600ff;
     box-shadow: 0 0 15px black;
+}
+
+.si-btn-tag-draggable {
+    width: 57px;
+    height: 57px;
+    position: absolute;
+}
+.si-btn-tag-dragger {
+    height: 100%;
+    width: 100%;
+    cursor: move;
+    user-select: none;
+    position: relative;
+}
+.si-btn-tag-dragger:hover {
+    transform: scale(1);
+}
+.si-btn-tag-dragger:hover img {
+    pointer-events: none;
 }
 
 /* ------------------------------  responsive  ------------------------------- */

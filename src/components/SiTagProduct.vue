@@ -1,9 +1,9 @@
 <template>
     <button :class="`si-btn-tag btn-tag-${theme}`">
-        <!-- <a :href="url" target="_blank">Click <br> to buy</a>    -->
         <a :href="url" target="_blank">
             <img src="./../assets/click-icon.png" alt="">    
-        </a>   
+        </a>  
+         
     </button>
 </template>
 <script>

@@ -1,13 +1,13 @@
 <template>
     <div class="main-menu">
         <ul>
-                <li @click="getComponentName('SiSelect')" class="menu-item"><i class="fas fa-list"></i>Select</li>
-                <li @click="getComponentName('SiLink') " class="menu-item"><i class="fas fa-paperclip"></i>Link</li>
-                <li @click="getComponentName('SiBubble') " class="menu-item"><i class="fas fa-comment-dots"></i>Bubble</li>
-                <li @click="getComponentName('SiForm') " class="menu-item"><i class="fas fa-align-left"></i>Form</li>
-                <li @click="getComponentName('SiButton') " class="menu-item"><i class="fas fa-mouse"></i>Button</li>
-                <li @click="getComponentName('SiTagProduct') " class="menu-item"><i class="fas fa-tags"></i>Tag product</li>
-                <li @click="getComponentName('SiMoveTo') " class="menu-item"><i class="fas fa-forward"></i>Move video to</li>
+                <li @click="getComponentName('SiSelect', 'select')" class="menu-item"><i class="fas fa-list"></i>Select</li>
+                <li @click="getComponentName('SiLink', 'link') " class="menu-item"><i class="fas fa-paperclip"></i>Link</li>
+                <li @click="getComponentName('SiBubble', 'bubble') " class="menu-item"><i class="fas fa-comment-dots"></i>Bubble</li>
+                <li @click="getComponentName('SiForm', 'form') " class="menu-item"><i class="fas fa-align-left"></i>Form</li>
+                <li @click="getComponentName('SiButton', 'button') " class="menu-item"><i class="fas fa-mouse"></i>Button</li>
+                <li @click="getComponentName('SiTagProduct', 'btn-tag') " class="menu-item"><i class="fas fa-tags"></i>Tag product</li>
+                <li @click="getComponentName('SiMoveTo', '') " class="menu-item"><i class="fas fa-forward"></i>Move video to</li>
         </ul>
     </div>
 </template>
@@ -17,8 +17,8 @@ export default {
     name: 'SiSidebar',
 
     methods: {
-        getComponentName(componentName) {
-            this.$emit("getComponentName", componentName);
+        getComponentName(componentName, componentDraggClass) {
+            this.$emit("getComponentName", componentName, componentDraggClass);
         }
     }
 

@@ -21,32 +21,54 @@
                         :style="{visibility: 'visible', top: top+'%', left: left+'%'}"
                     /> -->
                    
-       
-                    <SiBubble 
-                        id="compoo"
-                        :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme"
-                        :arrow="arrow" :text="text"
-                    />
-
-                    <SiLink v-if="componentName == 'SiLink'" 
+                    <div class="si-bubble-draggable">
+                        <SiBubble v-if="componentName == 'SiBubble'"
+                            class="si-bubble-dragger"
+                            :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme"
+                            :arrow="arrow" :text="text"
+                        />
+                    </div>
+                    <div class="si-link-draggable">
+                        <SiLink v-if="componentName == 'SiLink'" 
+                        class="si-link-dragger"
                         :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
                         :text="text" :url="url"
                     />
-                    <SiForm v-if="componentName == 'SiForm'"  id="compoo"
-                        :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
-                    />
-                    <SiSelect v-if="componentName == 'SiSelect'" 
-                        :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme"
-                        :select_title="selectTitle" :items="selectItems"
-                    />
-                    <SiButton v-if="componentName == 'SiButton'" 
-                        :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme"  
-                        :text="text" :moveTo=0
-                    />
-                    <SiTagProduct v-if="componentName == 'SiTagProduct'" 
-                        :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
-                         :url="url"
-                    />
+                    </div>
+                    <div class="si-button-draggable">
+                        <SiButton 
+                            class="si-button-dragger"
+                            v-if="componentName == 'SiButton'" 
+                            :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme"  
+                            :text="text" :moveTo=0
+                        />
+                    </div>
+                    <div class="si-form-draggable">
+                        <SiForm v-if="componentName == 'SiForm'"  
+                            class="si-form-dragger"
+                            :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
+                        />
+                    </div>
+                    <div class="si-select-draggable">
+                         <SiSelect v-if="componentName == 'SiSelect'" 
+                            class="si-select-dragger"
+                            :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme"
+                            :select_title="selectTitle" :items="selectItems"
+                        />
+                    </div>
+                    <div class="si-btn-tag-draggable">
+                        <SiTagProduct v-if="componentName == 'SiTagProduct'" 
+                            id="azaz"
+                            class="si-btn-tag-dragger"
+                            :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
+                            :url="url"
+                        />
+                    </div>
+                    
+                    
+                   
+                    
+                    
                 </div>
                 <video class="siVideo" controls>
                     <source src="../assets/video.mp4" type="video/mp4" >
@@ -173,88 +195,49 @@
 </template>
 
 <script>
+
+// draggabel link is clicked
+// bottom of the bubble cross the divelements
+// draggabel button also clicked
+
+var componentDraggClass;
+var x, y, target = null;
+document.addEventListener('mousedown', function(e) {
+    // var bb = document.querySelector("#elementsDiv > div.si-select-draggable").offsetHeight;
+    var clickedDragger = false;
+    for(var i = 0; e.path[i] !== document.body; i++) {
+        if (e.path[i].classList.contains(`si-${componentDraggClass}-dragger`)) {
+            clickedDragger = true;
+        }
+        else if (clickedDragger && e.path[i].classList.contains(`si-${componentDraggClass}-draggable`)) {
+            target = e.path[i];
+            target.classList.add('dragging');
+            x = e.clientX - target.style.left.slice(0, -2);
+            y = e.clientY - target.style.top.slice(0, -2);
+            return;
+        }
+    }
+});
+
+document.addEventListener('mouseup', function() {
+    if (target !== null) target.classList.remove('dragging');
+    target = null;
+});
+
+document.addEventListener('mousemove', function(e) {
+    if (target === null) return;
+    target.style.left = e.clientX - x + 'px';
+    target.style.top = e.clientY - y + 'px';
+    var pRect = target.parentElement.getBoundingClientRect();
+    var tgtRect = target.getBoundingClientRect();
+
+    if (tgtRect.left < pRect.left) target.style.left = 0;
+    if (tgtRect.top < pRect.top) target.style.top = 0;
+    if (tgtRect.right > pRect.right) target.style.left = pRect.width - tgtRect.width + 'px';
+    if (tgtRect.bottom > pRect.bottom) target.style.top = pRect.height - tgtRect.height + 'px';
+});
+
 // https://esstudio.site/2018/11/01/create-draggable-elements-with-javascript.html
-
-    // setTimeout( function() {
-    //     document.onselectstart = function(e) {
-    //         e.preventDefault();
-    //         return false;
-    //     }
-
-    //     window.sliderr = document.getElementById('compoo');
-    //     window.containerr = document.getElementById('elementsDiv');
-
-    //     document.mouseState = 'up';
-    //     window.sliderr.mouseState = 'up';
-    //     window.sliderr.lastMousePosY = null;
-    //     window.sliderr.lastMousePosX = null;
-    //     window.sliderr.proposedNewPosY = parseInt(window.sliderr.style.top, 10);
-    //     window.sliderr.proposedNewPosX = parseInt(window.sliderr.style.left, 10);
-       
-    //     window.sliderr.style.top = 0;
-    //     window.sliderr.style.left = 0;
-    //     window.containerr.style.top = 0;
-    //     window.containerr.style.left = 0;
-
-    //     // window.sliderr.style.maxHeight = '50px';
-    //     // window.sliderr.style.width = '20%';
-    //     window.sliderr.style.height = document.querySelector("#compoo").offsetWidth+'px';
-    //     window.sliderr.style.width = document.querySelector("#compoo").offsetWidth+'px';
-
-    //     window.containerr.style.height = '357px';
-    //     window.containerr.style.width = '780px';
-
-    //     document.onmousedown = function() {
-    //         document.mouseState = 'down';
-    //     };
-
-    //     document.onmouseup = function() {
-    //         document.mouseState = 'up';
-    //         window.sliderr.mouseState = 'up';
-    //     };
-
-    //     window.sliderr.onmousedown = function(e) {
-    //         window.sliderr.lastMousePosY = e.pageY;
-    //         window.sliderr.lastMousePosX = e.pageX;
-    //         window.sliderr.mouseState = 'down';
-    //         document.mouseState = 'down';
-    //     };
-
-    //     window.sliderr.onmouseup = function() {
-    //         window.sliderr.mouseState = 'up';
-    //         document.mouseState = 'up';
-    //     };    
-
-    //     var getAtInt = function getAtInt(obj, attrib) {
-    //         return parseInt(obj.style[attrib], 10);
-    //     };   
-
-    //     document.onmousemove = function(e) {
-    //         if ((document.mouseState === 'down') && (window.sliderr.mouseState === 'down')) {
-    //         window.sliderr.proposedNewPosY = getAtInt(window.sliderr, 'top') + e.pageY - window.sliderr.lastMousePosY;
-    //         window.sliderr.proposedNewPosX = getAtInt(window.sliderr, 'left') + e.pageX - window.sliderr.lastMousePosX;
-
-    //         if (window.sliderr.proposedNewPosY < getAtInt(window.containerr, 'top')) {
-    //             window.sliderr.style.top = window.containerr.style.top;
-    //         } else if (window.sliderr.proposedNewPosY > getAtInt(window.containerr, 'top') + getAtInt(window.containerr, 'height') - getAtInt(window.sliderr, 'height')) {
-    //             window.sliderr.style.top = getAtInt(window.containerr, 'top') + getAtInt(window.containerr, 'height') - getAtInt(window.sliderr, 'height') + 'px';
-    //         } else {
-    //             window.sliderr.style.top = window.sliderr.proposedNewPosY + 'px';
-    //         }
-
-    //         if (window.sliderr.proposedNewPosX < getAtInt(window.containerr, 'left')) {
-    //             window.sliderr.style.left = window.containerr.style.left;
-    //         } else if (window.sliderr.proposedNewPosX > getAtInt(window.containerr, 'left') + getAtInt(window.containerr, 'width') - getAtInt(window.sliderr, 'width')) {
-    //             window.sliderr.style.left = getAtInt(window.containerr, 'left') + getAtInt(window.containerr, 'width') - getAtInt(window.sliderr, 'width') + 'px';
-    //         } else {
-    //             window.sliderr.style.left = window.sliderr.proposedNewPosX + 'px';
-    //         }
-    //         window.sliderr.lastMousePosY = e.pageY;
-    //         window.sliderr.lastMousePosX = e.pageX;
-    //         }
-    //     };
-    // },2000);
-
 
 import SiLink from '../components/SiLink';
 import SiForm from '../components/SiForm';
@@ -300,9 +283,6 @@ export default {
         window.ele = this.$refs.sliderr;
     },
     methods: {
-        aa() {
-            console.log('mouse down');
-        },
         openNavbar() {
             document.getElementsByClassName("main-menu")[0].style.width = "16%";
             document.getElementsByClassName("container")[0].style.width = "80%";
@@ -311,25 +291,12 @@ export default {
             document.getElementsByClassName("main-menu")[0].style.width = "5%";
             document.getElementsByClassName("container")[0].style.width = "90%";
         },
-        getComponentName(componentName){
+        getComponentName(componentName, draggClass){
             this.componentName = componentName;
+            componentDraggClass = draggClass;
             this.isOpened = true;
             document.getElementsByClassName("main-menu")[0].style.width = "16%";
             document.getElementsByClassName("container")[0].style.width = "80%";
-
-            // if(componentName == 'SiBubble') {
-            //     this.componentProps = {
-            //         theme: this.theme,
-            //         arrow: this.arrow,
-            //         text: this.text,
-            //     }
-            // }
-            // elseif(componentName == '') {}
-            // elseif(componentName == '') {}
-            // elseif(componentName == '') {}
-            // elseif(componentName == '') {}
-            // elseif(componentName == '') {}
-            // elseif(componentName == '') {}
         },
         addSelectItem(item) {
             this.selectItems.push(item);
@@ -338,6 +305,7 @@ export default {
         }
     },
 }
+
 </script>
 
 <style scoped>
@@ -357,12 +325,11 @@ export default {
     padding: 10px 2% 0 2%;
 }
 
-
 .container .video-container {
     margin-top: 20px;
     float: left;
 
-    position: relative;
+    position: absolute;
     z-index: 0;
 }
 .container .video-container .siVideo {
@@ -373,12 +340,15 @@ export default {
     top: 0;
     left: 0;
     z-index: 1;
-    width: 800px;
-    height: 345;
+    /* z-index: 0; video untachabl */
+    width: 780px;
+    height: 357px;
+    /* height: 340px; */
+    margin: 0;
     position: absolute;
-    visibility: hidden;
+    visibility: visible;
+    overflow: hidden;
 }
-
 
 .btn1{
     z-index: 1;

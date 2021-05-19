@@ -1,14 +1,18 @@
 <template>
+
     <div class="container">
-      <!-- <div> -->
-        <div class="draggable dragger">
-          <SiBubble :style="{visibility: 'visible', top: '0%', left: '0%'}" theme="light"
+
+      <div class="draggable">
+        <div class="dragger">
+          aaaaaaaaa <br>
+          fffffff
+        </div>
+      </div>
+        <!-- <div class="draggable">
+          <SiBubble class="dragger" :style="{visibility: 'visible', top: '0%', left: '0%'}" theme="light"
                             arrow="left" text="hhh bbbb bbbb hhh"
           />
-          <!-- <div class="dragger">
-            
-          </div> -->
-        </div>
+        </div> -->
 
     </div>
 </template>
@@ -50,11 +54,11 @@ document.addEventListener('mousemove', function(e) {
   if (tgtRect.bottom > pRect.bottom) target.style.top = pRect.height - tgtRect.height + 'px';
 });
 
-import SiBubble from '../components/SiBubble';
+// import SiBubble from '../components/SiBubble';
 
 export default {
   components: {
-    SiBubble,
+    // SiBubble,
   },
   
   created() {
@@ -66,27 +70,25 @@ export default {
 }
 </script>
 
-<style>
-   .container {
+<style scoped>
+    /* .container {
         width: 500px;
         height: 320px;
         position: relative;
         margin: 30px 0 0 40px;
         border: 1px solid #ccc;
-        background-color:darkgoldenrod;
-    }
+        background-color:white; 
+    }*/
     .draggable {
-        /* width: 300px; */
-        /* height: 50px; */
-        /* background: black; */
-        position: relative;
+        /* width: 200px; */
+
+        /* background: black;
+      */  position: relative; 
     }
     .dragger {
-      width: 300px;
-        /* height: 20px;
-        width: 200px; */
-        /* background: red; */
-        position: absolute;
+        /* height: 40px; */
+        /* background: yellow; */
+        position: relative;
     }
   </style>
 

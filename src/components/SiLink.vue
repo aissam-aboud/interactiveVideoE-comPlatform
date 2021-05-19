@@ -1,5 +1,9 @@
 <template>
-    <a ref="link" :class="`si-link si-link-${theme}`" :href="url" target="_blank">{{text}}</a>
+    <!-- <div class="aaa"> -->
+        <a ref="link" :class="`si-link si-link-${theme}`" :href="url" target="_blank">
+            <p>{{text}}</p>
+        </a>
+    <!-- </div> -->
 </template>
 
 <script>

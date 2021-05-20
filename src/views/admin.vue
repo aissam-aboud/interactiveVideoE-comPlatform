@@ -13,14 +13,12 @@
                 <button v-if="isOpened" class="btn1" @click="closeNavbar(), isOpened = false">Close</button>
             </div>
             <div class="video-container">
-                <div id="elementsDiv" class="elementsDiv">
-                        
+                <div id="elementsDiv" class="elementsDiv">   
                     <!-- <component id="compoo"
                         :is="'SiBubble'" 
                         v-bind="{theme: theme,arrow: arrow,text: text,}" 
                         :style="{visibility: 'visible', top: top+'%', left: left+'%'}"
                     /> -->
-                   
                     <div class="si-bubble-draggable">
                         <SiBubble v-if="componentName == 'SiBubble'"
                             class="si-bubble-dragger"
@@ -63,53 +61,51 @@
                             :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
                             :url="url"
                         />
-                    </div>
-                    
-                    
-                   
-                    
-                    
+                    </div> 
                 </div>
                 <video class="siVideo" controls>
                     <source src="../assets/video.mp4" type="video/mp4" >
                 </video>
-
-                <div v-if="componentName!='' && isOpened" class="input-group">
+            </div>
+            
+            <div class="elements-form">
+                <div class="input-group" v-if="componentName!='' && isOpened">
                     <h2>Fill in this form please</h2>
+                    <button @click="az()">Click</button>
                     <div v-if="componentName!='SiMoveTo'">
                         <div class="form-block">
                             <div class="form-block-item">
-                                <label class="input-label">Start Time</label>
-                                <input class="input-group-item" type="number" min="0">
+                                <label class="form-label">Start Time</label>
+                                <input class="form-input" type="number" min="0">
                             </div>
                             <div class="form-block-item">
-                                <label class="input-label">End Time</label>
-                                <input class="input-group-item" type="number" min="0">
+                                <label class="form-label">End Time</label>
+                                <input class="form-input" type="number" min="0">
                             </div>
                         </div>
                         <div class="form-block">
                             <div class="form-block-item">
-                                <label class="input-label">Position X</label>
-                                <input class="input-group-item" v-model="left"
+                                <label class="form-label">Position X</label>
+                                <input class="form-input" v-model="left"
                                     type="number" min="0" :max="maxX">
                             </div>
                             <div class="form-block-item">
-                                <label class="input-label">Position Y</label>
-                                <input class="input-group-item" v-model="top"
+                                <label class="form-label">Position Y</label>
+                                <input class="form-input" v-model="top"
                                     type="number" min="0" :max="maxY">
                             </div>
                         </div>
                         <div class="form-block">
                             <div class="form-block-item">
-                                <label class="input-label">Skippable</label>
-                                <select class="input-group-item" name="skippable" v-model="skippable">
+                                <label class="form-label">Skippable</label>
+                                <select class="form-input" name="skippable" v-model="skippable">
                                     <option value="no">No</option>
                                     <option value="yes">Yes</option>
                                 </select>
                             </div>
                             <div class="form-block-item">
-                                <label class="input-label">Theme</label>
-                                <select class="input-group-item" name="theme" v-model="theme">
+                                <label class="form-label">Theme</label>
+                                <select class="form-input" name="theme" v-model="theme">
                                     <option value="light">Light</option>
                                     <option value="dark">Dark</option>
                                 </select>
@@ -118,12 +114,12 @@
                         <!-- Bubble -->
                         <div class="form-block" v-if="componentName=='SiBubble'">
                             <div class="form-block-item">
-                                <label class="input-label">Text</label>
-                                <input class="input-group-item" type="text" v-model="text">
+                                <label class="form-label">Text</label>
+                                <input class="form-input" type="text" v-model="text">
                             </div>
                             <div class="form-block-item">
-                                <label class="input-label">Arrow</label>
-                                <select class="input-group-item" name="arrow" v-model="arrow">
+                                <label class="form-label">Arrow</label>
+                                <select class="form-input" name="arrow" v-model="arrow">
                                     <option value="left">Left</option>
                                     <option value="right">right</option>
                                 </select>
@@ -132,60 +128,60 @@
                         <!-- Button -->
                         <div class="form-block" v-if="componentName=='SiButton'">
                             <div class="form-block-item">
-                                <label class="input-label">Text</label>
-                                <input class="input-group-item" type="text" v-model="text">
+                                <label class="form-label">Text</label>
+                                <input class="form-input" type="text" v-model="text">
                             </div>
                             <div class="form-block-item">
-                                <label class="input-label">Move to</label>
-                                <input class="input-group-item" type="number" v-model="moveTo">
+                                <label class="form-label">Move to</label>
+                                <input class="form-input" type="number" v-model="moveTo">
                             </div>
                         </div>
                         <!-- Link -->
                         <div class="form-block" v-if="componentName=='SiLink'">
                             <div class="form-block-item">
-                                <label class="input-label">Text</label>
-                                <input class="input-group-item" type="text" v-model="text">
+                                <label class="form-label">Text</label>
+                                <input class="form-input" type="text" v-model="text">
                             </div>
                             <div class="form-block-item">
-                                <label class="input-label">URL</label>
-                                <input class="input-group-item" type="text" v-model="url">
+                                <label class="form-label">URL</label>
+                                <input class="form-input" type="text" v-model="url">
                             </div>
                         </div>
                         <!-- Select -->
                         <form v-if="componentName=='SiSelect'" class="form-block" @submit.prevent="addSelectItem({name: selectItemName, moveTo: selectItemMoveto})">
                             <div class="form-block">
                                 <div class="form-block-item">
-                                    <label class="input-label">Select title</label>
-                                    <input class="input-group-item" type="text" v-model="selectTitle" required>
+                                    <label class="form-label">Select title</label>
+                                    <input class="form-input" type="text" v-model="selectTitle" required>
                                 </div>
                             </div>
                             <div class="form-block-item">
-                                <label class="input-label">Item name</label>
-                                <input class="input-group-item" type="text" v-model="selectItemName" required>
+                                <label class="form-label">Item name</label>
+                                <input class="form-input" type="text" v-model="selectItemName" required>
                             </div>
                             <div class="form-block-item" style="margin-right: 10px;">
-                                <label class="input-label">Item value(Move to)</label>
-                                <input class="input-group-item" type="text" v-model="selectItemMoveto" required>
+                                <label class="form-label">Item value(Move to)</label>
+                                <input class="form-input" type="text" v-model="selectItemMoveto" required>
                             </div>
                             <button class="add-select-btn">+</button>
                         </form>
                         <!-- Tag product -->
                         <div class="form-block" v-if="componentName=='SiTagProduct'">
                             <div class="form-block-item">
-                                <label class="input-label">URL</label>
-                                <input class="input-group-item" type="text" v-model="url">
+                                <label class="form-label">URL</label>
+                                <input class="form-input" type="text" v-model="url">
                             </div>
                         </div>
                     </div>
                     <!-- Move to -->
                     <div class="form-block" v-if="componentName=='SiMoveTo'">
                         <div class="form-block-item">
-                            <label class="input-label">Start Time</label>
-                            <input class="input-group-item" type="number">
+                            <label class="form-label">Start Time</label>
+                            <input class="form-input" type="number">
                         </div>
                         <div class="form-block-item">
-                            <label class="input-label">Move to</label>
-                            <input class="input-group-item" type="number" v-model="moveTo" required>
+                            <label class="form-label">Move to</label>
+                            <input class="form-input" type="number" v-model="moveTo" required>
                         </div>
                     </div>
                 </div>
@@ -195,13 +191,8 @@
 </template>
 
 <script>
-setTimeout(()=> {
-    var at = document.querySelector("div.si-link-draggable > a > p")
-    console.log(at);
-    // at.addEventListener('mouseup', ()=> {
-        
-    // });
-},1);
+// use settimeout to call getcurrenttime trying to get the same values
+// responsive forme and video
 // bottom of the bubble cross the divelements
 
 var componentDraggClass;
@@ -286,9 +277,19 @@ export default {
         window.ele = this.$refs.sliderr;
     },
     methods: {
+        az() {
+            var top = document.getElementsByClassName('si-bubble-draggable')[0].style.top.slice(0, -2);
+            var left = document.getElementsByClassName('si-bubble-draggable')[0].style.left.slice(0, -2);
+            var vhei = document.querySelector("#app > div > div.container > div.video-container > video").offsetHeight;
+            var vwid = document.querySelector("#app > div > div.container > div.video-container > video").offsetWidth;
+            var pt = (top / vhei) * 100;
+            var pl = (left / vwid) * 100;
+            console.log(pt, +' '+pl);
+        },
+        
         openNavbar() {
-            document.getElementsByClassName("main-menu")[0].style.width = "16%";
-            document.getElementsByClassName("container")[0].style.width = "80%";
+            document.getElementsByClassName("main-menu")[0].style.width = "14%";
+            document.getElementsByClassName("container")[0].style.width = "81%";
         },
         closeNavbar() {
             document.getElementsByClassName("main-menu")[0].style.width = "5%";
@@ -298,8 +299,8 @@ export default {
             this.componentName = componentName;
             componentDraggClass = draggClass;
             this.isOpened = true;
-            document.getElementsByClassName("main-menu")[0].style.width = "16%";
-            document.getElementsByClassName("container")[0].style.width = "80%";
+            document.getElementsByClassName("main-menu")[0].style.width = "14%";
+            document.getElementsByClassName("container")[0].style.width = "81%";
         },
         addSelectItem(item) {
             this.selectItems.push(item);
@@ -324,19 +325,24 @@ export default {
     width: 90%;
     float: right;
     transition: .3s ease;
-    padding: 10px 2% 0 2%;
+    padding: 10px 4% 0 2%;
+
+    position: relative;
 }
 
 .container .video-container {
     margin-top: 20px;
     float: left;
 
-    position: absolute;
+    /* position: absolute; */
+    position: relative;
     z-index: 0;
 }
 .container .video-container .siVideo {
     width: 780px;
     height: auto;
+    position: absolute;
+    /* overflow: hidden; */
 }
 .container .video-container .elementsDiv {
     top: 0;
@@ -388,34 +394,43 @@ export default {
 }
 
 
-.video-container .input-group {
-    width: 260px;
+.container .elements-form{
+    width: 25%;
     float: right;
+    position: relative;
 }
-.video-container .input-group h2{
+
+.container .input-group {
+    position: relative;
+    margin: 20px 0 0 100px;
+    width: 100%;
+    float: right;
+    
+}
+.container .input-group h2{
     color: #2196f3;
     margin-bottom: 15px;
 }
-.video-container .input-group .input-group-item{
+.container .input-group .form-input{
     padding: 5px 5px;
     margin: 20px 0 8px 0;
     width: 100%;
     position: relative;
     border-radius: 5px;
     border: 1px solid grey;
+    outline: none;
 }
-.video-container .input-group .input-label{
+
+.container .input-group .form-label{
     font-size: 12px;
     margin-top: 5px;
     position: absolute;
 }
-
-
-.video-container .input-group .form-block {
+.container .input-group .form-block {
     position: relative;
     overflow: hidden;
 }
-.video-container .input-group .form-block .form-block-item{
+.container .input-group .form-block .form-block-item{
     width: 35%;
     margin-right: 9%;
     display: inline-block;
@@ -424,12 +439,21 @@ export default {
 .add-select-btn {
     width: 20px; 
     height: 20px;
+    cursor: pointer;
     color: #2196f3;
     /* font-size: 17px; */
+    border-radius: 4px;
     margin: 0 0 0 15px;
     background-color: white;
     border: 2px solid #2196f3;
-    border-radius: 4px;
     box-shadow: 0 0 10px rgb(163, 163, 163);
 }
+.add-select-btn:hover {
+    transform: scale(1.08);
+}
+
+@media only screen and (max-width: 411px) {
+
+}
+
 </style>

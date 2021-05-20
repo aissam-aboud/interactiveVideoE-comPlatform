@@ -271,6 +271,8 @@ export default {
             selectTitle: '',
             selectItemName: '',
             selectItemMoveto: '',
+            x: 0,
+            y:0,
         }
     },
     created() {
@@ -284,9 +286,11 @@ export default {
             var vwid = document.querySelector("#app > div > div.container > div.video-container > video").offsetWidth;
             var pt = (top / vhei) * 100;
             var pl = (left / vwid) * 100;
-            console.log(pt, +' '+pl);
+            console.log('aa : '+pt, +' '+pl);
+            document.getElementsByClassName('si-bubble-draggable')[0].style.top = pt+'%';
+            document.getElementsByClassName('si-bubble-draggable')[0].style.left = pl+'%';
         },
-        
+
         openNavbar() {
             document.getElementsByClassName("main-menu")[0].style.width = "14%";
             document.getElementsByClassName("container")[0].style.width = "81%";

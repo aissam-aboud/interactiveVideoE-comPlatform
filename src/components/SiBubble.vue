@@ -1,5 +1,5 @@
 <template>
-    <div ref="bubble" :class="`si-bubble si-bubble-${theme} si-bubble-${arrow}`">
+    <div ref="bubble" :class="`si-bubble si-bubble-${theme} si-bubble-${arrow}`" oncontextmenu="return false">
         <p>{{text}}</p>
     </div>
 </template>

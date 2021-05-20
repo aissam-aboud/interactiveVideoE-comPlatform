@@ -1,5 +1,5 @@
 <template>
-	<button :class="`btn-play btn-play-${theme}`" @click="playVideo()">
+	<button :class="`btn-play btn-play-${theme}`" @click="playVideo()" oncontextmenu="return false">
 		<img class="icon" src="./../assets/play-icon.png">
 	</button>
 </template>

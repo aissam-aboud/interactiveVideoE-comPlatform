@@ -109,29 +109,29 @@
     border-radius: 4px;
     background-color: #2196f3b0;
     border: 2px solid white;    
-    box-shadow: 0 12px 16px 0 rgba(255, 255, 255, 0.24), 0 17px 50px 0 rgba(255, 255, 255, 0.19);
+    box-shadow: 0 0px 6px 0px white;
 }
 .si-button:hover {
     color: white;
     background-color: #2196f3;
-    box-shadow: 0px 0px 12px white;
+    box-shadow: 0px 0px 10px white;
 }
 .si-button-light {
     color: white;
     border: 2px solid white;
-    background-color: #2196f3b0;
-    box-shadow: 0 12px 16px 0 rgba(255, 255, 255, 0.24), 0 17px 50px 0 rgba(255, 255, 255, 0.19);
+    background-color: #2196f3b0;    
+    box-shadow: 0 0 6px 0 white;
 }
 .si-button-light:hover {
     color: white;
     background-color: #2196f3;
-    box-shadow: 0px 0px 12px white;
+    box-shadow: 0px 0px 10px white;
 }
 .si-button-dark {
     color: black;
     background-color: #5600ff7a;
     border: 2px solid black;
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 0 6px 0 black;
 }
 .si-button-dark:hover {
     color: black;
@@ -149,6 +149,9 @@
     cursor: move;
     user-select: none;
     position: relative;
+}
+.si-button-dragger:active {
+    pointer-events: none;
 }
 
 /* ------------------------------  SiForm  ------------------------------- */
@@ -173,11 +176,15 @@
 .si-form button {
     width: 35%;
     border: none;
+    cursor: pointer;
+    color: black;
     padding: 3px 10px;
     font-weight: bold;
     border-radius: 3px;
-    color: black;
     background-color: white;
+}
+.si-form button:hover {
+    transform: scale(1.02);
 }
 .si-form h3 {
     margin: 2px;
@@ -234,8 +241,8 @@
     text-transform: uppercase;
 }
 .si-link p{
-    padding: 0;
     margin: 0;
+    padding: 0;
 }
 .si-link:hover {
     transform: scale(1.06);
@@ -259,10 +266,9 @@
     user-select: none;
     position: relative;
 }
-.si-link-dragger:hover a{
+.si-link-dragger:active {
     pointer-events: none;
 }
-
 /* ------------------------------  SiSelect  ------------------------------- */
 .si-select {
     margin: 0;

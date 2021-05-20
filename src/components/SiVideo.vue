@@ -22,7 +22,7 @@
         </div>
         
         <!-- <video @click="getCursorPosition()" ref="siVideo" class="siVideo" controls @timeupdate="getCurrentTime()" @ended="onEnd()"> -->
-        <video ref="siVideo" class="siVideo" controls @timeupdate="getCurrentTime()" @ended="onEnd()">
+        <video ref="siVideo" class="siVideo" controls @timeupdate="getCurrentTime()" @ended="onEnd()" oncontextmenu="return false">
             <source src="../assets/video.mp4" type="video/mp4" >
         </video>
 

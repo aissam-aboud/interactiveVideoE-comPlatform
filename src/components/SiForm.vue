@@ -1,5 +1,5 @@
 <template>
-    <div ref="form" :class="`si-form si-form-${theme}`">
+    <div ref="form" :class="`si-form si-form-${theme}`" oncontextmenu="return false">
         <h3>Sign up for our newsletter</h3>
         <form>
             <input type="text" placeholder="First name" required>

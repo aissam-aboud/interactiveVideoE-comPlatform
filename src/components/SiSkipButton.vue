@@ -1,5 +1,5 @@
 <template>
-    <button ref="skipBtn" :class="`btn-skip btn-skip-${theme}`" @click="skip()">
+    <button ref="skipBtn" :class="`btn-skip btn-skip-${theme}`" @click="skip()" oncontextmenu="return false">
         SKIP
         <img class="icon" src="./../assets/skip-icon.png">
     </button>

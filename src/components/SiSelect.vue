@@ -1,5 +1,5 @@
 <template>
-    <ul :class="`si-select si-select-${theme}`" ref="SiList">
+    <ul :class="`si-select si-select-${theme}`" ref="SiList" oncontextmenu="return false">
         <li class="si-select-text">{{select_title}}</li>
         <div class="si-select-options">
             <li class="si-select-item" v-for="(item, index) in items" :key="index" @click="chooseOption(item.moveTo)">{{item.name}}</li>

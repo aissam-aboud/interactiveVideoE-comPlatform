@@ -1,5 +1,5 @@
 <template>
-    <button ref="btn" :class="`si-button si-button-${theme}`" @click="clickButtonEvent()">{{text}}</button>
+    <button ref="btn" :class="`si-button si-button-${theme}`" @click="clickButtonEvent()" oncontextmenu="return false">{{text}}</button>
 </template>
 
 <script>

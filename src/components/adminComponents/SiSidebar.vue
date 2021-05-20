@@ -1,5 +1,5 @@
 <template>
-    <div class="main-menu">
+    <div class="main-menu" oncontextmenu="return false">
         <ul>
                 <li @click="getComponentName('SiSelect', 'select')" class="menu-item"><i class="fas fa-list"></i>Select</li>
                 <li @click="getComponentName('SiLink', 'link') " class="menu-item"><i class="fas fa-paperclip"></i>Link</li>

@@ -195,15 +195,18 @@
 </template>
 
 <script>
-
-// draggabel link is clicked
+setTimeout(()=> {
+    var at = document.querySelector("div.si-link-draggable > a > p")
+    console.log(at);
+    // at.addEventListener('mouseup', ()=> {
+        
+    // });
+},1);
 // bottom of the bubble cross the divelements
-// draggabel button also clicked
 
 var componentDraggClass;
 var x, y, target = null;
 document.addEventListener('mousedown', function(e) {
-    // var bb = document.querySelector("#elementsDiv > div.si-select-draggable").offsetHeight;
     var clickedDragger = false;
     for(var i = 0; e.path[i] !== document.body; i++) {
         if (e.path[i].classList.contains(`si-${componentDraggClass}-dragger`)) {
@@ -315,7 +318,6 @@ export default {
     padding:0;
 }
 .main{
-    /* background-color: #ebebeb; */
     font-family: 'Fira Sans', sans-serif;
 }
 .container{

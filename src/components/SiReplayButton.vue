@@ -1,5 +1,5 @@
 <template>
-	<button :class="`btn-replay btn-replay-${theme}`" @click="replayVideo()">
+	<button :class="`btn-replay btn-replay-${theme}`" @click="replayVideo()" oncontextmenu="return false">
 		<img class="icon" src="./../assets/replay-icon.png">
 	</button>
 </template>

@@ -46,6 +46,7 @@ export default {
 }
 .main-menu .menu-item{
     padding: 10px;
+    user-select: none;
 }
 .main-menu .menu-item:hover{
     cursor: pointer;

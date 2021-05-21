@@ -18,7 +18,7 @@
                         :is="'SiBubble'" 
                         v-bind="{theme: theme,arrow: arrow,text: text,}" 
                         :style="{visibility: 'visible', top: top+'%', left: left+'%'}"
-                    /> -->
+                    /> -->>
                     <div class="si-bubble-draggable">
                         <SiBubble v-if="componentName == 'SiBubble'"
                             class="si-bubble-dragger"
@@ -71,7 +71,6 @@
             <div class="elements-form">
                 <div class="input-group" v-if="componentName!='' && isOpened">
                     <h2>Fill in this form please</h2>
-                    <button @click="az()">Click</button>
                     <div v-if="componentName!='SiMoveTo'">
                         <div class="form-block">
                             <div class="form-block-item">
@@ -86,12 +85,12 @@
                         <div class="form-block">
                             <div class="form-block-item">
                                 <label class="form-label">Position X</label>
-                                <input class="form-input" v-model="left"
+                                <input class="form-input" :value="leftt"
                                     type="number" min="0" :max="maxX">
                             </div>
                             <div class="form-block-item">
                                 <label class="form-label">Position Y</label>
-                                <input class="form-input" v-model="top"
+                                <input class="form-input" :value="topp"
                                     type="number" min="0" :max="maxY">
                             </div>
                         </div>
@@ -184,6 +183,10 @@
                             <input class="form-input" type="number" v-model="moveTo" required>
                         </div>
                     </div>
+                    
+                    <button @click="getPosition()">Click</button>
+                    <button @click="applyPosition()">Apply</button>
+                    <button @click="currTime()">Current time</button>
                 </div>
             </div>
         </div>
@@ -192,8 +195,9 @@
 
 <script>
 // use settimeout to call getcurrenttime trying to get the same values
-// responsive forme and video
 // bottom of the bubble cross the divelements
+/*  the prblm in postion fct is in slice(.. , 2) in the first time the 
+    pos is with 'px' but next with '%' so we need slice(.. , 1) so find a way to solve it*/
 
 var componentDraggClass;
 var x, y, target = null;
@@ -212,27 +216,22 @@ document.addEventListener('mousedown', function(e) {
         }
     }
 });
-
 document.addEventListener('mouseup', function() {
     if (target !== null) target.classList.remove('dragging');
     target = null;
 });
-
 document.addEventListener('mousemove', function(e) {
     if (target === null) return;
     target.style.left = e.clientX - x + 'px';
     target.style.top = e.clientY - y + 'px';
     var pRect = target.parentElement.getBoundingClientRect();
     var tgtRect = target.getBoundingClientRect();
-
     if (tgtRect.left < pRect.left) target.style.left = 0;
     if (tgtRect.top < pRect.top) target.style.top = 0;
     if (tgtRect.right > pRect.right) target.style.left = pRect.width - tgtRect.width + 'px';
     if (tgtRect.bottom > pRect.bottom) target.style.top = pRect.height - tgtRect.height + 'px';
 });
-
 // https://esstudio.site/2018/11/01/create-draggable-elements-with-javascript.html
-
 import SiLink from '../components/SiLink';
 import SiForm from '../components/SiForm';
 import SiBubble from '../components/SiBubble';
@@ -240,7 +239,6 @@ import SiSelect from '../components/SiSelect';
 import SiButton from '../components/SiButton';
 import SiTagProduct from '../components/SiTagProduct';
 import SiSidebar from '../components/adminComponents/SiSidebar';
-
 export default {
     components: {
         SiBubble,
@@ -251,7 +249,6 @@ export default {
         SiTagProduct,
         SiSidebar ,
     },
-
     data() {
         return {
             isOpened: false,
@@ -260,6 +257,8 @@ export default {
             arrow: '',
             left: 0,
             top: 0,
+            leftt: 0,
+            topp: 0,
             maxX: 100,
             maxY: 100,
             url: '',
@@ -271,29 +270,37 @@ export default {
             selectTitle: '',
             selectItemName: '',
             selectItemMoveto: '',
-            x: 0,
-            y:0,
         }
     },
     created() {
         window.ele = this.$refs.sliderr;
     },
     methods: {
-        az() {
-            var top = document.getElementsByClassName('si-bubble-draggable')[0].style.top.slice(0, -2);
-            var left = document.getElementsByClassName('si-bubble-draggable')[0].style.left.slice(0, -2);
+        currTime() {
+            var video = document.getElementsByClassName('siVideo')[0].currentTime;
+            console.log(video);
+        },
+        getPosition() {
+            var top = document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.top.slice(0, -2);
+            var left = document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.left.slice(0, -2);
             var vhei = document.querySelector("#app > div > div.container > div.video-container > video").offsetHeight;
             var vwid = document.querySelector("#app > div > div.container > div.video-container > video").offsetWidth;
             var pt = (top / vhei) * 100;
             var pl = (left / vwid) * 100;
             console.log('aa : '+pt, +' '+pl);
-            document.getElementsByClassName('si-bubble-draggable')[0].style.top = pt+'%';
-            document.getElementsByClassName('si-bubble-draggable')[0].style.left = pl+'%';
+            // document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.top = pt+'%';
+            // document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.left = pl+'%';
+            this.applyPosition(pt, pl);
         },
-
+        applyPosition(pt, pl) {
+            this.topp = pt;
+            this.leftt = pl;
+            // document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.top = pt+'%';
+            // document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.left = pl+'%';
+        },
         openNavbar() {
             document.getElementsByClassName("main-menu")[0].style.width = "14%";
-            document.getElementsByClassName("container")[0].style.width = "81%";
+            document.getElementsByClassName("container")[0].style.width = "83%";
         },
         closeNavbar() {
             document.getElementsByClassName("main-menu")[0].style.width = "5%";
@@ -304,7 +311,7 @@ export default {
             componentDraggClass = draggClass;
             this.isOpened = true;
             document.getElementsByClassName("main-menu")[0].style.width = "14%";
-            document.getElementsByClassName("container")[0].style.width = "81%";
+            document.getElementsByClassName("container")[0].style.width = "83%";
         },
         addSelectItem(item) {
             this.selectItems.push(item);
@@ -313,11 +320,9 @@ export default {
         }
     },
 }
-
 </script>
 
 <style scoped>
-
 *, body{
     margin:0;
     padding:0;
@@ -329,39 +334,32 @@ export default {
     width: 90%;
     float: right;
     transition: .3s ease;
-    padding: 10px 4% 0 2%;
-
+    padding: 10px 2% 0 0%;
     position: relative;
 }
-
 .container .video-container {
-    margin-top: 20px;
-    float: left;
-
-    /* position: absolute; */
-    position: relative;
     z-index: 0;
+    width: 75%;
+    float: left;
+    position: relative;
+    margin: 20px 0 0 0px;
 }
 .container .video-container .siVideo {
-    width: 780px;
+    width: 100%;
     height: auto;
-    position: absolute;
+    /* position: absolute; */
     /* overflow: hidden; */
 }
 .container .video-container .elementsDiv {
     top: 0;
     left: 0;
     z-index: 1;
-    /* z-index: 0; video untachabl */
-    width: 780px;
-    height: 357px;
-    /* height: 340px; */
-    margin: 0;
-    position: absolute;
-    visibility: visible;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
+    position: absolute;
+    visibility: hidden;
 }
-
 .btn1{
     z-index: 1;
     cursor: pointer;
@@ -370,6 +368,7 @@ export default {
     transition: 0.8s;
     overflow: hidden;
     color: #2196f3;
+    user-select: none;
     position: relative;
     padding: 8px 20px;
     border-radius: 5px 5px;
@@ -396,19 +395,18 @@ export default {
 .btn1:hover::before{
     height: 180% ;
 }
-
-
 .container .elements-form{
-    width: 25%;
+    width: 24%;
+    height: auto;
     float: right;
+    user-select: none;
     position: relative;
 }
-
 .container .input-group {
-    position: relative;
-    margin: 20px 0 0 100px;
+    position: absolute;
+    margin: 20px 0 0 0;
     width: 100%;
-    float: right;
+    /* float: right; */
     
 }
 .container .input-group h2{
@@ -424,7 +422,6 @@ export default {
     border: 1px solid grey;
     outline: none;
 }
-
 .container .input-group .form-label{
     font-size: 12px;
     margin-top: 5px;
@@ -435,11 +432,11 @@ export default {
     overflow: hidden;
 }
 .container .input-group .form-block .form-block-item{
-    width: 35%;
-    margin-right: 9%;
+    width: 42%;
+    /* margin-right: 20px; */
+    margin-right: 8%;
     display: inline-block;
 }
-
 .add-select-btn {
     width: 20px; 
     height: 20px;
@@ -455,9 +452,6 @@ export default {
 .add-select-btn:hover {
     transform: scale(1.08);
 }
-
 @media only screen and (max-width: 411px) {
-
 }
-
 </style>

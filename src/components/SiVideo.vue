@@ -8,7 +8,7 @@
                     v-if="element.currentProps.start <= `${currentTime}` 
                     && element.currentProps.end >= `${currentTime}`" 
                     :is="element.currentComponent" v-bind="element.currentProps" 
-                />
+                /> 
                 <!-- v-on="element.currentMethodes" -->
                 <component 
                     v-if="element.currentComponent =='SiMoveTo' 
@@ -33,8 +33,6 @@
 <script>
 
 // trate the case of unskipable elements : skip btn should get ele.skipable in props => skip btn in loop
-// add a play pause video btn in the buttom and it change automatically using the data we have in this page
-// get the start and end time but take them like seconds to put them in settimeout
 // find a way to make divElement on top of video in fullscreen
 
 import SiForm from './SiForm';

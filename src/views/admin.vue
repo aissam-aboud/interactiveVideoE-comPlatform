@@ -68,7 +68,7 @@
                 </video>
             </div>
             
-            <div class="elements-form" @submit.prevent="">
+            <div class="elements-form">
                 <div class="input-group" v-if="componentName!='' && isSideberOpened">
                     <h2>Fill in this form please</h2>
                     <div v-if="componentName!='SiMoveTo'">
@@ -98,8 +98,8 @@
                             <div class="form-block-item">
                                 <label class="form-label">Skippable</label>
                                 <select class="form-input" name="skippable" v-model="skippable">
-                                    <option value="false">No</option>
                                     <option value="true">Yes</option>
+                                    <option value="false">No</option>
                                 </select>
                             </div>
                             <div class="form-block-item">
@@ -262,7 +262,7 @@ export default {
             top: 0,
             url: '',
             moveTo: 0,
-            skippable: false,
+            skippable: true,
             selectTitle: '',
             selectItems: [],
             selectItemName: '',
@@ -296,13 +296,30 @@ export default {
 
             // console.log(this.componentObject);
 
-                let item = await axios.post(`http://localhost:3000/api/insert`, this.componentObject)
-                .then(() => {
-                    console.log(item.data);
-                }).catch((err)=>{
-                    console.log(err);
-                });
-                
+            let item = await axios.post(`http://localhost:3000/api/insert`, this.componentObject)
+            .then(() => {
+                console.log(item.data);
+            }).catch((err)=>{
+                console.log(err);
+            });
+
+            this.top = 0;
+            this.left = 0;
+            this.text = '';
+            this.theme = '';
+            this.arrow = '';
+            this.endTime = 0;
+            this.startTime = 0;
+            this.skippable = true;
+            this.url = '';
+            this.moveTo= 0;
+            this.skippable= true;
+            this.selectTitle= '';
+            this.selectItems= [];
+            this.selectItemName= '';
+            this.selectItemMoveto= '';
+            this.componentProps= {};
+            this.componentObject = {};
         },
         currTime(time) {
             var video = document.getElementsByClassName('siVideo')[0];

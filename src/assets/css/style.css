@@ -17,10 +17,11 @@
     position: absolute;
     visibility: hidden;
 }
-/* 
+
 [class*="-draggable"] {
-    visibility: hidden;
-} */
+    top: 0;
+    left: 0;
+}
 
 /* ------------------------------  SiBubble  ------------------------------ */
 .si-bubble {

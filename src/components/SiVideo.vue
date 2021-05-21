@@ -92,7 +92,7 @@ export default {
                         style: 'visibility: visible; top: 5%; left: 3%;',
                         start: 0.16, end: 0.16,
                         theme: 'light',
-                        skipable: false,
+                        skippable: false,
                     },
                 },
                 {
@@ -104,7 +104,7 @@ export default {
                         url: 'https://youtube.com',
                         start: 0.58, end: 0.62,
                         theme: 'light',
-                        skipable: true,
+                        skippable: true,
                     },
                 },
                 {
@@ -115,7 +115,7 @@ export default {
                         url: 'https://www.apple.com/shop/buy-iphone/iphone-12-pro',
                         start: 1.02, end: 1.02,
                         theme: 'light',
-                        skipable: true,
+                        skippable: true,
                     },
                 },
                 {
@@ -126,7 +126,7 @@ export default {
                         url: 'https://google.com',
                         start: 1.02, end: 1.02,
                         theme: 'light',
-                        skipable: true,
+                        skippable: true,
                     },
                 },
                 {
@@ -137,7 +137,7 @@ export default {
                         url: 'https://google.com',
                         start: 1.02, end: 1.02,
                         theme: 'light',
-                        skipable: true,
+                        skippable: true,
                     },
                 },
                 {
@@ -148,7 +148,7 @@ export default {
                         url: 'https://google.com',
                         start: 1.02, end: 1.02,
                         theme: 'light',
-                        skipable: true,
+                        skippable: true,
                     },
                 },
                 {
@@ -160,7 +160,7 @@ export default {
                         start: 0.23, end: 0.25,
                         theme: 'light',
                         arrow: 'right',
-                        skipable: true,
+                        skippable: true,
                     },
                 },
                 {
@@ -172,7 +172,7 @@ export default {
                         start: 0.23, end: 0.25,
                         theme: 'light',
                         arrow: 'left',
-                        skipable: true,
+                        skippable: true,
                     },
                 },
                 // {
@@ -183,7 +183,7 @@ export default {
                 //         style: 'visibility: visible; top: 53%; left: 12%;',
                 //         moveTo: 60.337806, start: 0.01, end: 0.01,
                 //         theme: 'dark',
-                //         skipable: true,
+                //         skippable: true,
                 //     },
                 // },                
                 {
@@ -193,7 +193,7 @@ export default {
                         style: 'visibility: visible; top: 21%; left: 36%;',
                         start: 1.33, end: 1.33,
                         theme: 'light',
-                        skipable: true,
+                        skippable: true,
                     },
                 },
                 

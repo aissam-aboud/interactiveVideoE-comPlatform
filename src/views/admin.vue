@@ -9,27 +9,27 @@
 
         <div class="container">
             <div class="btn-group">
-                <button v-if="!isOpened" class="btn1" @click="openNavbar(), isOpened = true">Add element</button>
-                <button v-if="isOpened" class="btn1" @click="closeNavbar(), isOpened = false">Close</button>
+                <button v-if="!isSideberOpened" class="btn1" @click="openSidebar()">Add element</button>
+                <button v-if="isSideberOpened" class="btn1" @click="closeSidebar()">Close</button>
             </div>
             <div class="video-container">
                 <div id="elementsDiv" class="elementsDiv">   
                     <!-- <component id="compoo"
                         :is="'SiBubble'" 
                         v-bind="{theme: theme,arrow: arrow,text: text,}" 
-                        :style="{visibility: 'visible', top: top+'%', left: left+'%'}"
+                        :style="{visibility: 'visible'}"
                     /> -->>
                     <div class="si-bubble-draggable">
                         <SiBubble v-if="componentName == 'SiBubble'"
                             class="si-bubble-dragger"
-                            :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme"
+                            :style="{visibility: 'visible'}" :theme="theme"
                             :arrow="arrow" :text="text"
                         />
                     </div>
                     <div class="si-link-draggable">
                         <SiLink v-if="componentName == 'SiLink'" 
                         class="si-link-dragger"
-                        :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
+                        :style="{visibility: 'visible'}" :theme="theme" 
                         :text="text" :url="url"
                     />
                     </div>
@@ -37,20 +37,20 @@
                         <SiButton 
                             class="si-button-dragger"
                             v-if="componentName == 'SiButton'" 
-                            :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme"  
+                            :style="{visibility: 'visible'}" :theme="theme"  
                             :text="text" :moveTo=0
                         />
                     </div>
                     <div class="si-form-draggable">
-                        <SiForm v-if="componentName == 'SiForm'"  
+                        <SiForm v-if="componentName == 'SiForm'"
                             class="si-form-dragger"
-                            :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
+                            :style="{visibility: 'visible'}" :theme="theme" 
                         />
                     </div>
                     <div class="si-select-draggable">
                          <SiSelect v-if="componentName == 'SiSelect'" 
                             class="si-select-dragger"
-                            :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme"
+                            :style="{visibility: 'visible'}" :theme="theme"
                             :select_title="selectTitle" :items="selectItems"
                         />
                     </div>
@@ -58,7 +58,7 @@
                         <SiTagProduct v-if="componentName == 'SiTagProduct'" 
                             id="azaz"
                             class="si-btn-tag-dragger"
-                            :style="{visibility: 'visible', top: top+'%', left: left+'%'}" :theme="theme" 
+                            :style="{visibility: 'visible'}" :theme="theme" 
                             :url="url"
                         />
                     </div> 
@@ -68,38 +68,38 @@
                 </video>
             </div>
             
-            <div class="elements-form">
-                <div class="input-group" v-if="componentName!='' && isOpened">
+            <div class="elements-form" @submit.prevent="">
+                <div class="input-group" v-if="componentName!='' && isSideberOpened">
                     <h2>Fill in this form please</h2>
                     <div v-if="componentName!='SiMoveTo'">
                         <div class="form-block">
                             <div class="form-block-item">
                                 <label class="form-label">Start Time</label>
-                                <input class="form-input" type="number" min="0">
+                                <input class="form-input" type="number" min="0" :value="startTime" disabled>
                             </div>
                             <div class="form-block-item">
                                 <label class="form-label">End Time</label>
-                                <input class="form-input" type="number" min="0">
+                                <input class="form-input" type="number" min="0" :value="endTime" disabled>
                             </div>
                         </div>
                         <div class="form-block">
                             <div class="form-block-item">
                                 <label class="form-label">Position X</label>
-                                <input class="form-input" :value="leftt"
-                                    type="number" min="0" :max="maxX">
+                                <input class="form-input" :value="left"
+                                    type="number" min="0" max="100" disabled>
                             </div>
                             <div class="form-block-item">
                                 <label class="form-label">Position Y</label>
-                                <input class="form-input" :value="topp"
-                                    type="number" min="0" :max="maxY">
+                                <input class="form-input" :value="top"
+                                    type="number" min="0" max="100" disabled>
                             </div>
                         </div>
                         <div class="form-block">
                             <div class="form-block-item">
                                 <label class="form-label">Skippable</label>
                                 <select class="form-input" name="skippable" v-model="skippable">
-                                    <option value="no">No</option>
-                                    <option value="yes">Yes</option>
+                                    <option value="false">No</option>
+                                    <option value="true">Yes</option>
                                 </select>
                             </div>
                             <div class="form-block-item">
@@ -186,7 +186,9 @@
                     
                     <button @click="getPosition()">Click</button>
                     <button @click="applyPosition()">Apply</button>
-                    <button @click="currTime()">Current time</button>
+                    <button @click="currTime('start')">get start time</button>
+                    <button @click="currTime('end')">get end time</button>
+                    <button @click="getObject()">get Object</button>
                 </div>
             </div>
         </div>
@@ -194,6 +196,7 @@
 </template>
 
 <script>
+
 // use settimeout to call getcurrenttime trying to get the same values
 // bottom of the bubble cross the divelements
 /*  the prblm in postion fct is in slice(.. , 2) in the first time the 
@@ -232,6 +235,7 @@ document.addEventListener('mousemove', function(e) {
     if (tgtRect.bottom > pRect.bottom) target.style.top = pRect.height - tgtRect.height + 'px';
 });
 // https://esstudio.site/2018/11/01/create-draggable-elements-with-javascript.html
+import axios from 'axios';
 import SiLink from '../components/SiLink';
 import SiForm from '../components/SiForm';
 import SiBubble from '../components/SiBubble';
@@ -251,67 +255,117 @@ export default {
     },
     data() {
         return {
-            isOpened: false,
             text: '',
             theme: '',
             arrow: '',
             left: 0,
             top: 0,
-            leftt: 0,
-            topp: 0,
-            maxX: 100,
-            maxY: 100,
             url: '',
-            componentName: '',
-            componentProps: {},
             moveTo: 0,
             skippable: false,
-            selectItems: [],
             selectTitle: '',
+            selectItems: [],
             selectItemName: '',
             selectItemMoveto: '',
+            componentName: '',
+            componentProps: {},
+            endTime: 0,
+            startTime: 0,
+            componentObject: {},
+            isComponentShows: false,
+            isSideberOpened: false,
         }
     },
     created() {
         window.ele = this.$refs.sliderr;
     },
     methods: {
-        currTime() {
-            var video = document.getElementsByClassName('siVideo')[0].currentTime;
-            console.log(video);
+        async getObject() {
+            this.componentObject = {
+                // id: 9,
+                currentComponent: this.componentName,
+                currentProps: {
+                    text: this.text,
+                    style: `visibility: visible; top: ${this.top}%; left: ${this.left}%;`,
+                    start: this.startTime, end: this.endTime,
+                    theme: this.theme,
+                    arrow: this.arrow,
+                    skippable: this.skippable,
+                },
+            };
+
+            // console.log(this.componentObject);
+
+                let item = await axios.post(`http://localhost:3000/api/insert`, this.componentObject)
+                .then(() => {
+                    console.log(item.data);
+                }).catch((err)=>{
+                    console.log(err);
+                });
+                
+        },
+        currTime(time) {
+            var video = document.getElementsByClassName('siVideo')[0];
+            if(time == 'start') {
+                this.startTime = video.currentTime;
+                console.log(this.startTime);
+            }
+            if(time == 'end') {
+                this.endTime = video.currentTime;
+                console.log(this.endTime);
+            }
         },
         getPosition() {
             var top = document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.top.slice(0, -2);
             var left = document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.left.slice(0, -2);
-            var vhei = document.querySelector("#app > div > div.container > div.video-container > video").offsetHeight;
-            var vwid = document.querySelector("#app > div > div.container > div.video-container > video").offsetWidth;
-            var pt = (top / vhei) * 100;
-            var pl = (left / vwid) * 100;
+            var videoHeight = document.getElementsByClassName('siVideo')[0].offsetHeight;
+            var videoWidth = document.getElementsByClassName('siVideo')[0].offsetWidth;
+            var pt = (top / videoHeight) * 100;
+            var pl = (left / videoWidth) * 100;
             console.log('aa : '+pt, +' '+pl);
             // document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.top = pt+'%';
             // document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.left = pl+'%';
             this.applyPosition(pt, pl);
         },
         applyPosition(pt, pl) {
-            this.topp = pt;
-            this.leftt = pl;
+            this.top = pt;
+            this.left = pl;
             // document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.top = pt+'%';
             // document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.left = pl+'%';
         },
-        openNavbar() {
-            document.getElementsByClassName("main-menu")[0].style.width = "14%";
-            document.getElementsByClassName("container")[0].style.width = "83%";
+        openSidebar() {
+            document.getElementsByClassName("main-menu")[0].style.width = "15%";
+            document.getElementsByClassName("container")[0].style.width = "82%";
+            this.isSideberOpened = true;
         },
-        closeNavbar() {
+        closeSidebar() {
+            this.componentName = '';
+            componentDraggClass = '';
+            this.isComponentShows = false;
             document.getElementsByClassName("main-menu")[0].style.width = "5%";
             document.getElementsByClassName("container")[0].style.width = "90%";
+            this.isSideberOpened = false
         },
         getComponentName(componentName, draggClass){
-            this.componentName = componentName;
-            componentDraggClass = draggClass;
-            this.isOpened = true;
-            document.getElementsByClassName("main-menu")[0].style.width = "14%";
-            document.getElementsByClassName("container")[0].style.width = "83%";
+            if(!this.isComponentShows) {
+                this.componentName = componentName;
+                componentDraggClass = draggClass;
+                this.openSidebar();
+                this.isComponentShows = true;
+            }
+            else {
+                if(this.componentName == componentName) {
+                    this.componentName = '';
+                    componentDraggClass = '';
+                    this.closeSidebar();
+                    this.isComponentShows = false;
+                }
+                else {
+                    this.isComponentShows = false;
+                    this.getComponentName(componentName, draggClass);
+
+                }
+            }
         },
         addSelectItem(item) {
             this.selectItems.push(item);
@@ -403,11 +457,11 @@ export default {
     position: relative;
 }
 .container .input-group {
+    transition: 1.3s ease;
     position: absolute;
     margin: 20px 0 0 0;
     width: 100%;
     /* float: right; */
-    
 }
 .container .input-group h2{
     color: #2196f3;

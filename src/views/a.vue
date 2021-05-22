@@ -4,7 +4,7 @@
 
     <ul>
       <li v-for="ele in elements" :key="ele.id">
-        <p>{{ele}}</p>
+        <p>{{ele._id}}</p>
       </li>
       <!-- <li>hhhh</li> -->
     </ul>

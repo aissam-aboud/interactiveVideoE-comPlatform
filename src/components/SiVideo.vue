@@ -2,7 +2,6 @@
     <div class="container">
         <div class="elementsDiv">
             <div v-for="(element, index) in this.elements" :key="index">
-
                 <component
                     id="myComponent" 
                     v-if="element.currentProps.start <= `${currentTime}` 
@@ -46,6 +45,7 @@ import SiTagProduct from './SiTagProduct';
 import SiSkipButton from './SiSkipButton';
 import SiReplayButton from './SiReplayButton';
 
+import axios from 'axios';
 
 window.passedComponents = [];
 window.isVidepPaused = false;
@@ -71,141 +71,152 @@ export default {
             isVideoEnd: false,
             isVideoStart: false,
             isVidepPaused: false,
-            elements: [
-                {
-                    id: 0,
-                    currentComponent: 'SiSelect',
-                    currentProps: {
-                        select_title: 'Choose what do you want to know about this phone',
-                        items: [
-                            {name: 'display', moveTo: 17.810878}, 
-                            {name: 'plateform', moveTo: 26.751889}, 
-                            {name: 'storage', moveTo: 38.131214}, 
-                            {name: 'processor', moveTo: 48.607019}, 
-                            {name: 'back camera', moveTo: 62.933575}, 
-                            {name: 'touch ID', moveTo: 66.586525},
-                            {name: 'wireless charging', moveTo: 73.697076},
-                            {name: 'front camera', moveTo: 88.855526},
-                            {name: 'colors', moveTo: 93.489768},
-                            {name: 'design', moveTo: 103.686094},
-                        ],
-                        style: 'visibility: visible; top: 5%; left: 3%;',
-                        start: 0.16, end: 0.16,
-                        theme: 'light',
-                        skippable: false,
-                    },
-                },
-                {
-                    id: 1,
-                    currentComponent: 'SiLink',
-                    currentProps: {
-                        text: 'Read more about A15 Bionic',
-                        style: 'visibility: visible; top: 8%; left: 37%;',
-                        url: 'https://youtube.com',
-                        start: 0.58, end: 0.62,
-                        theme: 'light',
-                        skippable: true,
-                    },
-                },
-                {
-                    id: 2,
-                    currentComponent: 'SiTagProduct',
-                    currentProps: {
-                        style: 'visibility: visible; top: 49%; left: 19.5%;',
-                        url: 'https://www.apple.com/shop/buy-iphone/iphone-12-pro',
-                        start: 1.02, end: 1.02,
-                        theme: 'light',
-                        skippable: true,
-                    },
-                },
-                {
-                    id: 3,
-                    currentComponent: 'SiTagProduct',
-                    currentProps: {
-                        style: 'visibility: visible; top: 49%; left: 37.5%;',
-                        url: 'https://google.com',
-                        start: 1.02, end: 1.02,
-                        theme: 'light',
-                        skippable: true,
-                    },
-                },
-                {
-                    id: 4,
-                    currentComponent: 'SiTagProduct',
-                    currentProps: {
-                        style: 'visibility: visible; top: 49%; left: 56%;',
-                        url: 'https://google.com',
-                        start: 1.02, end: 1.02,
-                        theme: 'light',
-                        skippable: true,
-                    },
-                },
-                {
-                    id: 5,
-                    currentComponent: 'SiTagProduct',
-                    currentProps: {
-                        style: 'visibility: visible; top: 49%; left: 76%;',
-                        url: 'https://google.com',
-                        start: 1.02, end: 1.02,
-                        theme: 'light',
-                        skippable: true,
-                    },
-                },
-                {
-                    id: 6,
-                    currentComponent: 'SiBubble',
-                    currentProps: {
-                        text: '120Hz OLED',
-                        style: 'visibility: visible; top: 18%; left: 21%;',
-                        start: 0.23, end: 0.25,
-                        theme: 'light',
-                        arrow: 'right',
-                        skippable: true,
-                    },
-                },
-                {
-                    id: 7,
-                    currentComponent: 'SiBubble',
-                    currentProps: {
-                        text: 'HDR10+',
-                        style: 'visibility: visible; top: 46%; left: 60%;',
-                        start: 0.23, end: 0.25,
-                        theme: 'light',
-                        arrow: 'left',
-                        skippable: true,
-                    },
-                },
-                // {
-                //     id: 8,
-                //     currentComponent: 'SiButton',
-                //     currentProps: {
-                //         text: 'move to button',
-                //         style: 'visibility: visible; top: 53%; left: 12%;',
-                //         moveTo: 60.337806, start: 0.01, end: 0.01,
-                //         theme: 'dark',
-                //         skippable: true,
-                //     },
-                // },                
-                {
-                    id: 9,
-                    currentComponent: 'SiForm', 
-                    currentProps: {
-                        style: 'visibility: visible; top: 21%; left: 36%;',
-                        start: 1.33, end: 1.33,
-                        theme: 'light',
-                        skippable: true,
-                    },
-                },
+            elements: Array,
+            // elements: [
+            //     {
+            //         id: 0,
+            //         currentComponent: 'SiSelect',
+            //         currentProps: {
+            //             select_title: 'Choose what do you want to know about this phone',
+            //             items: [
+            //                 {name: 'display', moveTo: 17.810878}, 
+            //                 {name: 'plateform', moveTo: 26.751889}, 
+            //                 {name: 'storage', moveTo: 38.131214}, 
+            //                 {name: 'processor', moveTo: 48.607019}, 
+            //                 {name: 'back camera', moveTo: 62.933575}, 
+            //                 {name: 'touch ID', moveTo: 66.586525},
+            //                 {name: 'wireless charging', moveTo: 73.697076},
+            //                 {name: 'front camera', moveTo: 88.855526},
+            //                 {name: 'colors', moveTo: 93.489768},
+            //                 {name: 'design', moveTo: 103.686094},
+            //             ],
+            //             style: 'visibility: visible; top: 5%; left: 3%;',
+            //             start: 0.16, end: 0.16,
+            //             theme: 'light',
+            //             skippable: false,
+            //         },
+            //     },
+            //     {
+            //         id: 1,
+            //         currentComponent: 'SiLink',
+            //         currentProps: {
+            //             text: 'Read more about A15 Bionic',
+            //             style: 'visibility: visible; top: 8%; left: 37%;',
+            //             url: 'https://youtube.com',
+            //             start: 0.58, end: 0.62,
+            //             theme: 'light',
+            //             skippable: true,
+            //         },
+            //     },
+            //     {
+            //         id: 2,
+            //         currentComponent: 'SiTagProduct',
+            //         currentProps: {
+            //             style: 'visibility: visible; top: 49%; left: 19.5%;',
+            //             url: 'https://www.apple.com/shop/buy-iphone/iphone-12-pro',
+            //             start: 1.02, end: 1.02,
+            //             theme: 'light',
+            //             skippable: true,
+            //         },
+            //     },
+            //     {
+            //         id: 3,
+            //         currentComponent: 'SiTagProduct',
+            //         currentProps: {
+            //             style: 'visibility: visible; top: 49%; left: 37.5%;',
+            //             url: 'https://google.com',
+            //             start: 1.02, end: 1.02,
+            //             theme: 'light',
+            //             skippable: true,
+            //         },
+            //     },
+            //     {
+            //         id: 4,
+            //         currentComponent: 'SiTagProduct',
+            //         currentProps: {
+            //             style: 'visibility: visible; top: 49%; left: 56%;',
+            //             url: 'https://google.com',
+            //             start: 1.02, end: 1.02,
+            //             theme: 'light',
+            //             skippable: true,
+            //         },
+            //     },
+            //     {
+            //         id: 5,
+            //         currentComponent: 'SiTagProduct',
+            //         currentProps: {
+            //             style: 'visibility: visible; top: 49%; left: 76%;',
+            //             url: 'https://google.com',
+            //             start: 1.02, end: 1.02,
+            //             theme: 'light',
+            //             skippable: true,
+            //         },
+            //     },
+            //     {
+            //         id: 6,
+            //         currentComponent: 'SiBubble',
+            //         currentProps: {
+            //             text: '120Hz OLED',
+            //             style: 'visibility: visible; top: 18%; left: 21%;',
+            //             start: 0.23, end: 0.25,
+            //             theme: 'light',
+            //             arrow: 'right',
+            //             skippable: true,
+            //         },
+            //     },
+            //     {
+            //         id: 7,
+            //         currentComponent: 'SiBubble',
+            //         currentProps: {
+            //             text: 'HDR10+',
+            //             style: 'visibility: visible; top: 46%; left: 60%;',
+            //             start: 0.23, end: 0.25,
+            //             theme: 'light',
+            //             arrow: 'left',
+            //             skippable: true,
+            //         },
+            //     },
+            //     // {
+            //     //     id: 8,
+            //     //     currentComponent: 'SiButton',
+            //     //     currentProps: {
+            //     //         text: 'move to button',
+            //     //         style: 'visibility: visible; top: 53%; left: 12%;',
+            //     //         moveTo: 60.337806, start: 0.01, end: 0.01,
+            //     //         theme: 'dark',
+            //     //         skippable: true,
+            //     //     },
+            //     // },                
+            //     {
+            //         id: 9,
+            //         currentComponent: 'SiForm', 
+            //         currentProps: {
+            //             style: 'visibility: visible; top: 21%; left: 36%;',
+            //             start: 1.33, end: 1.33,
+            //             theme: 'light',
+            //             skippable: true,
+            //         },
+            //     },
                 
-                // {
-                //     currentComponent: 'SiMoveTo',
-                //     currentProps: {
-                //         start: 0.12,
-                //         moveTo: 20.9864940,
-                //     },
-                // },
-            ],
+            //     // {
+            //     //     currentComponent: 'SiMoveTo',
+            //     //     currentProps: {
+            //     //         start: 0.12,
+            //     //         moveTo: 20.9864940,
+            //     //     },
+            //     // },
+            // ],
         }
+    },
+    async created() {
+        try {
+            this.elements= await axios.get("http://localhost:3000/api/insert");
+            this.elements = this.elements.data;
+            console.log(this.elements[2]);
+        }
+        catch (err) {
+            console.log(err);
+        }        
     },
     methods: {
         fnt() {
@@ -220,6 +231,7 @@ export default {
         },
         getCurrentTime() {
             // console.log(((this.$refs.siVideo.currentTime)/100).toFixed(3));
+            console.log(((this.$refs.siVideo.currentTime).toFixed(0))/100);
             window.siVideo = this.$refs.siVideo;
             this.isVidepPaused = window.isVidepPaused;
             this.currentTime = (((this.$refs.siVideo.currentTime).toFixed(0))/100);

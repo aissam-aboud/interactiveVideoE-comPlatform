@@ -75,23 +75,23 @@
                         <div class="form-block">
                             <div class="form-block-item">
                                 <label class="form-label">Start Time</label>
-                                <input class="form-input" type="number" min="0" :value="startTime" disabled>
+                                <input class="form-input" type="number" min="0" :value="startTime">
                             </div>
                             <div class="form-block-item">
                                 <label class="form-label">End Time</label>
-                                <input class="form-input" type="number" min="0" :value="endTime" disabled>
+                                <input class="form-input" type="number" min="0" :value="endTime">
                             </div>
                         </div>
                         <div class="form-block">
                             <div class="form-block-item">
                                 <label class="form-label">Position X</label>
                                 <input class="form-input" :value="left"
-                                    type="number" min="0" max="100" disabled>
+                                    type="number" min="0" max="100">
                             </div>
                             <div class="form-block-item">
                                 <label class="form-label">Position Y</label>
                                 <input class="form-input" :value="top"
-                                    type="number" min="0" max="100" disabled>
+                                    type="number" min="0" max="100">
                             </div>
                         </div>
                         <div class="form-block">

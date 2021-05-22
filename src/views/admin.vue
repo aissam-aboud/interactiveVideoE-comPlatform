@@ -176,11 +176,11 @@
                     <div class="form-block" v-if="componentName=='SiMoveTo'">
                         <div class="form-block-item">
                             <label class="form-label">Start Time</label>
-                            <input class="form-input" type="number">
+                            <input class="form-input" type="number" min="0" :value="startTime" disabled>
                         </div>
                         <div class="form-block-item">
                             <label class="form-label">Move to</label>
-                            <input class="form-input" type="number" v-model="moveTo" required>
+                            <input class="form-input" type="number" min="0" v-model="moveTo">
                         </div>
                     </div>
                     
@@ -274,6 +274,7 @@ export default {
             componentObject: {},
             isComponentShows: false,
             isSideberOpened: false,
+            aa: {},
         }
     },
     created() {
@@ -281,24 +282,86 @@ export default {
     },
     methods: {
         async getObject() {
-            this.componentObject = {
-                // id: 9,
-                currentComponent: this.componentName,
-                currentProps: {
-                    text: this.text,
-                    style: `visibility: visible; top: ${this.top}%; left: ${this.left}%;`,
-                    start: this.startTime, end: this.endTime,
-                    theme: this.theme,
-                    arrow: this.arrow,
-                    skippable: this.skippable,
-                },
-            };
+            if(this.componentName == 'SiBubble') {
+                this.componentObject = {
+                    currentComponent: this.componentName,
+                    currentProps: {
+                        text: this.text,
+                        style: `visibility: visible; top: ${this.top}%; left: ${this.left}%;`,
+                        start: this.startTime, end: this.endTime, theme: this.theme,
+                        arrow: this.arrow, skippable: this.skippable,
+                    },
+                };
+            }
+            if(this.componentName == 'SiButton') {
+                this.componentObject = {
+                    currentComponent: this.componentName,
+                    currentProps: {
+                        text: this.text,
+                        style: `visibility: visible; top: ${this.top}%; left: ${this.left}%;`,
+                        start: this.startTime, end: this.endTime, theme: this.theme, 
+                        moveTo: this.moveTo, skippable: this.skippable,
+                    },
+                };
+            }
+            if(this.componentName == 'SiForm') {
+                this.componentObject = {
+                    currentComponent: this.componentName,
+                    currentProps: {
+                        style: `visibility: visible; top: ${this.top}%; left: ${this.left}%;`,
+                        start: this.startTime, end: this.endTime,
+                        theme: this.theme, skippable: this.skippable,
+                    },
+                };
+            }
+            if(this.componentName == 'SiLink') {
+                this.componentObject = {
+                    currentComponent: this.componentName,
+                    currentProps: {
+                        text: this.text,
+                        style: `visibility: visible; top: ${this.top}%; left: ${this.left}%;`,
+                        start: this.startTime, end: this.endTime, theme: this.theme,
+                        url: this.url, skippable: this.skippable,
+                    },
+                };
+            }
+            if(this.componentName == 'SiSelect') {
+                this.componentObject = {
+                    currentComponent: this.componentName,
+                    currentProps: {
+                        select_title: this.selectTitle,
+                        style: `visibility: visible; top: ${this.top}%; left: ${this.left}%;`,
+                        start: this.startTime, end: this.endTime, theme: this.theme,
+                        items: this.selectItems, skippable: this.skippable,
+                    },
+                };
+            }
+            if(this.componentName == 'SiTagProduct') {
+                this.componentObject = {
+                    currentComponent: this.componentName,
+                    currentProps: {
+                        style: `visibility: visible; top: ${this.top}%; left: ${this.left}%;`,
+                        start: this.startTime, end: this.endTime, theme: this.theme, 
+                        url: this.url, skippable: this.skippable,
+                    },
+                };
+            }
+            if(this.componentName == 'SiMoveTo') {
+                this.componentObject = {
+                    currentComponent: this.componentName,
+                    currentProps: {
+                        start: this.startTime,
+                        moveTo: this.moveTo,
+                    },
+                };
+            }
+            
 
             // console.log(this.componentObject);
 
-            let item = await axios.post(`http://localhost:3000/api/insert`, this.componentObject)
+            this.aa = await axios.post(`http://localhost:3000/api/insert`, this.componentObject)
             .then(() => {
-                console.log(item.data);
+                console.log(this.aa);
             }).catch((err)=>{
                 console.log(err);
             });

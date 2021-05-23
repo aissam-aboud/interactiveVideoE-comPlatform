@@ -26,31 +26,13 @@ export default {
     }
   },
   async created() {
-
-
     try {
       this.elements= await axios.get("http://localhost:3000/api/insert");
       this.elements = this.elements.data;
     }
     catch (err) {
       console.log(err);
-    }
-
-    // this.elements = await axios.get('http://localhost:3000/api/insert')
-    // .then(()=> {
-    //       console.log(this.elements);
-
-    // });
-
-
-
-    // this.elements = await axios.get('http://localhost:3000/api/insert')
-    // .then(() => {
-    //   console.log(this.elements.data);
-    // }).catch((err)=>{
-    //     console.log(err);
-    // });
-        
+    }        
   },
   
   methods: {

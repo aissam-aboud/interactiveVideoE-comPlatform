@@ -22,7 +22,7 @@
         
         <!-- <video @click="getCursorPosition()" ref="siVideo" class="siVideo" controls @timeupdate="getCurrentTime()" @ended="onEnd()"> -->
         <video ref="siVideo" class="siVideo" controls @timeupdate="getCurrentTime()" @ended="onEnd()" oncontextmenu="return false">
-            <source src="../assets/video.mp4" type="video/mp4" >
+            <source src="./../assets/videos/video.mp4" type="video/mp4">
         </video>
 
         <!-- <button @click="fnt()">click</button> -->
@@ -71,7 +71,8 @@ export default {
             isVideoEnd: false,
             isVideoStart: false,
             isVidepPaused: false,
-            elements: Array,
+            elements: [],
+            // elements: [Array],
             // elements: [
             //     {
             //         id: 0,

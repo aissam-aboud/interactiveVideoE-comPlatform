@@ -7,6 +7,7 @@ Vue.config.productionTip = false;
 
 import "./assets/css/style.css";
 import "./assets/css/style2.css";
+import "./assets/js/draggable.js";
 import "./assets/js/interactionVideo.js";
 
 import drag from "v-drag";

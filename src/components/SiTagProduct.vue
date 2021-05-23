@@ -1,7 +1,7 @@
 <template>
     <button :class="`si-btn-tag btn-tag-${theme}`" oncontextmenu="return false">
         <a :href="url" target="_blank">
-            <img src="./../assets/click-icon.png" alt="">    
+            <img src="./../assets/images/click-icon.png" alt="">    
         </a>  
     </button>
 </template>

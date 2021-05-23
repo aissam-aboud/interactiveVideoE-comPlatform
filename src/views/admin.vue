@@ -1,13 +1,10 @@
 <template>
 
     <div class="main">
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400&display=swap" rel="stylesheet">
 
         <SiSidebar @getComponentName="getComponentName" />
 
-        <div class="container">
+        <div class="main-container">
             <div class="btn-group">
                 <button v-if="!isSideberOpened" class="btn1" @click="openSidebar()">Add element</button>
                 <button v-if="isSideberOpened" class="btn1" @click="closeSidebar()">Close</button>
@@ -64,7 +61,7 @@
                     </div> 
                 </div>
                 <video class="siVideo" controls>
-                    <source src="../assets/video.mp4" type="video/mp4" >
+                    <source src="../assets/videos/video.mp4" type="video/mp4" >
                 </video>
             </div>
             
@@ -199,8 +196,6 @@
 
 // use settimeout to call getcurrenttime trying to get the same values
 // bottom of the bubble cross the divelements
-/*  the prblm in postion fct is in slice(.. , 2) in the first time the 
-    pos is with 'px' but next with '%' so we need slice(.. , 1) so find a way to solve it*/
 
 var componentDraggClass;
 var x, y, target = null;
@@ -234,7 +229,7 @@ document.addEventListener('mousemove', function(e) {
     if (tgtRect.right > pRect.right) target.style.left = pRect.width - tgtRect.width + 'px';
     if (tgtRect.bottom > pRect.bottom) target.style.top = pRect.height - tgtRect.height + 'px';
 });
-// https://esstudio.site/2018/11/01/create-draggable-elements-with-javascript.html
+
 import axios from 'axios';
 import SiLink from '../components/SiLink';
 import SiForm from '../components/SiForm';
@@ -387,11 +382,13 @@ export default {
         currTime(time) {
             var video = document.getElementsByClassName('siVideo')[0];
             if(time == 'start') {
-                this.startTime = video.currentTime;
+                // this.startTime = video.currentTime;;
+                this.startTime = (((video.currentTime).toFixed(0))/100);
                 console.log(this.startTime);
             }
             if(time == 'end') {
-                this.endTime = video.currentTime;
+                // this.endTime = video.currentTime;
+                this.endTime = (((video.currentTime).toFixed(0))/100);
                 console.log(this.endTime);
             }
         },
@@ -415,7 +412,7 @@ export default {
         },
         openSidebar() {
             document.getElementsByClassName("main-menu")[0].style.width = "15%";
-            document.getElementsByClassName("container")[0].style.width = "82%";
+            document.getElementsByClassName("main-container")[0].style.width = "82%";
             this.isSideberOpened = true;
         },
         closeSidebar() {
@@ -423,7 +420,7 @@ export default {
             componentDraggClass = '';
             this.isComponentShows = false;
             document.getElementsByClassName("main-menu")[0].style.width = "5%";
-            document.getElementsByClassName("container")[0].style.width = "90%";
+            document.getElementsByClassName("main-container")[0].style.width = "90%";
             this.isSideberOpened = false
         },
         getComponentName(componentName, draggClass){
@@ -457,34 +454,35 @@ export default {
 </script>
 
 <style scoped>
-*, body{
+*, body {
     margin:0;
     padding:0;
 }
-.main{
+.main {
     font-family: 'Fira Sans', sans-serif;
 }
-.container{
+.main-container {
     width: 90%;
     float: right;
+    margin-top: 20px;
+    position: relative;
     transition: .3s ease;
     padding: 10px 2% 0 0%;
-    position: relative;
 }
-.container .video-container {
+.main-container .video-container {
     z-index: 0;
     width: 75%;
     float: left;
     position: relative;
     margin: 20px 0 0 0px;
 }
-.container .video-container .siVideo {
+.main-container .video-container .siVideo {
     width: 100%;
     height: auto;
     /* position: absolute; */
     /* overflow: hidden; */
 }
-.container .video-container .elementsDiv {
+.main-container .video-container .elementsDiv {
     top: 0;
     left: 0;
     z-index: 1;
@@ -494,7 +492,7 @@ export default {
     position: absolute;
     visibility: hidden;
 }
-.btn1{
+.btn1 {
     z-index: 1;
     cursor: pointer;
     font-size: 15px;
@@ -502,15 +500,15 @@ export default {
     transition: 0.8s;
     overflow: hidden;
     color: #2196f3;
+    padding: 8px 20px;
     user-select: none;
     position: relative;
-    padding: 8px 20px;
     border-radius: 5px 5px;
     font-family: "montserrat";
     border: 2px solid #2196f3;
     box-shadow: 0 0 10px rgb(163, 163, 163);
 }
-.btn1::before{
+.btn1::before {
     top: 0;
     left: 0;
     height: 0%;
@@ -522,32 +520,32 @@ export default {
     background: #6bb8fd;
     border-radius: 0 0 50% 50%;
 }
-.btn1:hover{
+.btn1:hover {
     color: #fff;
     border: 2px solid #fff;
 }
-.btn1:hover::before{
+.btn1:hover::before {
     height: 180% ;
 }
-.container .elements-form{
+.main-container .elements-form {
     width: 24%;
     height: auto;
     float: right;
     user-select: none;
     position: relative;
 }
-.container .input-group {
+.main-container .input-group {
     transition: 1.3s ease;
     position: absolute;
     margin: 20px 0 0 0;
     width: 100%;
     /* float: right; */
 }
-.container .input-group h2{
+.main-container .input-group h2 {
     color: #2196f3;
     margin-bottom: 15px;
 }
-.container .input-group .form-input{
+.main-container .input-group .form-input {
     padding: 5px 5px;
     margin: 20px 0 8px 0;
     width: 100%;
@@ -556,16 +554,16 @@ export default {
     border: 1px solid grey;
     outline: none;
 }
-.container .input-group .form-label{
+.main-container .input-group .form-label {
     font-size: 12px;
     margin-top: 5px;
     position: absolute;
 }
-.container .input-group .form-block {
+.main-container .input-group .form-block {
     position: relative;
     overflow: hidden;
 }
-.container .input-group .form-block .form-block-item{
+.main-container .input-group .form-block .form-block-item{
     width: 42%;
     /* margin-right: 20px; */
     margin-right: 8%;

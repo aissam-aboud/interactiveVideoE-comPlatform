@@ -5,7 +5,7 @@
         <SiSidebar @getComponentName="getComponentName" />
 
         <div class="main-container">
-            <div class="btn-group">
+            <div>
                 <button v-if="!isSideberOpened" class="btn1" @click="openSidebar()">Add element</button>
                 <button v-if="isSideberOpened" class="btn1" @click="closeSidebar()">Close</button>
             </div>
@@ -180,12 +180,14 @@
                             <input class="form-input" type="number" min="0" v-model="moveTo">
                         </div>
                     </div>
+
+                    <div class="form-block">
+                        <button class="btn-group-item" @click="getPosition()">Get position</button>
+                        <button class="btn-group-item" @click="currTime('start')">get start time</button>
+                        <button class="btn-group-item" @click="currTime('end')">get end time</button>
+                        <button class="btn-group-item save-btn" @click="getObject()">Save element</button>
+                    </div>
                     
-                    <button @click="getPosition()">Click</button>
-                    <button @click="applyPosition()">Apply</button>
-                    <button @click="currTime('start')">get start time</button>
-                    <button @click="currTime('end')">get end time</button>
-                    <button @click="getObject()">get Object</button>
                 </div>
             </div>
         </div>
@@ -194,41 +196,10 @@
 
 <script>
 
+
 // use settimeout to call getcurrenttime trying to get the same values
 // bottom of the bubble cross the divelements
 
-var componentDraggClass;
-var x, y, target = null;
-document.addEventListener('mousedown', function(e) {
-    var clickedDragger = false;
-    for(var i = 0; e.path[i] !== document.body; i++) {
-        if (e.path[i].classList.contains(`si-${componentDraggClass}-dragger`)) {
-            clickedDragger = true;
-        }
-        else if (clickedDragger && e.path[i].classList.contains(`si-${componentDraggClass}-draggable`)) {
-            target = e.path[i];
-            target.classList.add('dragging');
-            x = e.clientX - target.style.left.slice(0, -2);
-            y = e.clientY - target.style.top.slice(0, -2);
-            return;
-        }
-    }
-});
-document.addEventListener('mouseup', function() {
-    if (target !== null) target.classList.remove('dragging');
-    target = null;
-});
-document.addEventListener('mousemove', function(e) {
-    if (target === null) return;
-    target.style.left = e.clientX - x + 'px';
-    target.style.top = e.clientY - y + 'px';
-    var pRect = target.parentElement.getBoundingClientRect();
-    var tgtRect = target.getBoundingClientRect();
-    if (tgtRect.left < pRect.left) target.style.left = 0;
-    if (tgtRect.top < pRect.top) target.style.top = 0;
-    if (tgtRect.right > pRect.right) target.style.left = pRect.width - tgtRect.width + 'px';
-    if (tgtRect.bottom > pRect.bottom) target.style.top = pRect.height - tgtRect.height + 'px';
-});
 
 import axios from 'axios';
 import SiLink from '../components/SiLink';
@@ -269,11 +240,8 @@ export default {
             componentObject: {},
             isComponentShows: false,
             isSideberOpened: false,
-            aa: {},
+            object: {},
         }
-    },
-    created() {
-        window.ele = this.$refs.sliderr;
     },
     methods: {
         async getObject() {
@@ -351,33 +319,20 @@ export default {
                 };
             }
             
-
-            // console.log(this.componentObject);
-
-            this.aa = await axios.post(`http://localhost:3000/api/insert`, this.componentObject)
+            this.object = await axios.post(`http://localhost:3000/api/insert`, this.componentObject)
             .then(() => {
-                console.log(this.aa);
+                console.log(this.object);
             }).catch((err)=>{
                 console.log(err);
             });
 
-            this.top = 0;
-            this.left = 0;
-            this.text = '';
-            this.theme = '';
-            this.arrow = '';
-            this.endTime = 0;
-            this.startTime = 0;
-            this.skippable = true;
-            this.url = '';
-            this.moveTo= 0;
-            this.skippable= true;
-            this.selectTitle= '';
-            this.selectItems= [];
-            this.selectItemName= '';
-            this.selectItemMoveto= '';
-            this.componentProps= {};
-            this.componentObject = {};
+            this.top = this.left = this.endTime = this.startTime = this.moveTo= 0;
+            this.text = this.theme = this.arrow = this.url = this.selectTitle
+                    = this.selectItemName = this.selectItemMoveto = '';
+            this.componentName = '';
+            this.skippable = this.skippable = true;
+            this.selectItems = [];
+            this.componentProps = this.componentObject = {};
         },
         currTime(time) {
             var video = document.getElementsByClassName('siVideo')[0];
@@ -393,22 +348,18 @@ export default {
             }
         },
         getPosition() {
-            var top = document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.top.slice(0, -2);
-            var left = document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.left.slice(0, -2);
+            var top = document.getElementsByClassName(`si-${window.componentDraggClass}-draggable`)[0].style.top.slice(0, -2);
+            var left = document.getElementsByClassName(`si-${window.componentDraggClass}-draggable`)[0].style.left.slice(0, -2);
             var videoHeight = document.getElementsByClassName('siVideo')[0].offsetHeight;
             var videoWidth = document.getElementsByClassName('siVideo')[0].offsetWidth;
             var pt = (top / videoHeight) * 100;
             var pl = (left / videoWidth) * 100;
-            console.log('aa : '+pt, +' '+pl);
-            // document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.top = pt+'%';
-            // document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.left = pl+'%';
-            this.applyPosition(pt, pl);
-        },
-        applyPosition(pt, pl) {
+            console.log('object : '+pt, +' '+pl);
+            // document.getElementsByClassName(`si-${window.componentDraggClass}-draggable`)[0].style.top = pt+'%';
+            // document.getElementsByClassName(`si-${window.componentDraggClass}-draggable`)[0].style.left = pl+'%';
+            // this.applyPosition(pt, pl);
             this.top = pt;
             this.left = pl;
-            // document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.top = pt+'%';
-            // document.getElementsByClassName(`si-${componentDraggClass}-draggable`)[0].style.left = pl+'%';
         },
         openSidebar() {
             document.getElementsByClassName("main-menu")[0].style.width = "15%";
@@ -417,7 +368,7 @@ export default {
         },
         closeSidebar() {
             this.componentName = '';
-            componentDraggClass = '';
+            window.componentDraggClass = '';
             this.isComponentShows = false;
             document.getElementsByClassName("main-menu")[0].style.width = "5%";
             document.getElementsByClassName("main-container")[0].style.width = "90%";
@@ -426,14 +377,14 @@ export default {
         getComponentName(componentName, draggClass){
             if(!this.isComponentShows) {
                 this.componentName = componentName;
-                componentDraggClass = draggClass;
+                window.componentDraggClass = draggClass;
                 this.openSidebar();
                 this.isComponentShows = true;
             }
             else {
                 if(this.componentName == componentName) {
                     this.componentName = '';
-                    componentDraggClass = '';
+                    window.componentDraggClass = '';
                     this.closeSidebar();
                     this.isComponentShows = false;
                 }
@@ -561,7 +512,6 @@ export default {
 }
 .main-container .input-group .form-block {
     position: relative;
-    overflow: hidden;
 }
 .main-container .input-group .form-block .form-block-item{
     width: 42%;
@@ -583,6 +533,31 @@ export default {
 }
 .add-select-btn:hover {
     transform: scale(1.08);
+}
+
+.main-container .input-group .form-block .btn-group-item {
+    width: 43%;
+    outline: none;
+    font-size: 13px;
+    cursor: pointer;
+    color: #2196f3;
+    padding: 5px 10px;
+    user-select: none;
+    border-radius: 5px;
+    margin: 15px 0 0 3%;
+    font-family: "montserrat";
+    background-color: white;
+    border: 2px solid #2196f3;
+    box-shadow: 0 0 6px rgb(163, 163, 163);
+}
+.main-container .input-group .form-block .save-btn {
+    color: white;
+    border: 2px solid white;
+    background-color: #2196f3;
+}
+.main-container .input-group .form-block .btn-group-item:hover {
+    transition: .1s;
+    transform: scale(1.02);
 }
 @media only screen and (max-width: 411px) {
 }

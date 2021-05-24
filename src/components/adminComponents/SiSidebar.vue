@@ -21,8 +21,8 @@
                 <li class="menu-item btn-tag" @click="getComponentName('SiTagProduct', 'btn-tag')">
                     <img class="li-icon btn-tag-icon" src="./../../assets/images/tag.png"><p class="li-text">Tag product</p> 
                 </li>
-                <li class="menu-item" @click="getComponentName('SiMoveTo', '')">
-                    <img class="li-icon" src="./../../assets/images/skip.png"><p class="li-text">Move video to</p> 
+                <li class="menu-item move-to" @click="getComponentName('SiMoveTo', 'move-to')">
+                    <img class="li-icon move-to-icon" src="./../../assets/images/skip.png"><p class="li-text">Move video to</p> 
                 </li>
         </ul>
     </div>
@@ -79,7 +79,8 @@ export default {
 }
 .main-menu .menu-item:hover{
     cursor: pointer;
-    color: white;
+    transform: scale(1.02);
+    border: 1px solid #6bb8fd;
     background-color: #6bb8fd;
 }
 .main-menu .menu-item .li-icon{

@@ -72,23 +72,23 @@
                         <div class="form-block">
                             <div class="form-block-item">
                                 <label class="form-label">Start Time</label>
-                                <input class="form-input" type="number" min="0" :value="startTime">
+                                <input class="form-input" type="number" min="0" :value="startTime" disabled>
                             </div>
                             <div class="form-block-item">
                                 <label class="form-label">End Time</label>
-                                <input class="form-input" type="number" min="0" :value="endTime">
+                                <input class="form-input" type="number" min="0" :value="endTime" disabled>
                             </div>
                         </div>
                         <div class="form-block">
                             <div class="form-block-item">
                                 <label class="form-label">Position X</label>
                                 <input class="form-input" :value="left"
-                                    type="number" min="0" max="100">
+                                    type="number" min="0" max="100" disabled>
                             </div>
                             <div class="form-block-item">
                                 <label class="form-label">Position Y</label>
                                 <input class="form-input" :value="top"
-                                    type="number" min="0" max="100">
+                                    type="number" min="0" max="100" disabled>
                             </div>
                         </div>
                         <div class="form-block">
@@ -129,7 +129,7 @@
                             </div>
                             <div class="form-block-item">
                                 <label class="form-label">Move to</label>
-                                <input class="form-input" type="number" v-model="moveTo">
+                                <input class="form-input" type="number" v-model="moveTo" disabled>
                             </div>
                         </div>
                         <!-- Link -->
@@ -150,16 +150,17 @@
                                     <label class="form-label">Select title</label>
                                     <input class="form-input" type="text" v-model="selectTitle" required>
                                 </div>
+                            
+                                <div class="form-block-item">
+                                    <label class="form-label">Item name</label>
+                                    <input class="form-input" type="text" v-model="selectItemName" required>
+                                </div>
+                                <div class="form-block-item">
+                                    <label class="form-label">Item value(Move to)</label>
+                                    <input class="form-input" type="text" v-model="selectItemMoveto" required>
+                                </div>
+                                <button v-if="selectItemName && selectItemMoveto" class="add-select-btn">Add to list</button>
                             </div>
-                            <div class="form-block-item">
-                                <label class="form-label">Item name</label>
-                                <input class="form-input" type="text" v-model="selectItemName" required>
-                            </div>
-                            <div class="form-block-item" style="margin-right: 10px;">
-                                <label class="form-label">Item value(Move to)</label>
-                                <input class="form-input" type="text" v-model="selectItemMoveto" required>
-                            </div>
-                            <button class="add-select-btn">+</button>
                         </form>
                         <!-- Tag product -->
                         <div class="form-block" v-if="componentName=='SiTagProduct'">
@@ -177,7 +178,7 @@
                         </div>
                         <div class="form-block-item">
                             <label class="form-label">Move to</label>
-                            <input class="form-input" type="number" min="0" v-model="moveTo">
+                            <input class="form-input" type="number" min="0" v-model="moveTo" disabled>
                         </div>
                     </div>
 
@@ -363,8 +364,8 @@ export default {
             this.left = pl;
         },
         openSidebar() {
-            document.getElementsByClassName("main-menu")[0].style.width = "15%";
-            document.getElementsByClassName("main-container")[0].style.width = "82%";
+            document.getElementsByClassName("main-menu")[0].style.width = "14%";
+            document.getElementsByClassName("main-container")[0].style.width = "83%";
             this.isSideberOpened = true;
         },
         closeSidebar() {
@@ -489,24 +490,24 @@ export default {
     position: relative;
 }
 .main-container .input-group {
-    transition: 1.3s ease;
+    width: 100%;
     position: absolute;
     margin: 20px 0 0 0;
-    width: 100%;
-    /* float: right; */
+    transition: 1.3s ease;
 }
 .main-container .input-group h2 {
     color: #2196f3;
     margin-bottom: 15px;
 }
 .main-container .input-group .form-input {
-    padding: 5px 5px;
-    margin: 20px 0 8px 0;
     width: 100%;
+    outline: none;
+    padding: 5px 5px;
+    user-select: none;
     position: relative;
     border-radius: 5px;
+    margin: 20px 0 8px 0;
     border: 1px solid grey;
-    outline: none;
 }
 .main-container .input-group .form-label {
     font-size: 12px;
@@ -523,16 +524,19 @@ export default {
     display: inline-block;
 }
 .add-select-btn {
-    width: 20px; 
-    height: 20px;
+    width: 43%;
+    outline: none;
+    font-size: 13px;
     cursor: pointer;
-    color: #2196f3;
-    /* font-size: 17px; */
-    border-radius: 4px;
-    margin: 0 0 0 15px;
-    background-color: white;
-    border: 2px solid #2196f3;
-    box-shadow: 0 0 10px rgb(163, 163, 163);
+    color: white;
+    padding: 5px 10px;
+    user-select: none;
+    border-radius: 5px;
+    margin: 0px 0 0 3%;
+    font-family: "montserrat";
+    background-color: #2196f3;
+    border: 2px solid white;
+    box-shadow: 0 0 6px rgb(163, 163, 163);
 }
 .add-select-btn:hover {
     transform: scale(1.08);

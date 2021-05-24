@@ -159,7 +159,7 @@
                                     <label class="form-label">Item value(Move to)</label>
                                     <input class="form-input" type="text" v-model="selectItemMoveto" required>
                                 </div>
-                                <button v-if="selectItemName && selectItemMoveto" class="add-select-btn">Add to list</button>
+                                <button v-if="selectItemName && selectItemMoveto" class="btn-group-item save-btn">Add to list</button>
                             </div>
                         </form>
                         <!-- Tag product -->
@@ -182,10 +182,15 @@
                         </div>
                     </div>
 
-                    <div class="form-block">
+                    <div v-if="componentName!='SiMoveTo'" class="form-block">
                         <button class="btn-group-item" @click="getPosition()">Get position</button>
                         <button class="btn-group-item" @click="currTime('start')">get start time</button>
                         <button class="btn-group-item" @click="currTime('end')">get end time</button>
+                        <button class="btn-group-item save-btn" @click="getObject()">Save element</button>
+                    </div>
+                    <div v-if="componentName=='SiMoveTo'" class="form-block">
+                        <button class="btn-group-item" @click="currTime('start')">get start time</button>
+                        <button class="btn-group-item" @click="currTime('moveTo')">get move to</button>
                         <button class="btn-group-item save-btn" @click="getObject()">Save element</button>
                     </div>
                     
@@ -196,11 +201,12 @@
 </template>
 
 <script>
-
-// backgrnd color of nav bar elements
-
-// use settimeout to call getcurrenttime trying to get the same values
+// add a cadre for the link 4 better UX also the others element must have a default width & height
+// pop up when item added
+// deselect the backgrnd col when the close btn closed in admin dash
+// create my own mueted
 // bottom of the bubble cross the divelements
+//------- we dont need the foreache for skippable element (code in skippable elements)
 
 
 import axios from 'axios';
@@ -339,13 +345,19 @@ export default {
         currTime(time) {
             var video = document.getElementsByClassName('siVideo')[0];
             if(time == 'start') {
-                // this.startTime = video.currentTime;;
-                this.startTime = (((video.currentTime).toFixed(0))/100);
+
+                this.startTime = (video.currentTime/100).toFixed(3);
+                // this.startTime = (((video.currentTime).toFixed(0))/100);
                 console.log(this.startTime);
             }
             if(time == 'end') {
-                // this.endTime = video.currentTime;
-                this.endTime = (((video.currentTime).toFixed(0))/100);
+                this.endTime = (video.currentTime/100).toFixed(3);
+                // this.endTime = (((video.currentTime).toFixed(0))/100);
+                console.log(this.endTime);
+            }
+            if(time == 'moveTo') {
+                this.moveTo = (video.currentTime/100).toFixed(3);
+                // this.moveTo = (((video.currentTime).toFixed(0))/100);
                 console.log(this.endTime);
             }
         },
@@ -523,25 +535,6 @@ export default {
     margin-right: 8%;
     display: inline-block;
 }
-.add-select-btn {
-    width: 43%;
-    outline: none;
-    font-size: 13px;
-    cursor: pointer;
-    color: white;
-    padding: 5px 10px;
-    user-select: none;
-    border-radius: 5px;
-    margin: 0px 0 0 3%;
-    font-family: "montserrat";
-    background-color: #2196f3;
-    border: 2px solid white;
-    box-shadow: 0 0 6px rgb(163, 163, 163);
-}
-.add-select-btn:hover {
-    transform: scale(1.08);
-}
-
 .main-container .input-group .form-block .btn-group-item {
     width: 43%;
     outline: none;

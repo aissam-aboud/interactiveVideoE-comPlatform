@@ -19,7 +19,7 @@ export default {
     created() {
         if(this.start && this.end && this.start == this.end) {
             window.siVideo.pause();
-            window.isVidepPaused = true;
+            window.isVideoPaused = true;
         }
     },
 }

@@ -24,13 +24,13 @@ export default {
     created() {
         if(this.start && this.end && this.start == this.end) {
             window.siVideo.pause();
-            window.isVidepPaused = true;
+            window.isVideoPaused = true;
         }
     },
     methods: {
         chooseOption(moveTo) {
             window.siVideo.play();
-            window.isVidepPaused = false;
+            window.isVideoPaused = false;
             window.siVideo.currentTime = moveTo;
             this.$refs.SiList.style = 'visibility: hidden;';
         },

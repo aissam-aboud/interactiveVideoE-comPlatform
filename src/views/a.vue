@@ -2,72 +2,62 @@
 
   <div class="container">
 
-    <ul>
-      <li v-for="ele in elements" :key="ele.id">
-        <p>{{ele._id}}</p>
-      </li>
-      <!-- <li>hhhh</li> -->
-    </ul>
+    <component
+                    id="myComponent" 
+                    v-if="element.currentProps.start <= `${currentTime}` 
+                    && element.currentProps.end >= `${currentTime}`" 
+                    :is="element.currentComponent" v-bind="element.currentProps" 
+    /> 
 
-
-
-    </div>
+  </div>
 </template>
 
 <script>
-import axios from 'axios';
+import SiSelect from './../components/SiSelect';
 
 export default {
   components: {
+    SiSelect,
   },
   data() {
     return {
-      elements: [],
+      // elements: [],
+      elements: [
+                {
+                    id: 0,
+                    currentComponent: 'SiSelect',
+                    currentProps: {
+                        select_title: 'Choose what do you want to know about this phone',
+                        items: [
+                            { name: 'display', moveTo: 17.810878 }, 
+                            { name: 'plateform', moveTo: 26.751889 }, 
+                            { name: 'storage', moveTo: 38.131214 }, 
+                            { name: 'processor', moveTo: 48.607019 }, 
+                            { name: 'back camera', moveTo: 62.933575 }, 
+                            { name: 'touch ID', moveTo: 66.586525 },
+                            { name: 'wireless charging', moveTo: 73.697076 },
+                            { name: 'front camera', moveTo: 88.855526 },
+                            { name: 'colors', moveTo: 93.489768 },
+                            { name: 'design', moveTo: 103.686094 },
+                        ],
+                        style: 'visibility: visible; top: 5%; left: 3%;',
+                        start: 0.019, end: 0.019,
+                        theme: 'light',
+                        skippable: false,
+                    },
+                },
+      ]
     }
   },
-  async created() {
-    try {
-      this.elements= await axios.get("http://localhost:3000/api/insert");
-      this.elements = this.elements.data;
-    }
-    catch (err) {
-      console.log(err);
-    }        
-  },
-  
   methods: {
 
-    // getUserName(){ 
-    //     axios.get('http://localhost:3000/api/insert')
-    //     .then(res => {
-    //         console.log(res.data);
-    //     });
-    // },
          
   },
 }
 </script>
 
 <style scoped>
-    /* .container {
-        width: 500px;
-        height: 320px;
-        position: relative;
-        margin: 30px 0 0 40px;
-        border: 1px solid #ccc;
-        background-color:white; 
-    }*/
-    .draggable {
-        /* width: 200px; */
 
-        /* background: black;
-      */  position: relative; 
-    }
-    .dragger {
-        /* height: 40px; */
-        /* background: yellow; */
-        position: relative;
-    }
-  </style>
+</style>
 
   

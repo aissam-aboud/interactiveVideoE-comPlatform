@@ -15,14 +15,14 @@ export default {
     created() {
         if(this.start && this.end && this.start == this.end) {
             window.siVideo.pause();
-            window.isVidepPaused = true;
+            window.isVideoPaused = true;
         }
     },
     methods: {
         clickButtonEvent() {
             this.$refs.btn.style='visibility: hidden;';
             window.siVideo.currentTime = this.moveTo;
-            window.isVidepPaused = false;
+            window.isVideoPaused = false;
             window.siVideo.play();
         },
     },

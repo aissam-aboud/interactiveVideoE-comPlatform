@@ -79,8 +79,7 @@ export default {
 }
 .main-menu .menu-item:hover{
     cursor: pointer;
-    transform: scale(1.02);
-    border: 1px solid #6bb8fd;
+    transform: scale(1.03);
     background-color: #6bb8fd;
 }
 .main-menu .menu-item .li-icon{

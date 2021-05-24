@@ -15,7 +15,7 @@ export default {
     methods: {
         skip() {
             window.siVideo.play();
-            window.isVidepPaused = false;
+            window.isVideoPaused = false;
             this.$refs.skipBtn.style='visibility: hidden;';
 
             this.elements.forEach(element => {

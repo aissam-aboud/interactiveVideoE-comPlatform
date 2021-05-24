@@ -3,23 +3,23 @@
         <ul>
                 <!-- <li class="logo"><img src="./../../assets/storeino_logo.png"></li> -->
 
-                <li class="menu-item" @click="getComponentName('SiSelect', 'select')">
-                    <img class="li-icon" src="./../../assets/images/select.png"><p class="li-text">Select</p> 
+                <li class="menu-item select" @click="getComponentName('SiSelect', 'select')">
+                    <img class="li-icon select-icon" src="./../../assets/images/select.png"><p class="li-text">Select</p> 
                 </li>
-                <li class="menu-item" @click="getComponentName('SiLink', 'link')">
-                    <img class="li-icon" src="./../../assets/images/link.png"><p class="li-text">Link</p> 
+                <li class="menu-item link" @click="getComponentName('SiLink', 'link')">
+                    <img class="li-icon link-icon" src="./../../assets/images/link.png"><p class="li-text">Link</p> 
                 </li>
-                <li class="menu-item" @click="getComponentName('SiBubble', 'bubble')">
-                    <img class="li-icon" src="./../../assets/images/bubble.png"><p class="li-text">Bubble</p> 
+                <li class="menu-item bubble" @click="getComponentName('SiBubble', 'bubble')">
+                    <img class="li-icon bubble-icon" src="./../../assets/images/bubble.png"><p class="li-text">Bubble</p> 
                 </li>
-                <li class="menu-item" @click="getComponentName('SiForm', 'form')">
-                    <img class="li-icon" src="./../../assets/images/form.png"><p class="li-text">Form</p> 
+                <li class="menu-item form" @click="getComponentName('SiForm', 'form')">
+                    <img class="li-icon form-icon" src="./../../assets/images/form.png"><p class="li-text">Form</p> 
                 </li>
-                <li class="menu-item" @click="getComponentName('SiButton', 'button')">
-                    <img class="li-icon" src="./../../assets/images/button.png"><p class="li-text">Button</p> 
+                <li class="menu-item button" @click="getComponentName('SiButton', 'button')">
+                    <img class="li-icon button-icon" src="./../../assets/images/button.png"><p class="li-text">Button</p> 
                 </li>
-                <li class="menu-item" @click="getComponentName('SiTagProduct', 'btn-tag')">
-                    <img class="li-icon" src="./../../assets/images/tag.png"><p class="li-text">Tag product</p> 
+                <li class="menu-item btn-tag" @click="getComponentName('SiTagProduct', 'btn-tag')">
+                    <img class="li-icon btn-tag-icon" src="./../../assets/images/tag.png"><p class="li-text">Tag product</p> 
                 </li>
                 <li class="menu-item" @click="getComponentName('SiMoveTo', '')">
                     <img class="li-icon" src="./../../assets/images/skip.png"><p class="li-text">Move video to</p> 
@@ -34,6 +34,18 @@ export default {
 
     methods: {
         getComponentName(componentName, componentDraggClass) {
+            var lis = document.getElementsByClassName('menu-item');
+            var imgs = document.getElementsByClassName('li-icon');
+            lis.forEach(li => {
+                li.style.backgroundColor = 'white';
+            });
+            imgs.forEach(img => {
+                img.style.filter = 'invert(50%) sepia(10%) saturate(4000%) hue-rotate(165deg)';
+            });
+
+            document.getElementsByClassName(`${componentDraggClass}`)[0].style.backgroundColor = '#6bb8fd';
+            document.getElementsByClassName(`${componentDraggClass}-icon`)[0].style.filter = 'invert(99%) sepia(0%) saturate(500%) hue-rotate(0deg)';
+            
             this.$emit("getComponentName", componentName, componentDraggClass);
         }
     }

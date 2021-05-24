@@ -196,6 +196,7 @@
 
 <script>
 
+// backgrnd color of nav bar elements
 
 // use settimeout to call getcurrenttime trying to get the same values
 // bottom of the bubble cross the divelements
@@ -410,6 +411,8 @@ export default {
     padding:0;
 }
 .main {
+    height: 100vh;
+    background-color: rgb(241, 241, 241);
     font-family: 'Fira Sans', sans-serif;
 }
 .main-container {
@@ -447,7 +450,6 @@ export default {
     z-index: 1;
     cursor: pointer;
     font-size: 15px;
-    background: none;
     transition: 0.8s;
     overflow: hidden;
     color: #2196f3;
@@ -456,6 +458,7 @@ export default {
     position: relative;
     border-radius: 5px 5px;
     font-family: "montserrat";
+    background-color: white;
     border: 2px solid #2196f3;
     box-shadow: 0 0 10px rgb(163, 163, 163);
 }

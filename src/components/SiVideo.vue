@@ -7,7 +7,7 @@
                     v-if="element.currentProps.start <= `${currentTime}` 
                     && element.currentProps.end >= `${currentTime}`" 
                     :is="element.currentComponent" v-bind="element.currentProps" 
-                /> 
+                />
                 <!-- v-on="element.currentMethodes" -->
                 <component 
                     v-if="element.currentComponent =='SiMoveTo' 
@@ -21,8 +21,7 @@
             <SiMutedButton :isMuted="isVideoMuted" @changeVideoSound="changeVideoSound()" />
         </div>
         
-        <!-- <video @click="getCursorPosition()" @timeupdate="getCurrentTime()" @ended="onEnd()"> -->
-        <video ref="siVideo" class="siVideo" @ended="onEnd()" oncontextmenu="return false">
+        <video ref="siVideo" class="siVideo" controls @ended="onEnd()" oncontextmenu="return false">
             <source src="./../assets/videos/video.mp4" type="video/mp4">
         </video>
 
@@ -118,21 +117,6 @@ export default {
                 });
             }, 100);
         },
-
-        getCursorPosition() {
-            var divElements = document.querySelector("#app > div > div");
-            // var element = document.getElementById('myComponent');
-            
-            divElements.onclick = function clickEvent(e) {
-                var rect = e.target.getBoundingClientRect();
-                var x = e.clientX - rect.left;
-                var y = e.clientY - rect.top;
-                
-                var xp = x / (document.querySelector("#app > div > div > div").offsetWidth) * 100;
-                var yp = y / (document.querySelector("#app > div > div > div").offsetHeight) * 100;
-                console.log("x: "+ xp +" ; y: "+ yp);
-            }
-        }
     },
 }
 </script>

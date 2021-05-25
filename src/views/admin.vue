@@ -196,13 +196,13 @@
                     </div>
                 </div>
             </div>
-            <!-- <button @click="aa">ffff</button> -->
         </div>
     </div>
 </template>
 
 <script>
 
+// essayer de rendre l'appel des components dynamique
 // js in one file
 // ------- we dont need the foreache for skippable element (code in skippable elements)
 
@@ -435,8 +435,7 @@ export default {
             this.text = this.theme = this.arrow = this.url = this.selectTitle = '';
             this.top = this.left = this.endTime = this.startTime = this.moveTo= 0;
             this.componentProps = this.componentObject = {};
-        }
-
+        },
     },
 }
 </script>

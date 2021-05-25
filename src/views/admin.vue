@@ -15,7 +15,7 @@
                         :is="'SiBubble'" 
                         v-bind="{theme: theme,arrow: arrow,text: text,}" 
                         :style="{visibility: 'visible'}"
-                    /> -->>
+                    /> -->
                     <div class="si-bubble-draggable">
                         <SiBubble v-if="componentName == 'SiBubble'"
                             class="si-bubble-dragger"
@@ -25,7 +25,7 @@
                     </div>
                     <div class="si-link-draggable">
                         <SiLink v-if="componentName == 'SiLink'" 
-                        class="si-link-dragger"
+                        class="si-link-dragger si-link-default"
                         :style="{visibility: 'visible'}" :theme="theme" 
                         :text="text" :url="url"
                     />
@@ -36,7 +36,7 @@
                             v-if="componentName == 'SiButton'" 
                             :style="{visibility: 'visible'}" :theme="theme"  
                             :text="text" :moveTo=0
-                        />
+                    />
                     </div>
                     <div class="si-form-draggable">
                         <SiForm v-if="componentName == 'SiForm'"
@@ -46,7 +46,7 @@
                     </div>
                     <div class="si-select-draggable">
                          <SiSelect v-if="componentName == 'SiSelect'" 
-                            class="si-select-dragger"
+                            class="si-select-dragger si-select-default"
                             :style="{visibility: 'visible'}" :theme="theme"
                             :select_title="selectTitle" :items="selectItems"
                         />
@@ -184,13 +184,13 @@
 
                     <div v-if="componentName!='SiMoveTo'" class="form-block">
                         <button class="btn-group-item" @click="getPosition()">Get position</button>
-                        <button class="btn-group-item" @click="currTime('start')">get start time</button>
-                        <button class="btn-group-item" @click="currTime('end')">get end time</button>
+                        <button class="btn-group-item" @click="getCurrentTime('start')">get start time</button>
+                        <button class="btn-group-item" @click="getCurrentTime('end')">get end time</button>
                         <button class="btn-group-item save-btn" @click="getObject()">Save element</button>
                     </div>
                     <div v-if="componentName=='SiMoveTo'" class="form-block">
-                        <button class="btn-group-item" @click="currTime('start')">get start time</button>
-                        <button class="btn-group-item" @click="currTime('moveTo')">get move to</button>
+                        <button class="btn-group-item" @click="getCurrentTime('start')">get start time</button>
+                        <button class="btn-group-item" @click="getCurrentTime('moveTo')">get move to</button>
                         <button class="btn-group-item save-btn" @click="getObject()">Save element</button>
                     </div>
                     
@@ -201,7 +201,7 @@
 </template>
 
 <script>
-// add a cadre for the link 4 better UX also the others element must have a default width & height
+//put style in one file and js too
 // pop up when item added
 // deselect the backgrnd col when the close btn closed in admin dash
 // create my own mueted
@@ -342,7 +342,7 @@ export default {
             this.selectItems = [];
             this.componentProps = this.componentObject = {};
         },
-        currTime(time) {
+        getCurrentTime(time) {
             var video = document.getElementsByClassName('siVideo')[0];
             if(time == 'start') {
 

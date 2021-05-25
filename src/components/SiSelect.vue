@@ -7,10 +7,6 @@
     </ul>
 </template>
 
-<style scoped>
-
-</style>
-
 <script>
 export default {
     name: 'SiList',

@@ -64,49 +64,11 @@ export default {
     },
     data() {
         return {
-
             currentTime: 0,
             isVideoEnd: false,
             isVideoStart: false,
             isVideoPaused: false,
             elements: [],
-            // elements: [
-            //     {
-            //         id: 0,
-            //         currentComponent: 'SiSelect',
-            //         currentProps: {
-            //             select_title: 'Choose what do you want to know about this phone',
-            //             items: [
-            //                 { name: 'display', moveTo: 17.810878 }, 
-            //                 { name: 'plateform', moveTo: 26.751889 }, 
-            //                 { name: 'storage', moveTo: 38.131214 }, 
-            //                 { name: 'processor', moveTo: 48.607019 }, 
-            //                 { name: 'back camera', moveTo: 62.933575 }, 
-            //                 { name: 'touch ID', moveTo: 66.586525 },
-            //                 { name: 'wireless charging', moveTo: 73.697076 },
-            //                 { name: 'front camera', moveTo: 88.855526 },
-            //                 { name: 'colors', moveTo: 93.489768 },
-            //                 { name: 'design', moveTo: 103.686094 },
-            //             ],
-            //             style: 'visibility: visible; top: 5%; left: 3%;',
-            //             start: 0.019, end: 0.019,
-            //             theme: 'light',
-            //             skippable: false,
-            //         },
-            //     },
-            //     {
-            //         id: 1,
-            //         currentComponent: 'SiLink',
-            //         currentProps: {
-            //             text: 'Read more about A15 Bionic',
-            //             style: 'visibility: visible; top: 8%; left: 37%;',
-            //             url: 'https://youtube.com',
-            //             start: 0.58, end: 0.62,
-            //             theme: 'light',
-            //             skippable: true,
-            //         },
-            //     },
-            // ],
         }
     },
     async created() {

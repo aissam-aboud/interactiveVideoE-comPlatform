@@ -1,9 +1,7 @@
 <template>
-    <!-- <div class="aaa"> -->
-        <a ref="link" :class="`si-link si-link-${theme}`" :href="url" target="_blank" oncontextmenu="return false">
-            <p>{{text}}</p>
-        </a>
-    <!-- </div> -->
+    <a ref="link" :class="`si-link si-link-${theme}`" :href="url" target="_blank" oncontextmenu="return false">
+        <p>{{text}}</p>
+    </a>
 </template>
 
 <script>

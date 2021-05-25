@@ -13,7 +13,7 @@
     left: 0;
     z-index: 1;
     width: 100%;
-    height: 100%;
+    height: 98%;
     position: absolute;
     visibility: hidden;
 }
@@ -41,30 +41,38 @@
 .si-bubble p {
     padding: 0;
     margin: 0;
+    word-wrap: break-word;
 }
-.si-bubble:after {
+.si-bubble-bottom-right:after {
     width: 0;
-    left: -5%;
-    content: "";
     z-index: 1;
+    content: "";
     bottom: -28px;
     display: block;
     padding-top: 0px;
     margin-top: -30px;
     position: relative;
     border-style: solid;
-    border-width: 30px 0 0 30px;
     border-color: #ffffff transparent;
-}
-.si-bubble-right:after {
+
     left: 78%;
     border-width: 30px 30px 0 0;
 }
-.si-bubble-left:after {
+.si-bubble-bottom-left:after {
+    width: 0;
+    z-index: 1;
+    content: "";
+    bottom: -28px;
+    display: block;
+    padding-top: 0px;
+    margin-top: -30px;
+    position: relative;
+    border-style: solid;
+    border-color: #ffffff transparent;
+
     left: -5%;
     border-width: 30px 0 0 30px;
 }
-
 .si-bubble-light {
     color: black;
     border: 2px solid #2196f3;
@@ -85,7 +93,40 @@
 .si-bubble-dark:after {
     border-color: #26272b transparent;
 }
+.si-bubble-top-right:before {
+    height: 100px;
+    top: -23px;
+    z-index: 1;
+    width: 0px;
+    height: 0px;
+    content: "";
+    position: absolute;
+    border-top: 4px solid transparent;
+    border-bottom: 21px solid #ffffff;
 
+    border-left: 20px solid transparent;
+    right: 10%;
+}
+.si-bubble-top-left:before {
+    height: 100px;
+    top: -23px;
+    z-index: 1;
+    width: 0px;
+    height: 0px;
+    content: "";
+    position: absolute;
+    border-top: 4px solid transparent;
+    border-bottom: 21px solid #ffffff;
+
+    right: 82%;
+    border-right: 20px solid transparent;
+}
+.si-bubble-dark:before {
+    border-bottom: 21px solid #26272b;
+}
+.si-bubble-light:before {
+    border-bottom: 21px solid #ffffff;
+}
 .si-bubble-draggable {
     width: 20%;
     height: auto;
@@ -108,8 +149,9 @@
     font-weight: bold;
     position: absolute;
     border-radius: 4px;
-    background-color: #2196f3b0;
+    word-wrap: break-word;
     border: 2px solid white;    
+    background-color: #2196f3b0;
     box-shadow: 0 0px 6px 0px white;
 }
 .si-button:hover {
@@ -162,8 +204,9 @@
     position: absolute;
     text-align: center;
     border-radius: 2px;
-    padding: 5px 10px 12px 10px;
+    word-wrap: break-word;
     border: 2px solid white;
+    padding: 5px 10px 12px 10px;
     background-color: #2196f399;
     box-shadow: 0px 0px 10px white;
 }
@@ -271,7 +314,7 @@
     pointer-events: none;
 }
 .si-link-default p {
-    width: 100px;
+    width: 150px;
     height: 20px;
     border: 1px solid white;
     background-color: rgba(255, 255, 255, 0.342);
@@ -299,6 +342,7 @@
     user-select: none;
     overflow-y: scroll;
     border-bottom: none;
+    word-wrap: break-word;
     border: 2px solid white; 
     background-color: #2196f3;
     border-top-left-radius: 3px;
@@ -404,12 +448,13 @@
     position: relative;
 }
 .si-select-default .si-select-text{
-    height: 50px;
-    overflow: hidden;
+    height: 40px;
+    word-wrap: break-word;
 }
 .si-select-default .si-select-options{
     height: 200px;
-    overflow: hidden;
+    width: 100%;
+    overflow-y: scroll;
 }
 /* ------------------------------  SiReplayButton  ------------------------------- */
 .btn-replay {
@@ -421,17 +466,22 @@
     border-radius: 50%;
     position: absolute;
     visibility: visible;
-    background: black;
     border: 2px solid white;
+    background: rgba(0, 0, 0, 0.295);
 }
 .btn-replay .icon {
     width: 24px;
     height: 24px;
     margin-top: 3px;
+    -webkit-user-drag: none;
     transition: all 0.4s ease-in-out;
 }
 .btn-replay:hover .icon {
     transform: rotate(360deg) scale(1.2);
+}
+.btn-replay:hover {
+    cursor: pointer;
+    background: rgba(218, 218, 209, 0.582);
 }
 /* ------------------------------  SiPlayButton  ------------------------------- */
 .btn-play {
@@ -443,17 +493,22 @@
     border-radius: 50%;
     position: absolute;
     visibility: visible;
-    background: black;
     border: 2px solid white;
+    background: rgba(0, 0, 0, 0.295);
 }
 .btn-play .icon {
     width: 18px;
     height: 18px;
     margin: 3px 0 0 5px;
+    -webkit-user-drag: none;
     transition: all 0.4s ease-in-out;
 }
 .btn-play:hover .icon {
     transform: scale(1.1);
+}
+.btn-play:hover {
+    cursor: pointer;
+    background: rgba(218, 218, 209, 0.582);
 }
 /* ------------------------------  SiSkipButton  ------------------------------- */
 .btn-skip {
@@ -485,6 +540,32 @@
     border: 2px solid white;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
+/* ------------------------------  SiMutedButton  ------------------------------- */
+.btn-muted {
+    top: 90%;
+    left: 95%;
+    width: 31px;
+    height: 31px;
+    border: none;
+    user-select: none;
+    border-radius: 50%;
+    position: absolute;
+    visibility: visible;
+    background: rgba(0, 0, 0, 0.295);
+    user-select: none;
+}
+.btn-muted .icon {
+    width: 21px;
+    height: 21px;
+    margin: 4px 0 0 0;
+    -webkit-user-drag: none;
+    transition: all 0.4s ease-in-out;
+    filter: invert(99%) sepia(0%) saturate(500%) hue-rotate(0deg);
+}
+.btn-muted:hover {
+    cursor: pointer;
+    background: rgba(218, 218, 209, 0.582);
+}
 /* ------------------------------  SiTagProducT  ------------------------------- */
 .si-btn-tag {
     margin: 0;
@@ -502,6 +583,7 @@
 }
 .si-btn-tag img {
     width: 40px;
+    -webkit-user-drag: none;
     filter: invert(99%) sepia(0%) saturate(500%) hue-rotate(0deg);
 }
 
@@ -539,6 +621,41 @@
     pointer-events: none;
 }
 
+/* ------------------------------  navbar  ------------------------------- */
+.index-page {
+    height: 100vh;
+    background: rgb(241, 241, 241);
+}
+.index-page ul {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    list-style-type: none;
+    background-color: #46a6f5;
+    box-shadow: 0 6px 6px -6px black;
+}
+.index-page ul .logo{
+    padding: 10px 16px 7px 16px;
+}
+.index-page ul .logo img{
+    -webkit-user-drag: none;
+}
+.index-page li {
+    float: left;
+}
+.index-page li h2 {
+    margin: 0;
+    display: block;
+    color: white;
+    user-select: none;
+    text-align: center;
+    text-decoration: none;
+    font-family: sans-serif;
+    padding: 14px 16px 7px 16px;
+}
+
+
+
 /* ------------------------------  responsive  ------------------------------- */
 @media only screen and (max-width: 411px) {
     .container {
@@ -557,12 +674,12 @@
     [class*="si-bubble-"] {
         border-left-width: 3px;
     }
-    .si-bubble-right:after {
+    .si-bubble-bottom-right:after {
         left: 80%;
         bottom: -17px;
         border-width: 20px 25px 0 0;
     }
-    .si-bubble-left:after {
+    .si-bubble-bottom-left:after {
         left: -2%;
         bottom: -17px;
         border-width: 20px 0 0 25px;

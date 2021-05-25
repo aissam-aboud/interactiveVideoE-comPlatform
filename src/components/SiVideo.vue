@@ -18,10 +18,11 @@
             <SiSkipButton :elements="elements" v-if="isVideoPaused" />
             <SiPlayButton v-if="!isVideoStart" @playVideo="playVideo()" />
             <SiReplayButton v-if="isVideoEnd" @replayVideo="replayVideo()" />
+            <SiMutedButton :isMuted="isVideoMuted" @changeVideoSound="changeVideoSound()" />
         </div>
         
-        <!-- <video @click="getCursorPosition()" ref="siVideo" class="siVideo" controls @timeupdate="getCurrentTime()" @ended="onEnd()"> -->
-        <video ref="siVideo" class="siVideo" controls @ended="onEnd()" oncontextmenu="return false">
+        <!-- <video @click="getCursorPosition()" @timeupdate="getCurrentTime()" @ended="onEnd()"> -->
+        <video ref="siVideo" class="siVideo" @ended="onEnd()" oncontextmenu="return false">
             <source src="./../assets/videos/video.mp4" type="video/mp4">
         </video>
 
@@ -30,7 +31,8 @@
 
 <script>
 
-// trate the case of unskipable elements : skip btn should get ele.skipable in props => skip btn in loop
+// after soutenance delete skippable input an field from db
+// treate the case of unskipable elements : skip btn should get ele.skipable in props => skip btn in loop
 
 import SiForm from './SiForm';
 import SiLink from './SiLink';
@@ -42,6 +44,7 @@ import SiPlayButton from './SiPlayButton';
 import SiTagProduct from './SiTagProduct';
 import SiSkipButton from './SiSkipButton';
 import SiReplayButton from './SiReplayButton';
+import SiMutedButton from '../components/adminComponents/SiMutedButton';
 
 import axios from 'axios';
 
@@ -61,9 +64,11 @@ export default {
         SiTagProduct,
         SiSkipButton,
         SiReplayButton,
+        SiMutedButton,
     },
     data() {
         return {
+            isVideoMuted: false,
             currentTime: 0,
             isVideoEnd: false,
             isVideoStart: false,
@@ -82,6 +87,10 @@ export default {
         }        
     },
     methods: {
+        changeVideoSound(){
+            this.isVideoMuted = !this.isVideoMuted;
+            this.$refs.siVideo.muted = !this.$refs.siVideo.muted;
+        },
         onEnd() {
             this.isVideoEnd = true;
             this.elements.forEach(element => {

@@ -1,36 +1,38 @@
 <template>
+    <div class="admin-main">
+        <div v-if="showRefModal">
+                <confirmAddModal :success="success" />
+        </div>
 
-    <div class="main">
 
         <SiSidebar @getComponentName="getComponentName" />
-
         <div class="main-container">
             <div>
-                <button v-if="!isSideberOpened" class="btn1" @click="openSidebar()">Add element</button>
-                <button v-if="isSideberOpened" class="btn1" @click="closeSidebar()">Close</button>
+                <button v-if="!isSideberOpened" class="open-sidebar" @click="openSidebar()">Add element</button>
+                <button v-if="isSideberOpened" class="close-sidebar" @click="closeSidebar()">Close</button>
             </div>
-            <div class="video-container">
-                <div id="elementsDiv" class="elementsDiv">   
+            <div class="admin-video-container">
+                <div id="admin-elementsDiv" class="admin-elementsDiv">   
                     <!-- <component id="compoo"
                         :is="'SiBubble'" 
                         v-bind="{theme: theme,arrow: arrow,text: text,}" 
                         :style="{visibility: 'visible'}"
                     /> -->
-                    <div class="si-bubble-draggable">
+                    <div class="si-bubble-draggable" @mousemove="getPosition()">
                         <SiBubble v-if="componentName == 'SiBubble'"
                             class="si-bubble-dragger"
                             :style="{visibility: 'visible'}" :theme="theme"
                             :arrow="arrow" :text="text"
                         />
                     </div>
-                    <div class="si-link-draggable">
+                    <div class="si-link-draggable" @mousemove="getPosition()">
                         <SiLink v-if="componentName == 'SiLink'" 
                         class="si-link-dragger si-link-default"
                         :style="{visibility: 'visible'}" :theme="theme" 
                         :text="text" :url="url"
                     />
                     </div>
-                    <div class="si-button-draggable">
+                    <div class="si-button-draggable" @mousemove="getPosition()">
                         <SiButton 
                             class="si-button-dragger"
                             v-if="componentName == 'SiButton'" 
@@ -38,20 +40,20 @@
                             :text="text" :moveTo=0
                     />
                     </div>
-                    <div class="si-form-draggable">
+                    <div class="si-form-draggable" @mousemove="getPosition()">
                         <SiForm v-if="componentName == 'SiForm'"
                             class="si-form-dragger"
                             :style="{visibility: 'visible'}" :theme="theme" 
                         />
                     </div>
-                    <div class="si-select-draggable">
+                    <div class="si-select-draggable" @mousemove="getPosition()">
                          <SiSelect v-if="componentName == 'SiSelect'" 
                             class="si-select-dragger si-select-default"
                             :style="{visibility: 'visible'}" :theme="theme"
                             :select_title="selectTitle" :items="selectItems"
                         />
                     </div>
-                    <div class="si-btn-tag-draggable">
+                    <div class="si-btn-tag-draggable" @mousemove="getPosition()">
                         <SiTagProduct v-if="componentName == 'SiTagProduct'" 
                             id="azaz"
                             class="si-btn-tag-dragger"
@@ -60,7 +62,7 @@
                         />
                     </div> 
                 </div>
-                <video class="siVideo" controls>
+                <video class="admin-video" controls>
                     <source src="../assets/videos/video.mp4" type="video/mp4" >
                 </video>
             </div>
@@ -79,18 +81,18 @@
                                 <input class="form-input" type="number" min="0" :value="endTime" disabled>
                             </div>
                         </div>
-                        <div class="form-block">
+                        <!-- <div class="form-block">
                             <div class="form-block-item">
                                 <label class="form-label">Position X</label>
-                                <input class="form-input" :value="left"
+                                <input class="form-input" v-model="left"
                                     type="number" min="0" max="100" disabled>
                             </div>
                             <div class="form-block-item">
                                 <label class="form-label">Position Y</label>
-                                <input class="form-input" :value="top"
+                                <input class="form-input" v-model="top"
                                     type="number" min="0" max="100" disabled>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-block">
                             <div class="form-block-item">
                                 <label class="form-label">Skippable</label>
@@ -116,8 +118,10 @@
                             <div class="form-block-item">
                                 <label class="form-label">Arrow</label>
                                 <select class="form-input" name="arrow" v-model="arrow">
-                                    <option value="left">Left</option>
-                                    <option value="right">right</option>
+                                    <option value="top-left">Top left</option>
+                                    <option value="top-right">Top right</option>
+                                    <option value="bottom-left">Bottom left</option>
+                                    <option value="bottom-right">Bottom right</option>
                                 </select>
                             </div>
                         </div>
@@ -144,13 +148,12 @@
                             </div>
                         </div>
                         <!-- Select -->
-                        <form v-if="componentName=='SiSelect'" class="form-block" @submit.prevent="addSelectItem({name: selectItemName, moveTo: selectItemMoveto})">
+                        <form v-if="componentName=='SiSelect'" class="form-block" @submit.prevent="addItemToSelectList({name: selectItemName, moveTo: selectItemMoveto})">
                             <div class="form-block">
                                 <div class="form-block-item">
                                     <label class="form-label">Select title</label>
                                     <input class="form-input" type="text" v-model="selectTitle" required>
                                 </div>
-                            
                                 <div class="form-block-item">
                                     <label class="form-label">Item name</label>
                                     <input class="form-input" type="text" v-model="selectItemName" required>
@@ -178,36 +181,38 @@
                         </div>
                         <div class="form-block-item">
                             <label class="form-label">Move to</label>
-                            <input class="form-input" type="number" min="0" v-model="moveTo" disabled>
+                            <input class="form-input" type="number" min="0" :value="moveTo" disabled>
                         </div>
                     </div>
 
-                    <div v-if="componentName!='SiMoveTo'" class="form-block">
-                        <button class="btn-group-item" @click="getPosition()">Get position</button>
+                    <div class="form-block">
+                        <!-- <button class="btn-group-item" @click="getPosition()">Get position</button> -->
                         <button class="btn-group-item" @click="getCurrentTime('start')">get start time</button>
-                        <button class="btn-group-item" @click="getCurrentTime('end')">get end time</button>
-                        <button class="btn-group-item save-btn" @click="getObject()">Save element</button>
+                        <button v-if="componentName!='SiMoveTo'" class="btn-group-item" @click="getCurrentTime('end')">get end time</button>
+                        <button v-if="componentName=='SiMoveTo' || componentName=='SiButton'" 
+                                class="btn-group-item" @click="getCurrentTime('moveTo')">get move to
+                        </button>
+                        <button class="btn-group-item save-btn" @click="insertObjetToDB()">Save element</button>
                     </div>
-                    <div v-if="componentName=='SiMoveTo'" class="form-block">
-                        <button class="btn-group-item" @click="getCurrentTime('start')">get start time</button>
-                        <button class="btn-group-item" @click="getCurrentTime('moveTo')">get move to</button>
-                        <button class="btn-group-item save-btn" @click="getObject()">Save element</button>
-                    </div>
-                    
                 </div>
             </div>
+            <!-- <button @click="aa">ffff</button> -->
         </div>
     </div>
 </template>
 
 <script>
-//put style in one file and js too
-// pop up when item added
-// deselect the backgrnd col when the close btn closed in admin dash
-// create my own mueted
-// bottom of the bubble cross the divelements
-//------- we dont need the foreache for skippable element (code in skippable elements)
 
+// js in one file
+// ------- we dont need the foreache for skippable element (code in skippable elements)
+
+//------ Time line
+/*  time line width same as wideo
+    time line width 100% of time, so when we select an element it will take a place in this time line and
+    its width is the persentage of the time that will takes in video
+    we can drag the item in the time line to augment or deaugment the durantion pf an element
+    we can zoom the time line 
+*/
 
 import axios from 'axios';
 import SiLink from '../components/SiLink';
@@ -217,6 +222,8 @@ import SiSelect from '../components/SiSelect';
 import SiButton from '../components/SiButton';
 import SiTagProduct from '../components/SiTagProduct';
 import SiSidebar from '../components/adminComponents/SiSidebar';
+import confirmAddModal from '../components/adminComponents/confirmAddModal';
+
 export default {
     components: {
         SiBubble,
@@ -226,6 +233,7 @@ export default {
         SiSelect,
         SiTagProduct,
         SiSidebar ,
+        confirmAddModal,
     },
     data() {
         return {
@@ -249,10 +257,84 @@ export default {
             isComponentShows: false,
             isSideberOpened: false,
             object: {},
+            showRefModal: false,
+            success: true,
         }
     },
     methods: {
-        async getObject() {
+        closeModal () {
+            this.showRefModal = !this.showRefModal;
+        },
+        openSidebar() {
+            document.getElementsByClassName("main-menu")[0].style.width = "14%";
+            document.getElementsByClassName("main-container")[0].style.width = "83%";
+            this.isSideberOpened = true;
+        },
+        closeSidebar() {
+            this.componentName = '';
+            window.componentDraggClass = '';
+            this.isComponentShows = false;
+            document.getElementsByClassName("main-menu")[0].style.width = "5%";
+            document.getElementsByClassName("main-container")[0].style.width = "90%";
+            this.isSideberOpened = false;
+
+            var imgs = document.getElementsByClassName('li-icon');
+            var lis = document.getElementsByClassName('menu-item');
+            lis.forEach(li => {
+                li.style.backgroundColor = 'white';
+            });
+            imgs.forEach(img => {
+                img.style.filter = 'invert(50%) sepia(10%) saturate(4000%) hue-rotate(165deg)';
+            });
+        },
+        getComponentName(componentName, draggClass){
+            if(!this.isComponentShows) {
+                this.componentName = componentName;
+                window.componentDraggClass = draggClass;
+                this.openSidebar();
+                this.isComponentShows = true;
+            }
+            else {
+                if(this.componentName == componentName) {
+                    this.componentName = '';
+                    window.componentDraggClass = '';
+                    this.closeSidebar();
+                    this.isComponentShows = false;
+                }
+                else {
+                    this.isComponentShows = false;
+                    this.getComponentName(componentName, draggClass);
+                }
+            }
+        },
+        getCurrentTime(time) {
+            var video = document.getElementsByClassName('admin-video')[0];
+            if(time == 'start') {
+                this.startTime = (video.currentTime/100).toFixed(3);
+            }
+            if(time == 'end') {
+                this.endTime = (video.currentTime/100).toFixed(3);
+            }
+            if(time == 'moveTo') {
+                this.moveTo = (video.currentTime/100).toFixed(3);
+            }
+        },
+        getPosition() {
+            var top = document.getElementsByClassName(`si-${window.componentDraggClass}-draggable`)[0].style.top.slice(0, -2);
+            var left = document.getElementsByClassName(`si-${window.componentDraggClass}-draggable`)[0].style.left.slice(0, -2);
+            var videoHeight = document.getElementsByClassName('admin-video')[0].offsetHeight;
+            var videoWidth = document.getElementsByClassName('admin-video')[0].offsetWidth;
+            var pt = (top / videoHeight) * 100;
+            var pl = (left / videoWidth) * 100;
+            this.top = pt;
+            this.left = pl;
+        },
+        addItemToSelectList(item) {
+            this.selectItems.push(item);
+            this.selectItemName = '';
+            this.selectItemMoveto = '';
+        },
+        async insertObjetToDB() {
             if(this.componentName == 'SiBubble') {
                 this.componentObject = {
                     currentComponent: this.componentName,
@@ -329,236 +411,32 @@ export default {
             
             this.object = await axios.post(`http://localhost:3000/api/insert`, this.componentObject)
             .then(() => {
-                console.log(this.object);
-            }).catch((err)=>{
+                this.showRefModal = !this.showRefModal;
+                this.clearInputs();
+                this.closeSidebar();
+                this.openSidebar();
+                setTimeout(()=> { 
+                    this.showRefModal = !this.showRefModal 
+                }, 1000);
+            })
+            .catch((err)=>{
+                this.success = false;
+                this.showRefModal = !this.showRefModal;
+                setTimeout(()=> { 
+                    this.showRefModal = !this.showRefModal 
+                }, 1000);
                 console.log(err);
             });
-
-            this.top = this.left = this.endTime = this.startTime = this.moveTo= 0;
-            this.text = this.theme = this.arrow = this.url = this.selectTitle
-                    = this.selectItemName = this.selectItemMoveto = '';
-            this.componentName = '';
-            this.skippable = this.skippable = true;
+        },
+        clearInputs() {
             this.selectItems = [];
+            this.skippable = true;
+            this.selectItemName = this.selectItemMoveto = this.componentName = '';
+            this.text = this.theme = this.arrow = this.url = this.selectTitle = '';
+            this.top = this.left = this.endTime = this.startTime = this.moveTo= 0;
             this.componentProps = this.componentObject = {};
-        },
-        getCurrentTime(time) {
-            var video = document.getElementsByClassName('siVideo')[0];
-            if(time == 'start') {
-
-                this.startTime = (video.currentTime/100).toFixed(3);
-                // this.startTime = (((video.currentTime).toFixed(0))/100);
-                console.log(this.startTime);
-            }
-            if(time == 'end') {
-                this.endTime = (video.currentTime/100).toFixed(3);
-                // this.endTime = (((video.currentTime).toFixed(0))/100);
-                console.log(this.endTime);
-            }
-            if(time == 'moveTo') {
-                this.moveTo = (video.currentTime/100).toFixed(3);
-                // this.moveTo = (((video.currentTime).toFixed(0))/100);
-                console.log(this.endTime);
-            }
-        },
-        getPosition() {
-            var top = document.getElementsByClassName(`si-${window.componentDraggClass}-draggable`)[0].style.top.slice(0, -2);
-            var left = document.getElementsByClassName(`si-${window.componentDraggClass}-draggable`)[0].style.left.slice(0, -2);
-            var videoHeight = document.getElementsByClassName('siVideo')[0].offsetHeight;
-            var videoWidth = document.getElementsByClassName('siVideo')[0].offsetWidth;
-            var pt = (top / videoHeight) * 100;
-            var pl = (left / videoWidth) * 100;
-            console.log('object : '+pt, +' '+pl);
-            // document.getElementsByClassName(`si-${window.componentDraggClass}-draggable`)[0].style.top = pt+'%';
-            // document.getElementsByClassName(`si-${window.componentDraggClass}-draggable`)[0].style.left = pl+'%';
-            // this.applyPosition(pt, pl);
-            this.top = pt;
-            this.left = pl;
-        },
-        openSidebar() {
-            document.getElementsByClassName("main-menu")[0].style.width = "14%";
-            document.getElementsByClassName("main-container")[0].style.width = "83%";
-            this.isSideberOpened = true;
-        },
-        closeSidebar() {
-            this.componentName = '';
-            window.componentDraggClass = '';
-            this.isComponentShows = false;
-            document.getElementsByClassName("main-menu")[0].style.width = "5%";
-            document.getElementsByClassName("main-container")[0].style.width = "90%";
-            this.isSideberOpened = false
-        },
-        getComponentName(componentName, draggClass){
-            if(!this.isComponentShows) {
-                this.componentName = componentName;
-                window.componentDraggClass = draggClass;
-                this.openSidebar();
-                this.isComponentShows = true;
-            }
-            else {
-                if(this.componentName == componentName) {
-                    this.componentName = '';
-                    window.componentDraggClass = '';
-                    this.closeSidebar();
-                    this.isComponentShows = false;
-                }
-                else {
-                    this.isComponentShows = false;
-                    this.getComponentName(componentName, draggClass);
-
-                }
-            }
-        },
-        addSelectItem(item) {
-            this.selectItems.push(item);
-            this.selectItemName = '';
-            this.selectItemMoveto = '';
         }
+
     },
 }
 </script>
-
-<style scoped>
-*, body {
-    margin:0;
-    padding:0;
-}
-.main {
-    height: 100vh;
-    background-color: rgb(241, 241, 241);
-    font-family: 'Fira Sans', sans-serif;
-}
-.main-container {
-    width: 90%;
-    float: right;
-    margin-top: 20px;
-    position: relative;
-    transition: .3s ease;
-    padding: 10px 2% 0 0%;
-}
-.main-container .video-container {
-    z-index: 0;
-    width: 75%;
-    float: left;
-    position: relative;
-    margin: 20px 0 0 0px;
-}
-.main-container .video-container .siVideo {
-    width: 100%;
-    height: auto;
-    /* position: absolute; */
-    /* overflow: hidden; */
-}
-.main-container .video-container .elementsDiv {
-    top: 0;
-    left: 0;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    position: absolute;
-    visibility: hidden;
-}
-.btn1 {
-    z-index: 1;
-    cursor: pointer;
-    font-size: 15px;
-    transition: 0.8s;
-    overflow: hidden;
-    color: #2196f3;
-    padding: 8px 20px;
-    user-select: none;
-    position: relative;
-    border-radius: 5px 5px;
-    font-family: "montserrat";
-    background-color: white;
-    border: 2px solid #2196f3;
-    box-shadow: 0 0 10px rgb(163, 163, 163);
-}
-.btn1::before {
-    top: 0;
-    left: 0;
-    height: 0%;
-    content: "";
-    z-index: -1;
-    width: 100%;
-    transition: 0.8s;
-    position: absolute;
-    background: #6bb8fd;
-    border-radius: 0 0 50% 50%;
-}
-.btn1:hover {
-    color: #fff;
-    border: 2px solid #fff;
-}
-.btn1:hover::before {
-    height: 180% ;
-}
-.main-container .elements-form {
-    width: 24%;
-    height: auto;
-    float: right;
-    user-select: none;
-    position: relative;
-}
-.main-container .input-group {
-    width: 100%;
-    position: absolute;
-    margin: 20px 0 0 0;
-    transition: 1.3s ease;
-}
-.main-container .input-group h2 {
-    color: #2196f3;
-    margin-bottom: 15px;
-}
-.main-container .input-group .form-input {
-    width: 100%;
-    outline: none;
-    padding: 5px 5px;
-    user-select: none;
-    position: relative;
-    border-radius: 5px;
-    margin: 20px 0 8px 0;
-    border: 1px solid grey;
-}
-.main-container .input-group .form-label {
-    font-size: 12px;
-    margin-top: 5px;
-    position: absolute;
-}
-.main-container .input-group .form-block {
-    position: relative;
-}
-.main-container .input-group .form-block .form-block-item{
-    width: 42%;
-    /* margin-right: 20px; */
-    margin-right: 8%;
-    display: inline-block;
-}
-.main-container .input-group .form-block .btn-group-item {
-    width: 43%;
-    outline: none;
-    font-size: 13px;
-    cursor: pointer;
-    color: #2196f3;
-    padding: 5px 10px;
-    user-select: none;
-    border-radius: 5px;
-    margin: 15px 0 0 3%;
-    font-family: "montserrat";
-    background-color: white;
-    border: 2px solid #2196f3;
-    box-shadow: 0 0 6px rgb(163, 163, 163);
-}
-.main-container .input-group .form-block .save-btn {
-    color: white;
-    border: 2px solid white;
-    background-color: #2196f3;
-}
-.main-container .input-group .form-block .btn-group-item:hover {
-    transition: .1s;
-    transform: scale(1.02);
-}
-@media only screen and (max-width: 411px) {
-}
-</style>

@@ -68,17 +68,17 @@
             </div>
             
             <div class="elements-form">
-                <div class="input-group" v-if="componentName!='' && isSideberOpened">
+                <form class="input-group" v-if="componentName!='' && isSideberOpened" @submit.prevent="insertObjetToDB()">
                     <h2>Fill in this form please</h2>
                     <div v-if="componentName!='SiMoveTo'">
                         <div class="form-block">
                             <div class="form-block-item">
                                 <label class="form-label">Start Time</label>
-                                <input class="form-input" type="number" min="0" :value="startTime" disabled>
+                                <input class="form-input" type="number" min="0" v-model="startTime" disabled required>
                             </div>
                             <div class="form-block-item">
                                 <label class="form-label">End Time</label>
-                                <input class="form-input" type="number" min="0" :value="endTime" disabled>
+                                <input class="form-input" type="number" min="0" v-model="endTime" disabled required>
                             </div>
                         </div>
                         <!-- <div class="form-block">
@@ -96,14 +96,14 @@
                         <div class="form-block">
                             <div class="form-block-item">
                                 <label class="form-label">Skippable</label>
-                                <select class="form-input" name="skippable" v-model="skippable">
+                                <select class="form-input" name="skippable" v-model="skippable" required>
                                     <option value="true">Yes</option>
                                     <option value="false">No</option>
                                 </select>
                             </div>
                             <div class="form-block-item">
                                 <label class="form-label">Theme</label>
-                                <select class="form-input" name="theme" v-model="theme">
+                                <select class="form-input" name="theme" v-model="theme" required>
                                     <option value="light">Light</option>
                                     <option value="dark">Dark</option>
                                 </select>
@@ -113,11 +113,11 @@
                         <div class="form-block" v-if="componentName=='SiBubble'">
                             <div class="form-block-item">
                                 <label class="form-label">Text</label>
-                                <input class="form-input" type="text" v-model="text">
+                                <input class="form-input" type="text" v-model="text" required>
                             </div>
                             <div class="form-block-item">
                                 <label class="form-label">Arrow</label>
-                                <select class="form-input" name="arrow" v-model="arrow">
+                                <select class="form-input" name="arrow" v-model="arrow" required>
                                     <option value="top-left">Top left</option>
                                     <option value="top-right">Top right</option>
                                     <option value="bottom-left">Bottom left</option>
@@ -129,26 +129,26 @@
                         <div class="form-block" v-if="componentName=='SiButton'">
                             <div class="form-block-item">
                                 <label class="form-label">Text</label>
-                                <input class="form-input" type="text" v-model="text">
+                                <input class="form-input" type="text" v-model="text" required>
                             </div>
                             <div class="form-block-item">
                                 <label class="form-label">Move to</label>
-                                <input class="form-input" type="number" v-model="moveTo" disabled>
+                                <input class="form-input" type="number" v-model="moveTo" disabled required>
                             </div>
                         </div>
                         <!-- Link -->
                         <div class="form-block" v-if="componentName=='SiLink'">
                             <div class="form-block-item">
                                 <label class="form-label">Text</label>
-                                <input class="form-input" type="text" v-model="text">
+                                <input class="form-input" type="text" v-model="text" required>
                             </div>
                             <div class="form-block-item">
                                 <label class="form-label">URL</label>
-                                <input class="form-input" type="text" v-model="url">
+                                <input class="form-input" type="text" v-model="url" required>
                             </div>
                         </div>
                         <!-- Select -->
-                        <form v-if="componentName=='SiSelect'" class="form-block" @submit.prevent="addItemToSelectList({name: selectItemName, moveTo: selectItemMoveto})">
+                        <div v-if="componentName=='SiSelect'" class="form-block">
                             <div class="form-block">
                                 <div class="form-block-item">
                                     <label class="form-label">Select title</label>
@@ -156,20 +156,23 @@
                                 </div>
                                 <div class="form-block-item">
                                     <label class="form-label">Item name</label>
-                                    <input class="form-input" type="text" v-model="selectItemName" required>
+                                    <input class="form-input" type="text" v-model="selectItemName">
                                 </div>
                                 <div class="form-block-item">
                                     <label class="form-label">Item value(Move to)</label>
-                                    <input class="form-input" type="text" v-model="selectItemMoveto" required>
+                                    <input class="form-input" type="text" v-model="selectItemMoveto">
                                 </div>
-                                <button v-if="selectItemName && selectItemMoveto" class="btn-group-item save-btn">Add to list</button>
+                                <button @click.prevent="addItemToSelectList({name: selectItemName, moveTo: selectItemMoveto})"
+                                        v-if="selectItemName && selectItemMoveto" 
+                                        class="btn-group-item save-btn">Add to list
+                                </button>
                             </div>
-                        </form>
+                        </div>
                         <!-- Tag product -->
                         <div class="form-block" v-if="componentName=='SiTagProduct'">
                             <div class="form-block-item">
                                 <label class="form-label">URL</label>
-                                <input class="form-input" type="text" v-model="url">
+                                <input class="form-input" type="text" v-model="url" required>
                             </div>
                         </div>
                     </div>
@@ -177,24 +180,27 @@
                     <div class="form-block" v-if="componentName=='SiMoveTo'">
                         <div class="form-block-item">
                             <label class="form-label">Start Time</label>
-                            <input class="form-input" type="number" min="0" :value="startTime" disabled>
+                            <input class="form-input" type="number" min="0" :value="startTime" disabled required>
                         </div>
                         <div class="form-block-item">
                             <label class="form-label">Move to</label>
-                            <input class="form-input" type="number" min="0" :value="moveTo" disabled>
+                            <input class="form-input" type="number" min="0" :value="moveTo" disabled required>
                         </div>
                     </div>
 
+
                     <div class="form-block">
                         <!-- <button class="btn-group-item" @click="getPosition()">Get position</button> -->
-                        <button class="btn-group-item" @click="getCurrentTime('start')">get start time</button>
-                        <button v-if="componentName!='SiMoveTo'" class="btn-group-item" @click="getCurrentTime('end')">get end time</button>
-                        <button v-if="componentName=='SiMoveTo' || componentName=='SiButton'" 
-                                class="btn-group-item" @click="getCurrentTime('moveTo')">get move to
+                        <button @click.prevent="getCurrentTime('start')" class="btn-group-item">get start time</button>
+                        <button @click.prevent="getCurrentTime('end')"  class="btn-group-item"
+                                v-if="componentName!='SiMoveTo'">get end time
                         </button>
-                        <button class="btn-group-item save-btn" @click="insertObjetToDB()">Save element</button>
+                        <button @click.prevent="getCurrentTime('moveTo')" class="btn-group-item"
+                                v-if="componentName=='SiMoveTo' || componentName=='SiButton'">get move to
+                        </button>
+                        <button type="submit" class="btn-group-item save-btn">Save element</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

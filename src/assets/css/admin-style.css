@@ -11,9 +11,17 @@
     transition: .3s ease;
     padding: 10px 2% 0 0%;
 }
-.main-container .admin-video-container {
+.main-container .global-container {
     z-index: 0;
     width: 75%;
+    float: left;
+    position: relative;
+    margin: 20px 0 0 0px;
+}
+.main-container .admin-video-container {
+    z-index: 0;
+    width: 100%;
+    height: 90%;
     float: left;
     position: relative;
     margin: 20px 0 0 0px;
@@ -27,7 +35,7 @@
     left: 0;
     z-index: 1;
     width: 100%;
-    height: 100%;
+    height: 99%;
     overflow: hidden;
     position: absolute;
     visibility: hidden;
@@ -68,9 +76,10 @@
     height: 180% ;
 }
 .main-container .elements-form {
+    top: 15px;
     width: 24%;
-    height: auto;
     float: right;
+    height: auto;
     user-select: none;
     position: relative;
 }

@@ -8,67 +8,67 @@
         <SiSidebar @getComponentName="getComponentName" />
         <div class="main-container">
             <div>
-                <button @click="aa">OKOKOK</button>
                 <button v-if="!isSideberOpened" class="open-sidebar" @click="openSidebar()">Add element</button>
                 <button v-if="isSideberOpened" class="close-sidebar" @click="closeSidebar()">Close</button>
             </div>
-            <div class="admin-video-container">
-                <div id="admin-elementsDiv" class="admin-elementsDiv">   
-                    <!-- <component id="compoo"
-                        :is="'SiBubble'" 
-                        v-bind="{theme: theme,arrow: arrow,text: text,}" 
-                        :style="{visibility: 'visible'}"
-                    /> -->
-                    <div class="si-bubble-draggable" @mousemove="getPosition()">
-                        <SiBubble v-if="componentName == 'SiBubble'"
-                            class="si-bubble-dragger"
-                            :style="{visibility: 'visible'}" :theme="theme"
-                            :arrow="arrow" :text="text"
-                        />
-                    </div>
-                    <div class="si-link-draggable" @mousemove="getPosition()">
-                        <SiLink v-if="componentName == 'SiLink'" 
-                        class="si-link-dragger si-link-default"
-                        :style="{visibility: 'visible'}" :theme="theme" 
-                        :text="text" :url="url"
-                    />
-                    </div>
-                    <div class="si-button-draggable" @mousemove="getPosition()">
-                        <SiButton 
-                            class="si-button-dragger"
-                            v-if="componentName == 'SiButton'" 
-                            :style="{visibility: 'visible'}" :theme="theme"  
-                            :text="text" :moveTo=0
-                    />
-                    </div>
-                    <div class="si-form-draggable" @mousemove="getPosition()">
-                        <SiForm v-if="componentName == 'SiForm'"
-                            class="si-form-dragger"
+            <div class="global-container">
+                <div class="admin-video-container">
+                    <div id="admin-elementsDiv" class="admin-elementsDiv">   
+                        <!-- <component id="compoo"
+                            :is="'SiBubble'" 
+                            v-bind="{theme: theme,arrow: arrow,text: text,}" 
+                            :style="{visibility: 'visible'}"
+                        /> -->
+                        <div class="si-bubble-draggable" @mousemove="getPosition()">
+                            <SiBubble v-if="componentName == 'SiBubble'"
+                                class="si-bubble-dragger"
+                                :style="{visibility: 'visible'}" :theme="theme"
+                                :arrow="arrow" :text="text"
+                            />
+                        </div>
+                        <div class="si-link-draggable" @mousemove="getPosition()">
+                            <SiLink v-if="componentName == 'SiLink'" 
+                            class="si-link-dragger si-link-default"
                             :style="{visibility: 'visible'}" :theme="theme" 
+                            :text="text" :url="url"
                         />
+                        </div>
+                        <div class="si-button-draggable" @mousemove="getPosition()">
+                            <SiButton 
+                                class="si-button-dragger"
+                                v-if="componentName == 'SiButton'" 
+                                :style="{visibility: 'visible'}" :theme="theme"  
+                                :text="text" :moveTo=0
+                        />
+                        </div>
+                        <div class="si-form-draggable" @mousemove="getPosition()">
+                            <SiForm v-if="componentName == 'SiForm'"
+                                class="si-form-dragger"
+                                :style="{visibility: 'visible'}" :theme="theme" 
+                            />
+                        </div>
+                        <div class="si-select-draggable" @mousemove="getPosition()">
+                            <SiSelect v-if="componentName == 'SiSelect'" 
+                                class="si-select-dragger si-select-default"
+                                :style="{visibility: 'visible'}" :theme="theme"
+                                :select_title="selectTitle" :items="selectItems"
+                            />
+                        </div>
+                        <div class="si-btn-tag-draggable" @mousemove="getPosition()">
+                            <SiTagProduct v-if="componentName == 'SiTagProduct'" 
+                                id="azaz"
+                                class="si-btn-tag-dragger"
+                                :style="{visibility: 'visible'}" :theme="theme" 
+                                :url="url"
+                            />
+                        </div> 
                     </div>
-                    <div class="si-select-draggable" @mousemove="getPosition()">
-                         <SiSelect v-if="componentName == 'SiSelect'" 
-                            class="si-select-dragger si-select-default"
-                            :style="{visibility: 'visible'}" :theme="theme"
-                            :select_title="selectTitle" :items="selectItems"
-                        />
-                    </div>
-                    <div class="si-btn-tag-draggable" @mousemove="getPosition()">
-                        <SiTagProduct v-if="componentName == 'SiTagProduct'" 
-                            id="azaz"
-                            class="si-btn-tag-dragger"
-                            :style="{visibility: 'visible'}" :theme="theme" 
-                            :url="url"
-                        />
-                    </div> 
+                    <video class="admin-video" controls>
+                        <source src="../assets/videos/video.mp4" type="video/mp4" >
+                    </video>
                 </div>
-                <video class="admin-video" @timeupdate="changeTimelineFromVideo" controls>
-                    <source src="../assets/videos/video.mp4" type="video/mp4" >
-                </video>
 
                 <TimeLine @changeVideoFromTimeline="changeVideoFromTimeline" />
-                <button @click="fnt">oKoKoK</button>
             </div>
             
             <div class="elements-form">
@@ -211,17 +211,20 @@
 </template>
   
 <script>
+// add login to access admin and client space
+//chose vide and show it in real time
+// https://stackoverflow.com/questions/45661913/vanilla-javascript-preview-video-file-before-upload-no-jquery
 
-// si befor current in time line + item width == 100 stop videp
+// add borders to time line progress so if its width == 0 we can dragg it from borders
+// THEME OF MY PROJEEEECT
 
 // essayer de rendre l'appel des components dynamique
 // js in one file
 // ------- we dont need the foreache for skippable element (code in skippable elements)
 
 //------ Time line
-/*  time line width 100% of time, so when we select an element it will take a place in this time line and
-    its width is the persentage of the time that will takes in video
-    we can drag the item in the time line to augment or deaugment the durantion pf an element
+/*   
+    we can drag the item in the time line to augment or deaugment the durantion of an element
     we can zoom the time line
 */
 
@@ -272,6 +275,7 @@ export default {
             object: {},
             showRefModal: false,
             success: true,
+            videoDuration: 0,
         }
     },
     methods: {
@@ -282,14 +286,6 @@ export default {
             // var timelineLeft = ((timeLineProgress.style.left.slice(0, -2)/videoWidth)*100);
             // video.currentTime = timelineLeft;
             // console.log('eeeeee');
-        },
-        changeTimelineFromVideo() {
-            var video = document.getElementsByClassName('admin-video')[0];
-            var duration = video.duration;
-            var currentTime = video.currentTime;
-            var positionLeft = (currentTime*100) / duration;
-            var timeLineProgress = document.getElementsByClassName('time-line-progress')[0];
-            timeLineProgress.style.left = positionLeft+ '%';           
         },
         aa() {
             // var a = document.getElementsByClassName('admin-video')[0].duration;
@@ -310,6 +306,8 @@ export default {
             console.log((a.offsetWidth/670)*100);
             console.log((a.style.left/670)*100);
         },
+
+
         closeModal () {
             this.showRefModal = !this.showRefModal;
         },
@@ -319,6 +317,7 @@ export default {
             this.isSideberOpened = true;
         },
         closeSidebar() {
+            console.log(window.timeLineProgressWidth);
             this.componentName = '';
             window.componentDraggClass = '';
             this.isComponentShows = false;
@@ -336,11 +335,25 @@ export default {
             });
         },
         getComponentName(componentName, draggClass){
+            
+            window.video = document.getElementsByClassName('admin-video')[0];
+            var duration = window.video.duration;
+            var currentTime = window.video.currentTime;
+            var videoPosition = (currentTime*100) / duration;
+
+            var timeLineProgress = document.getElementsByClassName('time-line-progress')[0];
+            var defaultWidth = ((10*1000*100)/window.video.duration);
+            timeLineProgress.style.width=defaultWidth+'%';
+            timeLineProgress.style.left = videoPosition+ '%';
+
+
+
             if(!this.isComponentShows) {
                 this.componentName = componentName;
                 window.componentDraggClass = draggClass;
                 this.openSidebar();
                 this.isComponentShows = true;
+                timeLineProgress.style.width='10%'
             }
             else {
                 if(this.componentName == componentName) {
@@ -348,6 +361,7 @@ export default {
                     window.componentDraggClass = '';
                     this.closeSidebar();
                     this.isComponentShows = false;
+                    timeLineProgress.style.width='0%'
                 }
                 else {
                     this.isComponentShows = false;

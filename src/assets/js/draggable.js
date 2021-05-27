@@ -1,4 +1,3 @@
-
 window.componentDraggClass;
 var x, y, target = null;
 document.addEventListener('mousedown', function(e) {

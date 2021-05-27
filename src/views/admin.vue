@@ -8,6 +8,7 @@
         <SiSidebar @getComponentName="getComponentName" />
         <div class="main-container">
             <div>
+                <button @click="aa">OKOKOK</button>
                 <button v-if="!isSideberOpened" class="open-sidebar" @click="openSidebar()">Add element</button>
                 <button v-if="isSideberOpened" class="close-sidebar" @click="closeSidebar()">Close</button>
             </div>
@@ -62,9 +63,12 @@
                         />
                     </div> 
                 </div>
-                <video class="admin-video" controls>
+                <video class="admin-video" @timeupdate="changeTimelineFromVideo" controls>
                     <source src="../assets/videos/video.mp4" type="video/mp4" >
                 </video>
+
+                <TimeLine @changeVideoFromTimeline="changeVideoFromTimeline" />
+                <button @click="fnt">oKoKoK</button>
             </div>
             
             <div class="elements-form">
@@ -205,19 +209,20 @@
         </div>
     </div>
 </template>
-
+  
 <script>
+
+// si befor current in time line + item width == 100 stop videp
 
 // essayer de rendre l'appel des components dynamique
 // js in one file
 // ------- we dont need the foreache for skippable element (code in skippable elements)
 
 //------ Time line
-/*  time line width same as wideo
-    time line width 100% of time, so when we select an element it will take a place in this time line and
+/*  time line width 100% of time, so when we select an element it will take a place in this time line and
     its width is the persentage of the time that will takes in video
     we can drag the item in the time line to augment or deaugment the durantion pf an element
-    we can zoom the time line 
+    we can zoom the time line
 */
 
 import axios from 'axios';
@@ -229,6 +234,7 @@ import SiButton from '../components/SiButton';
 import SiTagProduct from '../components/SiTagProduct';
 import SiSidebar from '../components/adminComponents/SiSidebar';
 import confirmAddModal from '../components/adminComponents/confirmAddModal';
+import TimeLine from '../components/adminComponents/TimeLine';
 
 export default {
     components: {
@@ -240,6 +246,7 @@ export default {
         SiTagProduct,
         SiSidebar ,
         confirmAddModal,
+        TimeLine,
     },
     data() {
         return {
@@ -268,6 +275,41 @@ export default {
         }
     },
     methods: {
+        changeVideoFromTimeline() {
+            // var video = document.getElementsByClassName('admin-video')[0];
+            // var videoWidth = video.duration;
+            // var timeLineProgress = document.getElementsByClassName('time-line-progress')[0];
+            // var timelineLeft = ((timeLineProgress.style.left.slice(0, -2)/videoWidth)*100);
+            // video.currentTime = timelineLeft;
+            // console.log('eeeeee');
+        },
+        changeTimelineFromVideo() {
+            var video = document.getElementsByClassName('admin-video')[0];
+            var duration = video.duration;
+            var currentTime = video.currentTime;
+            var positionLeft = (currentTime*100) / duration;
+            var timeLineProgress = document.getElementsByClassName('time-line-progress')[0];
+            timeLineProgress.style.left = positionLeft+ '%';           
+        },
+        aa() {
+            // var a = document.getElementsByClassName('admin-video')[0].duration;
+            // var b = document.getElementsByClassName('admin-video')[0].currentTime;
+            // console.log(((b*100)/a)+ '%');
+            // var t = document.getElementsByClassName('time-line-progress')[0];
+            // t.style.left = ((b*100)/a)+ '%';
+            // t.style.width = (1000/a)+ '%';
+            // console.log(a);
+            // console.log(t.style.width);
+        },
+
+
+
+
+        fnt() {
+            var a = document.getElementsByClassName('time-line-progress')[0];
+            console.log((a.offsetWidth/670)*100);
+            console.log((a.style.left/670)*100);
+        },
         closeModal () {
             this.showRefModal = !this.showRefModal;
         },

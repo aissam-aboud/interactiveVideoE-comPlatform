@@ -13,7 +13,11 @@
             </div>
             <div class="global-container">
                 <div class="admin-video-container">
-                    <div id="admin-elementsDiv" class="admin-elementsDiv">   
+                    <div id="admin-elementsDiv" class="admin-elementsDiv"> 
+
+                        <SiPlayButton v-if="!isVideoStart" @playVideo="playVideo()" />
+                        <SiReplayButton v-if="isVideoEnd" @replayVideo="replayVideo()" />
+
                         <!-- <component id="compoo"
                             :is="'SiBubble'" 
                             v-bind="{theme: theme,arrow: arrow,text: text,}" 
@@ -63,12 +67,13 @@
                             />
                         </div> 
                     </div>
-                    <video class="admin-video" controls>
+                    <video class="admin-video" controls @ended="onEnd()">
                         <source src="../assets/videos/video.mp4" type="video/mp4" >
                     </video>
                 </div>
 
-                <TimeLine @changeVideoFromTimeline="changeVideoFromTimeline" />
+                <VideoTimeLine />
+                <ItemsTimeLine @getStartTime="getStartTimeFromTimeLine" />
             </div>
             
             <div class="elements-form">
@@ -211,6 +216,8 @@
 </template>
   
 <script>
+
+// add a line time with vertical line like in filmore that goes with time also , rular time line
 // add login to access admin and client space
 //chose vide and show it in real time
 // https://stackoverflow.com/questions/45661913/vanilla-javascript-preview-video-file-before-upload-no-jquery
@@ -237,7 +244,10 @@ import SiButton from '../components/SiButton';
 import SiTagProduct from '../components/SiTagProduct';
 import SiSidebar from '../components/adminComponents/SiSidebar';
 import confirmAddModal from '../components/adminComponents/confirmAddModal';
-import TimeLine from '../components/adminComponents/TimeLine';
+import SiPlayButton from '../components/SiPlayButton';
+import SiReplayButton from '../components/SiReplayButton';
+import ItemsTimeLine from '../components/adminComponents/ItemsTimeLine';
+import VideoTimeLine from '../components/adminComponents//VideoTimeLine';
 
 export default {
     components: {
@@ -249,7 +259,10 @@ export default {
         SiTagProduct,
         SiSidebar ,
         confirmAddModal,
-        TimeLine,
+        ItemsTimeLine,
+        SiPlayButton,
+        SiReplayButton,
+        VideoTimeLine,
     },
     data() {
         return {
@@ -276,16 +289,18 @@ export default {
             showRefModal: false,
             success: true,
             videoDuration: 0,
+            isVideoStart: false,
+            isVideoEnd: false,
         }
     },
     methods: {
-        changeVideoFromTimeline() {
-            // var video = document.getElementsByClassName('admin-video')[0];
-            // var videoWidth = video.duration;
-            // var timeLineProgress = document.getElementsByClassName('time-line-progress')[0];
-            // var timelineLeft = ((timeLineProgress.style.left.slice(0, -2)/videoWidth)*100);
-            // video.currentTime = timelineLeft;
-            // console.log('eeeeee');
+        getStartTimeFromTimeLine() {
+            var duration = window.adminVideo.duration;
+            var startTime = ((duration * window.timeLineProgressLeft)/100);
+            var endTime = ((duration * window.timeLineProgressRight)/100);
+            this.startTime = (startTime/100).toFixed(3);
+            this.endTime = (endTime/100).toFixed(3);
+            console.log('tt : '+(duration/100).toFixed(3));
         },
         aa() {
             // var a = document.getElementsByClassName('admin-video')[0].duration;
@@ -299,15 +314,6 @@ export default {
         },
 
 
-
-
-        fnt() {
-            var a = document.getElementsByClassName('time-line-progress')[0];
-            console.log((a.offsetWidth/670)*100);
-            console.log((a.style.left/670)*100);
-        },
-
-
         closeModal () {
             this.showRefModal = !this.showRefModal;
         },
@@ -317,7 +323,6 @@ export default {
             this.isSideberOpened = true;
         },
         closeSidebar() {
-            console.log(window.timeLineProgressWidth);
             this.componentName = '';
             window.componentDraggClass = '';
             this.isComponentShows = false;
@@ -334,26 +339,27 @@ export default {
                 img.style.filter = 'invert(50%) sepia(10%) saturate(4000%) hue-rotate(165deg)';
             });
         },
+
         getComponentName(componentName, draggClass){
             
-            window.video = document.getElementsByClassName('admin-video')[0];
-            var duration = window.video.duration;
-            var currentTime = window.video.currentTime;
+            window.adminVideo = document.getElementsByClassName('admin-video')[0];
+            var duration = window.adminVideo.duration;
+            var currentTime = window.adminVideo.currentTime;
             var videoPosition = (currentTime*100) / duration;
 
             var timeLineProgress = document.getElementsByClassName('time-line-progress')[0];
-            var defaultWidth = ((10*1000*100)/window.video.duration);
-            timeLineProgress.style.width=defaultWidth+'%';
-            timeLineProgress.style.left = videoPosition+ '%';
-
-
-
+            var defaultWidth = ((10*100)/duration);
+            
+            this.startTime = (currentTime/100).toFixed(3);
+            
             if(!this.isComponentShows) {
                 this.componentName = componentName;
                 window.componentDraggClass = draggClass;
                 this.openSidebar();
                 this.isComponentShows = true;
-                timeLineProgress.style.width='10%'
+
+                timeLineProgress.style.width = defaultWidth+'%';
+                timeLineProgress.style.left = videoPosition+ '%';
             }
             else {
                 if(this.componentName == componentName) {
@@ -497,6 +503,18 @@ export default {
             this.text = this.theme = this.arrow = this.url = this.selectTitle = '';
             this.top = this.left = this.endTime = this.startTime = this.moveTo= 0;
             this.componentProps = this.componentObject = {};
+        },
+        playVideo() {
+            document.getElementsByClassName('admin-video')[0].play();       
+            this.isVideoStart = true;
+        },
+        replayVideo() {
+            this.isVideoEnd = false;
+            document.getElementsByClassName('admin-video')[0].currentTime = 0;
+            document.getElementsByClassName('admin-video')[0].play();
+        },
+        onEnd() {
+            this.isVideoEnd = true;
         },
     },
 }

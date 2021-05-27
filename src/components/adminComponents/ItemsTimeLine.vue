@@ -1,6 +1,6 @@
 <template>
     <div class="time-line">
-        <div @mousemove="changeVideoFromTimeline" class="time-line-progress">
+        <div @mouseup="getStartTime()" class="time-line-progress">
             <p class="time-line-text"></p>
         </div>        
     </div>
@@ -8,24 +8,30 @@
 
 <script>
 
+// call each event from an other one and verify the 3ala9at
 setTimeout(()=> {
-    // we need this to get pos of right side of time line progress
-    var timeLineProgress = document.getElementsByClassName('time-line-progress')[0];
-    var timeLine = document.getElementsByClassName('time-line')[0].offsetWidth;
-    timeLineProgress.addEventListener('mousedown', ()=> {
-        timeLineProgress.addEventListener('mousemove', ()=> {
-            window.timeLineProgressWidth = timeLineProgress.offsetWidth;
-            // var videoDuration = window.video.duration;
-            console.log(timeLine);
-        });
-    });
+    window.timeLineProgress = document.getElementsByClassName('time-line-progress')[0];
+    window.timeLine = document.getElementsByClassName('time-line')[0];
+    var timeLineWidth = window.timeLine.offsetWidth;
+
+    window.timeLineProgress.addEventListener('mouseup', ()=> {
+        // get start time
+        window.timeLineProgressLeft = (((window.timeLineProgress.style.left.slice(0, -2)) * 100)/timeLineWidth);
+        // get end time
+        window.timeLineProgressWidth = ((window.timeLineProgress.offsetWidth * 100)/timeLineWidth);
+        window.timeLineProgressRight = (window.timeLineProgressLeft + window.timeLineProgressWidth);
+        console.log(window.timeLineProgressRight);
+
+        // var duration = (window.adminVideo.duration/100).toFixed(3);
+        // window.currentTimeByTimeLine = ((window.timeLineProgressLeft * duration)/100).toFixed(3);
+    }); 
 }, 100);
 
 export default {
     methods: {
-        changeVideoFromTimeline() {
-            this.$emit("changeVideoFromTimeline");
-        }
+        getStartTime() {
+            this.$emit("getStartTime");
+        },
     },
 }
 
@@ -63,7 +69,7 @@ document.addEventListener('mousemove', function(e) {
 
 <style scoped>
 .time-line {
-    top: 10px;
+    /* top: 10px; */
     width: 100%;
     height: 30px;
     overflow: hidden;
@@ -75,19 +81,16 @@ document.addEventListener('mousemove', function(e) {
 }
 
 .time-line-progress {
-    width: 0%;
+    margin: 0;
+    padding: 0;
     height: 100%;
     overflow: auto;
-    /* margin-left: 0%; */
     max-width: 100%;
     user-select: none;
     position: absolute;
     resize: horizontal;
     border-radius: 5px;
     background-color: #065fd4;
-    padding: 0;
-    margin: 0;
-    
 }
 .time-line-progress p {
     margin: 0;

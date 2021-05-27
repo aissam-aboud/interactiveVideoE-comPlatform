@@ -109,6 +109,7 @@ export default {
             setInterval(()=> {
                 this.isVideoPaused = window.isVideoPaused;
                 this.currentTime = (((window.siVideo.currentTime)/100).toFixed(3));
+                console.log(this.currentTime);
                 
                 this.elements.forEach(element => {
                     if(element.currentProps.start == this.currentTime) {

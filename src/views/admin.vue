@@ -219,7 +219,7 @@
 
 // add a line time with vertical line like in filmore that goes with time also , rular time line
 // add login to access admin and client space
-//chose vide and show it in real time
+//chose video and show it in real time
 // https://stackoverflow.com/questions/45661913/vanilla-javascript-preview-video-file-before-upload-no-jquery
 
 // add borders to time line progress so if its width == 0 we can dragg it from borders
@@ -302,22 +302,12 @@ export default {
             this.endTime = (endTime/100).toFixed(3);
             console.log('tt : '+(duration/100).toFixed(3));
         },
-        aa() {
-            // var a = document.getElementsByClassName('admin-video')[0].duration;
-            // var b = document.getElementsByClassName('admin-video')[0].currentTime;
-            // console.log(((b*100)/a)+ '%');
-            // var t = document.getElementsByClassName('time-line-progress')[0];
-            // t.style.left = ((b*100)/a)+ '%';
-            // t.style.width = (1000/a)+ '%';
-            // console.log(a);
-            // console.log(t.style.width);
-        },
-
-
         closeModal () {
             this.showRefModal = !this.showRefModal;
         },
         openSidebar() {
+            window.videoTimeLine = document.getElementsByClassName('video-time-line')[0];
+
             document.getElementsByClassName("main-menu")[0].style.width = "14%";
             document.getElementsByClassName("main-container")[0].style.width = "83%";
             this.isSideberOpened = true;
@@ -338,14 +328,23 @@ export default {
             imgs.forEach(img => {
                 img.style.filter = 'invert(50%) sepia(10%) saturate(4000%) hue-rotate(165deg)';
             });
+
+            var videoTimeLineProgress = document.getElementsByClassName('time-line-draggable')[0];
+            videoTimeLineProgress.style.width='0px';
+            var timeLineProgress = document.getElementsByClassName('time-line-progress')[0];
+            timeLineProgress.style.width = '0%';
         },
 
         getComponentName(componentName, draggClass){
+
+            window.videoTimeLine = document.getElementsByClassName('video-time-line')[0];
             
             window.adminVideo = document.getElementsByClassName('admin-video')[0];
             var duration = window.adminVideo.duration;
             var currentTime = window.adminVideo.currentTime;
             var videoPosition = (currentTime*100) / duration;
+
+            var videoTimeLineProgress = document.getElementsByClassName('time-line-draggable')[0];
 
             var timeLineProgress = document.getElementsByClassName('time-line-progress')[0];
             var defaultWidth = ((10*100)/duration);
@@ -358,6 +357,7 @@ export default {
                 this.openSidebar();
                 this.isComponentShows = true;
 
+                videoTimeLineProgress.style.width='3px';
                 timeLineProgress.style.width = defaultWidth+'%';
                 timeLineProgress.style.left = videoPosition+ '%';
             }
@@ -367,7 +367,8 @@ export default {
                     window.componentDraggClass = '';
                     this.closeSidebar();
                     this.isComponentShows = false;
-                    timeLineProgress.style.width='0%'
+                    videoTimeLineProgress.style.width='0px';
+                    timeLineProgress.style.width='0%';
                 }
                 else {
                     this.isComponentShows = false;
@@ -505,9 +506,11 @@ export default {
             this.componentProps = this.componentObject = {};
         },
         playVideo() {
-            document.getElementsByClassName('admin-video')[0].play();       
+            var adminVideo = document.getElementsByClassName('admin-video')[0];       
+            adminVideo.play();       
             this.isVideoStart = true;
         },
+
         replayVideo() {
             this.isVideoEnd = false;
             document.getElementsByClassName('admin-video')[0].currentTime = 0;

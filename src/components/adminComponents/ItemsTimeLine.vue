@@ -8,6 +8,14 @@
 
 <script>
 
+export default {
+    methods: {
+        getStartTime() {
+            this.$emit("getStartTime");
+        },
+    },
+}
+
 // call each event from an other one and verify the 3ala9at
 setTimeout(()=> {
     window.timeLineProgress = document.getElementsByClassName('time-line-progress')[0];
@@ -27,13 +35,8 @@ setTimeout(()=> {
     }); 
 }, 100);
 
-export default {
-    methods: {
-        getStartTime() {
-            this.$emit("getStartTime");
-        },
-    },
-}
+
+//daraggable item
 
 var x, target = null;
 document.addEventListener('mousedown', function(e) {
@@ -69,7 +72,7 @@ document.addEventListener('mousemove', function(e) {
 
 <style scoped>
 .time-line {
-    /* top: 10px; */
+    top: 10px;
     width: 100%;
     height: 30px;
     overflow: hidden;

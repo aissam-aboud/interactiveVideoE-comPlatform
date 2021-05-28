@@ -1,6 +1,6 @@
 <template>
     <div class="time-line">
-        <div @mouseup="getStartTime()" class="time-line-progress">
+        <div class="time-line-progress">
             <p class="time-line-text"></p>
         </div>        
     </div>
@@ -10,28 +10,29 @@
 
 export default {
     methods: {
-        getStartTime() {
-            this.$emit("getStartTime");
-        },
     },
 }
+
 
 // call each event from an other one and verify the 3ala9at
 setTimeout(()=> {
     window.timeLineProgress = document.getElementsByClassName('time-line-progress')[0];
     window.timeLine = document.getElementsByClassName('time-line')[0];
-    var timeLineWidth = window.timeLine.offsetWidth;
 
-    window.timeLineProgress.addEventListener('mouseup', ()=> {
-        // get start time
-        window.timeLineProgressLeft = (((window.timeLineProgress.style.left.slice(0, -2)) * 100)/timeLineWidth);
-        // get end time
-        window.timeLineProgressWidth = ((window.timeLineProgress.offsetWidth * 100)/timeLineWidth);
-        window.timeLineProgressRight = (window.timeLineProgressLeft + window.timeLineProgressWidth);
-        console.log(window.timeLineProgressRight);
+    window.timeLineProgress.addEventListener('mousedown', ()=> {
+        var timeLineWidth = window.timeLine.offsetWidth;
 
-        // var duration = (window.adminVideo.duration/100).toFixed(3);
-        // window.currentTimeByTimeLine = ((window.timeLineProgressLeft * duration)/100).toFixed(3);
+        document.addEventListener('mouseup', ()=> {
+            // get start time
+            window.timeLineProgressLeft = (((window.timeLineProgress.style.left.slice(0, -2)) * 100)/timeLineWidth);
+            // get end time
+            window.timeLineProgressWidth = ((window.timeLineProgress.offsetWidth * 100)/timeLineWidth);
+            window.timeLineProgressRight = (window.timeLineProgressLeft + window.timeLineProgressWidth);
+
+            // console.log('rrytrfuyjgyfukhujoilkkk');
+            // var duration = (window.adminVideo.duration/100).toFixed(3);
+            // window.currentTimeByTimeLine = ((window.timeLineProgressLeft * duration)/100).toFixed(3);
+        }); 
     }); 
 }, 100);
 
@@ -72,7 +73,7 @@ document.addEventListener('mousemove', function(e) {
 
 <style scoped>
 .time-line {
-    top: 10px;
+    top: 15px;
     width: 100%;
     height: 30px;
     overflow: hidden;

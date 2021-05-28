@@ -101,8 +101,8 @@ export default {
             this.$refs.siVideo.currentTime = 0;
             this.$refs.siVideo.play();
         },
-        playVideo() {           
-            window.siVideo = this.$refs.siVideo;            
+        playVideo() {
+            window.siVideo = this.$refs.siVideo;
             this.isVideoStart = true;
             window.siVideo.play();
                        

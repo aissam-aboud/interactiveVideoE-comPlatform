@@ -15,19 +15,19 @@ export default {
 setTimeout(()=> {
     var videoProgressLine = document.getElementsByClassName('time-progress')[0];
     var timeLineProgressDraggable = document.getElementsByClassName('time-line-draggable')[0];
+    var timeLineProgressDragger = document.getElementsByClassName('time-line-dragger')[0];
 
-    timeLineProgressDraggable.addEventListener('mousedown', ()=> {
+    timeLineProgressDragger.addEventListener('mousedown', ()=> {
         var videoTimeLine = document.getElementsByClassName('video-time-line')[0];
         window.videoTimeLineWidth = videoTimeLine.offsetWidth;
+   
+        document.addEventListener('mouseup', ()=> {
+            var videoTimeLineProgressLeft = timeLineProgressDraggable.style.left.slice(0, -2);
+            var videoTimePassed = ((videoTimeLineProgressLeft * 100) / window.videoTimeLineWidth); //time line position
+            videoProgressLine.style.width = videoTimePassed+'%'; // time line progress position
+            window.adminVideo.currentTime = ((videoTimePassed * window.adminVideo.duration) / 100); // video new position
+        });
     });
-    document.addEventListener('mouseup', ()=> {
-        var videoTimeLineProgressLeft = timeLineProgressDraggable.style.left.slice(0, -2);
-        var videoTimePassed = ((videoTimeLineProgressLeft * 100) / window.videoTimeLineWidth); //time line position
-        videoProgressLine.style.width = videoTimePassed+'%'; // time line progress position
-        window.adminVideo.currentTime = ((videoTimePassed * window.adminVideo.duration) / 100); // video new position
-    });
-
-    // console.log(videoTimeLineProgressLeft);
 }, 100);
 
 
@@ -63,9 +63,9 @@ document.addEventListener('mousemove', function(e) {
 
 <style scoped>
 .video-time-line {
+    top: -30px;
     width: 100%;
-    height: 3px;
-    overflow: hidden;
+    height: 4px;
     user-select: none;
     position: relative;
     border-radius: 5px;
@@ -80,7 +80,7 @@ document.addEventListener('mousemove', function(e) {
     z-index: 1000;
 }
 .time-line-draggable .time-line-dragger {
-    width: 100%;
+    width: 52.6%;
     height: 100%;
     user-select: none;
     background: red;
@@ -88,6 +88,7 @@ document.addEventListener('mousemove', function(e) {
 }
 .video-time-line .time-progress{
     width: 0%;
+    padding-left: 2px;
     top: -120px;
     height: 100%;
     user-select: none;

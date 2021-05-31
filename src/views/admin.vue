@@ -4,7 +4,6 @@
                 <ConfirmAddModal :success="success" />
         </div>
 
-
         <SiSidebar @getComponentName="getComponentName" />
         <div class="main-container">
             <div>
@@ -74,10 +73,10 @@
                         <!-- <source src="../assets/videos/video.mp4" type="video/mp4" > -->
                     </video>
                 </div>
-                <!-- <div> -->
+                <div>
                     <p class="current-time-text">{{currentTime}}</p>
                     <VideoTimeLine />
-                <!-- </div> -->
+                </div>
             </div>
             
             <div class="elements-form">
@@ -87,11 +86,11 @@
                         <div class="form-block">
                             <div class="form-block-item">
                                 <label class="form-label">Start Time</label>
-                                <input class="form-input start-time" type="number" min="0" v-model="startTime" disabled required>
+                                <input class="form-input start-time" type="number" min="0" disabled required>
                             </div>
                             <div class="form-block-item">
                                 <label class="form-label">End Time</label>
-                                <input class="form-input end-time" type="number" min="0" v-model="endTime" disabled required>
+                                <input class="form-input end-time" type="number" min="0" disabled required>
                             </div>
                         </div>
                         <!-- <div class="form-block">
@@ -354,8 +353,8 @@ export default {
             var timeLineProgressEndPos = videoPosition + defaultWidth;
             var defaultEndTime = ((timeLineProgressEndPos * window.videoDuration) / 100);
 
-            this.startTime = (currentTime/100).toFixed(3);
-            this.endTime = (defaultEndTime/100).toFixed(3);
+            // this.startTime = (currentTime/100).toFixed(3);
+            // this.endTime = (defaultEndTime/100).toFixed(3);
             
             if(!this.isComponentShows) {
                 this.componentName = componentName;
@@ -368,6 +367,13 @@ export default {
 
                 timeLineProgress.style.width = defaultWidth+'%';
                 timeLineProgress.style.left = videoPosition+ '%';
+
+                setTimeout(()=>{
+                    document.getElementsByClassName('start-time')[0].value = (currentTime/100).toFixed(3);
+                    document.getElementsByClassName('end-time')[0].value = (defaultEndTime/100).toFixed(3);
+                }, 100);
+
+
             }
             else {
                 if(this.componentName == componentName) {

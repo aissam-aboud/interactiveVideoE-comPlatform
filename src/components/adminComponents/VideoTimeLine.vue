@@ -134,9 +134,6 @@ setTimeout(() => {
 </script>
 
 <style scoped>
-.main-time-line {
-    
-}
 .time-line, .time-line-draggable .time-line-dragger{
     visibility: hidden;
 }
@@ -174,6 +171,7 @@ setTimeout(() => {
     color: white;
     overflow: hidden;
 }
+
 .video-time-line {
     top: -30px;
     width: 100%;
@@ -186,7 +184,7 @@ setTimeout(() => {
 }
 .video-time-line .time-line-draggable {
     width: 3px;
-    height: 120px;
+    height: 80px;
     user-select: none;
     position: relative;
     z-index: 1000;
@@ -201,10 +199,10 @@ setTimeout(() => {
 .video-time-line .time-progress{
     width: 0%;
     padding-left: 2px;
-    top: -120px;
+    top: 0px;
     height: 100%;
     user-select: none;
-    position: relative;
+    position: absolute;
     background-color: #065fd4;
 }
 </style>

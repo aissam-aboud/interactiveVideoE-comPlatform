@@ -1,7 +1,7 @@
 <template>
     <div class="admin-main">
         <div v-if="showRefModal">
-                <confirmAddModal :success="success" />
+                <ConfirmAddModal :success="success" />
         </div>
 
 
@@ -10,13 +10,16 @@
             <div>
                 <button v-if="!isSideberOpened" class="open-sidebar" @click="openSidebar()">Add element</button>
                 <button v-if="isSideberOpened" class="close-sidebar" @click="closeSidebar()">Close</button>
+                <input class="upload-video-btn" type="file">
             </div>
             <div class="global-container">
                 <div class="admin-video-container">
-                    <div id="admin-elementsDiv" class="admin-elementsDiv"> 
+                    <div id="admin-elementsDiv" class="admin-elementsDiv">
 
                         <SiPlayButton v-if="!isVideoStart" @playVideo="playVideo()" />
                         <SiReplayButton v-if="isVideoEnd" @replayVideo="replayVideo()" />
+                        <SiMutedButton v-if="!isVideoEnd && isVideoStart" :isMuted="isVideoMuted" @changeVideoSound="changeVideoSound()" />
+                        <SiPlayPauseButton v-if="!isVideoEnd && isVideoStart" :isPaused="isVideoPaused" @changeVideoSound="changeVideoState()" />
 
                         <!-- <component id="compoo"
                             :is="'SiBubble'" 
@@ -67,14 +70,14 @@
                             />
                         </div> 
                     </div>
-                    <video class="admin-video" controls @ended="onEnd()">
-                        <source src="../assets/videos/video.mp4" type="video/mp4" >
+                    <video class="admin-video" @ended="onEnd()">
+                        <!-- <source src="../assets/videos/video.mp4" type="video/mp4" > -->
                     </video>
                 </div>
-
-                <!-- <ItemsTimeLine @getStartTime="getStartTimeFromTimeLine" /> -->
-                <ItemsTimeLine />
-                <VideoTimeLine />
+                <!-- <div> -->
+                    <p class="current-time-text">{{currentTime}}</p>
+                    <VideoTimeLine />
+                <!-- </div> -->
             </div>
             
             <div class="elements-form">
@@ -215,7 +218,6 @@
         </div>
     </div>
 </template>
-
 <script>
 // make the pos of red line and item progress with % not px
 // make red line follow the current video time
@@ -230,6 +232,19 @@
 // essayer de rendre l'appel des components dynamique
 // js in one file
 
+setTimeout(()=> {
+    var inputFile = document.getElementsByClassName("upload-video-btn")[0];
+    if (inputFile) {
+        inputFile.addEventListener('change', (event)=> {
+            let file = event.target.files[0];
+            let blobURL = URL.createObjectURL(file);
+            document.getElementsByClassName("admin-video")[0].src = blobURL;
+            console.log(blobURL);
+            document.getElementsByClassName("btn-play")[0].style.visibility='visible';
+        });
+    }
+}, 100);
+
 
 import axios from 'axios';
 import SiLink from '../components/SiLink';
@@ -239,29 +254,12 @@ import SiSelect from '../components/SiSelect';
 import SiButton from '../components/SiButton';
 import SiTagProduct from '../components/SiTagProduct';
 import SiSidebar from '../components/adminComponents/SiSidebar';
-import confirmAddModal from '../components/adminComponents/confirmAddModal';
+import ConfirmAddModal from '../components/adminComponents/ConfirmAddModal';
 import SiPlayButton from '../components/SiPlayButton';
 import SiReplayButton from '../components/SiReplayButton';
-import ItemsTimeLine from '../components/adminComponents/ItemsTimeLine';
-import VideoTimeLine from '../components/adminComponents//VideoTimeLine';
-
-
-
-function getStartAndEndTimeFromTimeLine() {
-     var duration = window.adminVideo.duration;
-    window.timeLineProgress.addEventListener('mousedown', ()=> {
-        document.addEventListener('mouseup', ()=> {
-            var startTime = ((duration * window.timeLineProgressLeft)/100);
-            var endTime = ((duration * window.timeLineProgressRight)/100);
-
-            document.getElementsByClassName('start-time')[0].value = (startTime/100).toFixed(3);
-            document.getElementsByClassName('end-time')[0].value = (endTime/100).toFixed(3);
-
-        }); 
-    });
-}
-
-
+import VideoTimeLine from '../components/adminComponents/VideoTimeLine';
+import SiMutedButton from '../components/adminComponents/SiMutedButton';
+import SiPlayPauseButton from '../components/adminComponents/SiPlayPauseButton';
 
 export default {
     components: {
@@ -272,11 +270,12 @@ export default {
         SiSelect,
         SiTagProduct,
         SiSidebar ,
-        confirmAddModal,
-        ItemsTimeLine,
+        ConfirmAddModal,
         SiPlayButton,
         SiReplayButton,
         VideoTimeLine,
+        SiMutedButton,
+        SiPlayPauseButton,
     },
     data() {
         return {
@@ -305,6 +304,9 @@ export default {
             videoDuration: 0,
             isVideoStart: false,
             isVideoEnd: false,
+            isVideoMuted: false,
+            isVideoPaused: true,
+            currentTime: "00:00",
         }
     },
     methods: {
@@ -312,9 +314,6 @@ export default {
             this.showRefModal = !this.showRefModal;
         },
         openSidebar() {
-            
-            window.videoTimeLine = document.getElementsByClassName('video-time-line')[0];
-
             document.getElementsByClassName("main-menu")[0].style.width = "14%";
             document.getElementsByClassName("main-container")[0].style.width = "83%";
             this.isSideberOpened = true;
@@ -336,38 +335,39 @@ export default {
                 img.style.filter = 'invert(50%) sepia(10%) saturate(4000%) hue-rotate(165deg)';
             });
 
-            var videoTimeLineProgress = document.getElementsByClassName('time-line-draggable')[0];
-            videoTimeLineProgress.style.width='0px';
-            var timeLineProgress = document.getElementsByClassName('time-line-progress')[0];
-            timeLineProgress.style.width = '0%';
+            document.getElementsByClassName('time-line')[0].style.visibility = 'hidden';
+            document.getElementsByClassName('time-line-dragger')[0].style.visibility = 'hidden';
         },
 
         getComponentName(componentName, draggClass){
+                       
+            var adminVideo = document.getElementsByClassName('admin-video')[0];
+            window.videoDuration = adminVideo.duration;
+            var currentTime = adminVideo.currentTime;
+            var videoPosition = (currentTime*100) / window.videoDuration;
+            var defaultWidth = ((10*100)/window.videoDuration);
 
-            
-            window.videoTimeLine = document.getElementsByClassName('video-time-line')[0];
-            
-            window.adminVideo = document.getElementsByClassName('admin-video')[0];
-            var duration = window.adminVideo.duration;
-            var currentTime = window.adminVideo.currentTime;
-            var videoPosition = (currentTime*100) / duration;
+            var ItemTimeLine = document.getElementsByClassName('time-line')[0];
+            var timeLineDragger = document.getElementsByClassName('time-line-dragger')[0];
+            var timeLineProgress = document.getElementsByClassName('time-line-progress')[0];
 
-            var videoTimeLineProgress = document.getElementsByClassName('time-line-draggable')[0];
+            var timeLineProgressEndPos = videoPosition + defaultWidth;
+            var defaultEndTime = ((timeLineProgressEndPos * window.videoDuration) / 100);
 
-            window.timeLineProgress = document.getElementsByClassName('time-line-progress')[0];
-            var defaultWidth = ((10*100)/duration);
-            
             this.startTime = (currentTime/100).toFixed(3);
+            this.endTime = (defaultEndTime/100).toFixed(3);
             
             if(!this.isComponentShows) {
                 this.componentName = componentName;
                 window.componentDraggClass = draggClass;
                 this.openSidebar();
                 this.isComponentShows = true;
+                
+                ItemTimeLine.style.visibility = 'visible';
+                timeLineDragger.style.visibility = 'visible';
 
-                videoTimeLineProgress.style.width='3px';
-                window.timeLineProgress.style.width = defaultWidth+'%';
-                window.timeLineProgress.style.left = videoPosition+ '%';
+                timeLineProgress.style.width = defaultWidth+'%';
+                timeLineProgress.style.left = videoPosition+ '%';
             }
             else {
                 if(this.componentName == componentName) {
@@ -375,18 +375,16 @@ export default {
                     window.componentDraggClass = '';
                     this.closeSidebar();
                     this.isComponentShows = false;
-                    videoTimeLineProgress.style.width='0px';
-                    window.timeLineProgress.style.width='0%';
+
+                    ItemTimeLine.style.visibility = 'hidden';
+                    timeLineDragger.style.visibility = 'hidden';
                 }
                 else {
                     this.isComponentShows = false;
                     this.getComponentName(componentName, draggClass);
                 }
             }
-
-            getStartAndEndTimeFromTimeLine();
         },
-
 
         getCurrentTime(time) {
             var video = document.getElementsByClassName('admin-video')[0];
@@ -525,22 +523,21 @@ export default {
             this.componentProps = this.componentObject = {};
         },
         playVideo() {
-            var adminVideo = document.getElementsByClassName('admin-video')[0];       
+            var adminVideo = document.getElementsByClassName('admin-video')[0];
+            var duration = adminVideo.duration;
             adminVideo.play();       
             this.isVideoStart = true;
 
             setInterval(()=> {
-                var duration = adminVideo.duration;
                 var currentTime = adminVideo.currentTime;
+                this.currentTime = ((currentTime/100).toFixed(3)).replace('.', ':');
                 var videoPostion = ((currentTime * 100) / duration).toFixed(2);
+                var videoTimeProgress = document.getElementsByClassName('time-progress')[0];
+                videoTimeProgress.style.width = videoPostion+'%';
                 
-                var videoProgressLine = document.getElementsByClassName('time-progress')[0];
-                videoProgressLine.style.width = videoPostion+'%';
-
                 console.log(videoPostion);
             }, 100);
         },
-
         replayVideo() {
             this.isVideoEnd = false;
             document.getElementsByClassName('admin-video')[0].currentTime = 0;
@@ -548,6 +545,21 @@ export default {
         },
         onEnd() {
             this.isVideoEnd = true;
+        },
+        changeVideoSound() {
+            var adminVideo = document.getElementsByClassName('admin-video')[0];
+            this.isVideoMuted = !this.isVideoMuted;
+            adminVideo.muted = !adminVideo.muted;
+        },
+        changeVideoState() {
+            var adminVideo = document.getElementsByClassName('admin-video')[0];
+            this.isVideoPaused = !this.isVideoPaused;
+            if (adminVideo.paused) {
+                adminVideo.play(); 
+            }
+            else {
+                adminVideo.pause();
+            }
         },
     },
 }

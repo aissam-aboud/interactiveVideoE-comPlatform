@@ -1,7 +1,7 @@
 <template>
     <button class="btn-muted" @click="changeVideoSound()" oncontextmenu="return false">
-		<img v-if="isMuted" class="icon" src="./../../assets/images/soundOn-icon.png">
-		<img v-if="!isMuted" class="icon" src="./../../assets/images/muted-icon.png">
+		<img v-if="!isMuted" class="icon" src="./../../assets/images/soundOn-icon.png">
+		<img v-if="isMuted" class="icon" src="./../../assets/images/muted-icon.png">
 	</button>    
 </template>
 

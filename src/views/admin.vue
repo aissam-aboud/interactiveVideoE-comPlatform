@@ -15,7 +15,7 @@
                 <div class="admin-video-container">
                     <div id="admin-elementsDiv" class="admin-elementsDiv">
 
-                        <SiPlayButton v-if="!isVideoStart" @playVideo="playVideo()" />
+                        <SiPlayButton style="visibility: hidden;" v-if="!isVideoStart" @playVideo="playVideo()" />
                         <SiReplayButton v-if="isVideoEnd" @replayVideo="replayVideo()" />
                         <SiMutedButton v-if="!isVideoEnd && isVideoStart" :isMuted="isVideoMuted" @changeVideoSound="changeVideoSound()" />
                         <SiPlayPauseButton v-if="!isVideoEnd && isVideoStart" :isPaused="isVideoPaused" @changeVideoSound="changeVideoState()" />
@@ -106,13 +106,13 @@
                             </div>
                         </div> -->
                         <div class="form-block">
-                            <div class="form-block-item">
+                            <!-- <div class="form-block-item">
                                 <label class="form-label">Skippable</label>
                                 <select class="form-input" name="skippable" v-model="skippable" required>
                                     <option value="true">Yes</option>
                                     <option value="false">No</option>
                                 </select>
-                            </div>
+                            </div> -->
                             <div class="form-block-item">
                                 <label class="form-label">Theme</label>
                                 <select class="form-input" name="theme" v-model="theme" required>
@@ -203,14 +203,14 @@
 
                     <div class="form-block">
                         <!-- <button class="btn-group-item" @click="getPosition()">Get position</button> -->
-                        <button @click.prevent="getCurrentTime('start')" class="btn-group-item">get start time</button>
-                        <button @click.prevent="getCurrentTime('end')"  class="btn-group-item"
+                        <!-- <button @click.prevent="getCurrentTime('start')" class="btn-group-item">get start time</button> -->
+                        <!-- <button @click.prevent="getCurrentTime('end')"  class="btn-group-item"
                                 v-if="componentName!='SiMoveTo'">get end time
-                        </button>
+                        </button> -->
                         <button @click.prevent="getCurrentTime('moveTo')" class="btn-group-item"
                                 v-if="componentName=='SiMoveTo' || componentName=='SiButton'">get move to
                         </button>
-                        <button type="submit" class="btn-group-item save-btn">Save element</button>
+                        <button type="submit" class="save-btn">Save element</button>
                     </div>
                 </form>
             </div>
@@ -240,6 +240,11 @@ setTimeout(()=> {
             document.getElementsByClassName("admin-video")[0].src = blobURL;
             console.log(blobURL);
             document.getElementsByClassName("btn-play")[0].style.visibility='visible';
+            document.getElementsByClassName("main-menu")[0].style.pointerEvents='auto';
+            document.getElementsByClassName("open-sidebar")[0].style.pointerEvents='auto';
+            document.getElementsByClassName("admin-video-container")[0].style.border = "none";
+            document.getElementsByClassName("admin-video-container")[0].style.borderRadius = "0";
+            document.getElementsByClassName("admin-video-container")[0].style.backgroundColor = "transparent";
         });
     }
 }, 100);
@@ -352,9 +357,6 @@ export default {
 
             var timeLineProgressEndPos = videoPosition + defaultWidth;
             var defaultEndTime = ((timeLineProgressEndPos * window.videoDuration) / 100);
-
-            // this.startTime = (currentTime/100).toFixed(3);
-            // this.endTime = (defaultEndTime/100).toFixed(3);
             
             if(!this.isComponentShows) {
                 this.componentName = componentName;
@@ -507,6 +509,8 @@ export default {
                 this.clearInputs();
                 this.closeSidebar();
                 this.openSidebar();
+                document.getElementsByClassName(this.componentName)[0];
+                console.log(document.getElementsByClassName(`${this.componentName}`)[0]);
                 setTimeout(()=> { 
                     this.showRefModal = !this.showRefModal 
                 }, 1000);
@@ -540,8 +544,6 @@ export default {
                 var videoPostion = ((currentTime * 100) / duration).toFixed(2);
                 var videoTimeProgress = document.getElementsByClassName('time-progress')[0];
                 videoTimeProgress.style.width = videoPostion+'%';
-                
-                console.log(videoPostion);
             }, 100);
         },
         replayVideo() {

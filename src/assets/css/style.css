@@ -495,8 +495,6 @@
     visibility: visible;
     border: 2px solid white;
     background: rgba(0, 0, 0, 0.295);
-
-    visibility: hidden;
 }
 .btn-play .icon {
     width: 18px;

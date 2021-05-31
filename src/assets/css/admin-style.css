@@ -21,10 +21,13 @@
 .main-container .admin-video-container {
     z-index: 0;
     width: 100%;
-    height: 90%;
+    height: 40%;
     float: left;
     position: relative;
     margin: 20px 0 0 0px;
+    border-radius: 10px;
+    border: 1px solid black;
+    background-color: rgba(155, 155, 155, 0.432);
 }
 .main-container .admin-video-container .admin-video {
     width: 100%;
@@ -39,6 +42,9 @@
     overflow: hidden;
     position: absolute;
     visibility: hidden;
+}
+.open-sidebar {
+    pointer-events: none;
 }
 .open-sidebar, .close-sidebar {
     z-index: 0;
@@ -77,10 +83,11 @@
 }
 .upload-video-btn {
     float: right;
+    padding: 4px 8px;
     overflow: hidden;
+    user-select: none;
     border-radius: 5px;
     font-family: "montserrat";
-    padding: 4px 8px;
     background-color: white;
     border: 1px solid #2196f3;
 }
@@ -161,16 +168,31 @@
     border: 2px solid #2196f3;
     box-shadow: 0 0 6px rgb(163, 163, 163);
 }
-.main-container .input-group .form-block .save-btn {
-    color: white;
-    border: 2px solid white;
-    background-color: #2196f3;
-}
 .main-container .input-group .form-block .btn-group-item:hover {
     transition: .1s;
     transform: scale(1.02);
 }
 
+.main-container .input-group .form-block .save-btn {
+    width: 86%;
+    outline: none;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 5px 10px;
+    user-select: none;
+    border-radius: 5px;
+    margin: 15px 0 0 6%;
+    font-family: "montserrat";
+    border: 2px solid white;
+    background-color: #2196f3;
+    box-shadow: 0 0 6px rgb(163, 163, 163);
+    
+}
+.main-container .input-group .form-block .save-btn:hover {
+    transition: .1s;
+    transform: scale(1.02);
+}
 
 /* ------------------------------  sideber  ------------------------------- */
 *{
@@ -179,6 +201,8 @@
 }
 
 .main-menu{
+    pointer-events: none;
+
     top:0;
     left:0;
     width: 5%;
@@ -294,4 +318,8 @@
 .btn-play-pause:hover {
     cursor: pointer;
     background: rgba(218, 218, 209, 0.582);
+}
+
+.current-time-text {
+    user-select: none;
 }

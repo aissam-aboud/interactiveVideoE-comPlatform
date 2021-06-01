@@ -84,7 +84,6 @@ export default {
         catch (err) {
             console.log(err);
         }
-        window.siVideo = this.$refs.siVideo;
     },
     methods: {
         changeVideoSound(){

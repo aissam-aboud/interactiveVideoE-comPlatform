@@ -12,7 +12,7 @@ export default {
     },
     methods: {
         changeVideoState() {
-            this.$emit("changeVideoSound");
+            this.$emit("changeVideoState");
         }
     }    
 }

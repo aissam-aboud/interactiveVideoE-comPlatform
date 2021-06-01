@@ -7,18 +7,18 @@
         <SiSidebar @getComponentName="getComponentName" />
         <div class="main-container">
             <div class="global-container">
-            <div>
-                <button v-if="!isSideberOpened" class="open-sidebar" @click="openSidebar()">Add element</button>
-                <button v-if="isSideberOpened" class="close-sidebar" @click="closeSidebar()">Close</button>
-                <input class="upload-video-btn" type="file">
-            </div>
+                <div>
+                    <button v-if="!isSideberOpened" class="open-sidebar" @click="openSidebar()">Add element</button>
+                    <button v-if="isSideberOpened" class="close-sidebar" @click="closeSidebar()">Close</button>
+                    <input class="upload-video-btn" type="file">
+                </div>
                 <div class="admin-video-container">
                     <div id="admin-elementsDiv" class="admin-elementsDiv">
 
                         <SiPlayButton style="visibility: hidden;" v-if="!isVideoStart" @playVideo="playVideo()" />
                         <SiReplayButton v-if="isVideoEnd" @replayVideo="replayVideo()" />
                         <SiMutedButton v-if="!isVideoEnd && isVideoStart" :isMuted="isVideoMuted" @changeVideoSound="changeVideoSound()" />
-                        <SiPlayPauseButton v-if="!isVideoEnd && isVideoStart" :isPaused="isVideoPaused" @changeVideoSound="changeVideoState()" />
+                        <SiPlayPauseButton v-if="!isVideoEnd && isVideoStart" :isPaused="isVideoPaused" @changeVideoState="changeVideoState()" />
 
                         <!-- <component id="compoo"
                             :is="'SiBubble'" 

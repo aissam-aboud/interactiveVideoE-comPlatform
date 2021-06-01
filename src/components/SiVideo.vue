@@ -21,7 +21,7 @@
             <SiMutedButton :isMuted="isVideoMuted" @changeVideoSound="changeVideoSound()" />
         </div>
         
-        <video ref="siVideo" class="siVideo" controls @ended="onEnd()" oncontextmenu="return false">
+        <video ref="siVideo" class="siVideo" @ended="onEnd()" oncontextmenu="return false">
             <source src="./../assets/videos/video.mp4" type="video/mp4">
         </video>
 

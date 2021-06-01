@@ -297,6 +297,7 @@
 .btn-play-pause {
     top: 90%;
     left: 1%;
+    z-index: 1;
     width: 31px;
     height: 31px;
     border: none;
@@ -322,4 +323,77 @@
 
 .current-time-text {
     user-select: none;
+}
+
+/* ------------------------------  Video tiemline  ------------------------------- */
+.time-line, .time-line-draggable .time-line-dragger{
+    visibility: hidden;
+}
+.time-line {
+    top: 15px;
+    width: 100%;
+    height: 30px;
+    overflow: hidden;
+    user-select: none;
+    position: relative;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: #cccccc;
+}
+
+.time-line-progress {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 10%;  /*-----*/
+    overflow: auto;
+    max-width: 100%;
+    user-select: none;
+    position: absolute;
+    resize: horizontal;
+    border-radius: 5px;
+    background-color: #065fd4;
+}
+.time-line-progress p {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    cursor: move;
+    color: white;
+    overflow: hidden;
+}
+
+.video-time-line {
+    top: -30px;
+    width: 100%;
+    height: 4px;
+    user-select: none;
+    position: relative;
+    border-radius: 5px;
+    border: 1px solid black;
+
+}
+.video-time-line .time-line-draggable {
+    width: 3px;
+    height: 80px;
+    user-select: none;
+    position: relative;
+    z-index: 1000;
+}
+.time-line-draggable .time-line-dragger {
+    width: 52.6%;
+    height: 100%;
+    user-select: none;
+    background: red;
+    cursor: col-resize;
+}
+.video-time-line .time-progress{
+    width: 0%;
+    padding-left: 2px;
+    top: 0px;
+    height: 100%;
+    user-select: none;
+    position: absolute;
+    background-color: #065fd4;
 }

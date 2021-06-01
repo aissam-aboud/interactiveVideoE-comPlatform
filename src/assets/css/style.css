@@ -544,6 +544,7 @@
 .btn-muted {
     top: 90%;
     left: 95%;
+    z-index: 1;
     width: 31px;
     height: 31px;
     border: none;

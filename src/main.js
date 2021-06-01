@@ -8,6 +8,8 @@ Vue.config.productionTip = false;
 import "./assets/css/style.css";
 import "./assets/css/admin-style.css";
 import "./assets/js/draggable-items.js";
+import "./assets/js/video-timeline.js";
+import "./assets/js/upload-video.js";
 
 import drag from "v-drag";
 Vue.use(drag);

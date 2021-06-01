@@ -77,13 +77,14 @@ export default {
     },
     async created() {
         try {
-            this.elements= await axios.get("http://localhost:3000/api/insert");
+            this.elements= await axios.get("http://localhost:3000/api/objects");
             this.elements = this.elements.data;
             console.log(this.elements);
         }
         catch (err) {
             console.log(err);
-        }        
+        }
+        window.siVideo = this.$refs.siVideo;
     },
     methods: {
         changeVideoSound(){

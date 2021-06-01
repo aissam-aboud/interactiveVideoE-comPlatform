@@ -6,12 +6,12 @@
 
         <SiSidebar @getComponentName="getComponentName" />
         <div class="main-container">
+            <div class="global-container">
             <div>
                 <button v-if="!isSideberOpened" class="open-sidebar" @click="openSidebar()">Add element</button>
                 <button v-if="isSideberOpened" class="close-sidebar" @click="closeSidebar()">Close</button>
                 <input class="upload-video-btn" type="file">
             </div>
-            <div class="global-container">
                 <div class="admin-video-container">
                     <div id="admin-elementsDiv" class="admin-elementsDiv">
 
@@ -61,13 +61,12 @@
                             />
                         </div>
                         <div class="si-btn-tag-draggable" @mousemove="getPosition()">
-                            <SiTagProduct v-if="componentName == 'SiTagProduct'" 
-                                id="azaz"
+                            <SiTagProduct v-if="componentName == 'SiTagProduct'"
                                 class="si-btn-tag-dragger"
                                 :style="{visibility: 'visible'}" :theme="theme" 
                                 :url="url"
                             />
-                        </div> 
+                        </div>
                     </div>
                     <video class="admin-video" @ended="onEnd()">
                         <!-- <source src="../assets/videos/video.mp4" type="video/mp4" > -->
@@ -223,32 +222,9 @@
 
 // add login to access admin and client space
 
-//chose video and show it in real time
-// https://stackoverflow.com/questions/45661913/vanilla-javascript-preview-video-file-before-upload-no-jquery
-
 // add borders to time line progress so if its width == 0 we can dragg it from borders
 
 // essayer de rendre l'appel des components dynamique
-// js in one file
-
-setTimeout(()=> {
-    var inputFile = document.getElementsByClassName("upload-video-btn")[0];
-    if (inputFile) {
-        inputFile.addEventListener('change', (event)=> {
-            let file = event.target.files[0];
-            let blobURL = URL.createObjectURL(file);
-            document.getElementsByClassName("admin-video")[0].src = blobURL;
-            console.log(blobURL);
-            document.getElementsByClassName("btn-play")[0].style.visibility='visible';
-            document.getElementsByClassName("main-menu")[0].style.pointerEvents='auto';
-            document.getElementsByClassName("open-sidebar")[0].style.pointerEvents='auto';
-            document.getElementsByClassName("admin-video-container")[0].style.border = "none";
-            document.getElementsByClassName("admin-video-container")[0].style.borderRadius = "0";
-            document.getElementsByClassName("admin-video-container")[0].style.backgroundColor = "transparent";
-        });
-    }
-}, 100);
-
 
 import axios from 'axios';
 import SiLink from '../components/SiLink';
@@ -371,8 +347,13 @@ export default {
                 timeLineProgress.style.left = videoPosition+ '%';
 
                 setTimeout(()=>{
-                    document.getElementsByClassName('start-time')[0].value = (currentTime/100).toFixed(3);
-                    document.getElementsByClassName('end-time')[0].value = (defaultEndTime/100).toFixed(3);
+                    var startTimeInput = document.getElementsByClassName('start-time')[0];
+                    var endTimeInput = document.getElementsByClassName('end-time')[0];
+
+                    if (startTimeInput && endTimeInput) {
+                        startTimeInput.value = (currentTime/100).toFixed(3);
+                        endTimeInput.value = (defaultEndTime/100).toFixed(3);
+                    }
                 }, 100);
 
 
@@ -403,7 +384,7 @@ export default {
                 this.endTime = (video.currentTime/100).toFixed(3);
             }
             if(time == 'moveTo') {
-                this.moveTo = (video.currentTime/100).toFixed(3);
+                this.moveTo = video.currentTime;
             }
         },
         getPosition() {
@@ -423,11 +404,13 @@ export default {
         },
         async insertObjetToDB() {
 
-            this.startTime = document.getElementsByClassName('start-time')[0].value;
-            this.endTime = document.getElementsByClassName('end-time')[0].value;
+            var startTimeInput = document.getElementsByClassName('start-time')[0];
+            var endTimeInput = document.getElementsByClassName('end-time')[0];
 
-            console.log(this.startTime);
-            console.log(this.endTime);
+            if (startTimeInput && endTimeInput) {
+                this.startTime = startTimeInput.value;
+                this.endTime = endTimeInput.value;                
+            }
 
             if(this.componentName == 'SiBubble') {
                 this.componentObject = {
@@ -503,14 +486,12 @@ export default {
                 };
             }
             
-            this.object = await axios.post(`http://localhost:3000/api/insert`, this.componentObject)
+            this.object = await axios.post(`http://localhost:3000/api/insert-object`, this.componentObject)
             .then(() => {
                 this.showRefModal = !this.showRefModal;
                 this.clearInputs();
                 this.closeSidebar();
                 this.openSidebar();
-                document.getElementsByClassName(this.componentName)[0];
-                console.log(document.getElementsByClassName(`${this.componentName}`)[0]);
                 setTimeout(()=> { 
                     this.showRefModal = !this.showRefModal 
                 }, 1000);

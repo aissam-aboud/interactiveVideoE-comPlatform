@@ -1,9 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import index from "../views/index.vue";
-import ind from "../views/ind.vue";
-import admin from "../views/admin.vue";
-import a from "../views/a.vue";
+import dashboard from "../views/dashboard.vue";
 
 Vue.use(VueRouter);
 
@@ -14,19 +12,9 @@ const routes = [
     component: index,
   },
   {
-    path: "/ind",
-    name: "ind",
-    component: ind,
-  },
-  {
-    path: "/admin",
-    name: "admin",
-    component: admin,
-  },
-  {
-    path: "/a",
-    name: "a",
-    component: a,
+    path: "/dashboard",
+    name: "dashboard",
+    component: dashboard,
   },
 ];
 

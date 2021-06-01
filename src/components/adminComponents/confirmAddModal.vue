@@ -8,15 +8,9 @@
 </template>
 
 <script>
-// import axios from 'axios';
 export default {
     props: {
         success: Boolean,
     },
 }
 </script>
-
-<style scoped>  
-
-
-</style>

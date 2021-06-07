@@ -322,7 +322,7 @@
 /* ------------------------------  SiSelect  ------------------------------- */
 .si-select {
     margin: 0;
-    padding: 0;
+    padding: 0; 
     width: 24%;
     list-style: none;
     position: absolute;
@@ -370,6 +370,7 @@
 }
 .si-select .si-select-options li {
     color: white;
+    width: 100%;
     user-select: none;
     background-color: #0000009e;
     border-bottom: 1px solid #2196f3;

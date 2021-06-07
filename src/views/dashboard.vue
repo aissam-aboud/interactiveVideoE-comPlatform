@@ -113,6 +113,10 @@
                                 </select>
                             </div> -->
                             <div class="form-block-item">
+                                <label class="form-label" style="position: relative">Stop video</label><br>
+                                <input @change="fnt()" type="checkBox">
+                            </div>
+                            <div class="form-block-item">
                                 <label class="form-label">Theme</label>
                                 <select class="form-input" name="theme" v-model="theme" required>
                                     <option value="light">Light</option>
@@ -171,13 +175,15 @@
                                 </div>
                                 <div class="form-block-item">
                                     <label class="form-label">Item value(Move to)</label>
-                                    <input class="form-input" type="text" v-model="selectItemMoveto">
+                                    <input class="form-input" type="text" v-model="moveTo">
                                 </div>
-                                <button @click.prevent="addItemToSelectList({name: selectItemName, moveTo: selectItemMoveto})"
-                                        v-if="selectItemName && selectItemMoveto" 
-                                        class="btn-group-item save-btn">Add to list
-                                </button>
+                                <button @click.prevent="getCurrentTime('moveTo')" class="btn-group-item">get move to
+                            </button>
                             </div>
+                            <button @click.prevent="addItemToSelectList({name: selectItemName, moveTo: moveTo})"
+                                v-if="selectItemName && moveTo" 
+                                class="btn-group-item save-btn">Add to list
+                            </button>
                         </div>
                         <!-- Tag product -->
                         <div class="form-block" v-if="componentName=='SiTagProduct'">
@@ -289,7 +295,16 @@ export default {
             currentTime: "00:00",
         }
     },
+    created() {
+        localStorage.removeItem('videoLink'); 
+    },
     methods: {
+        fnt() {
+            var startTimeInput = document.getElementsByClassName('start-time')[0];
+            var endTimeInput = document.getElementsByClassName('end-time')[0];
+
+            endTimeInput.value = startTimeInput.value;
+        },
         closeModal () {
             this.showRefModal = !this.showRefModal;
         },
@@ -401,6 +416,7 @@ export default {
             this.selectItems.push(item);
             this.selectItemName = '';
             this.selectItemMoveto = '';
+            this.moveTo = '';
         },
         async insertObjetToDB() {
 

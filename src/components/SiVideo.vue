@@ -15,14 +15,17 @@
                     :is="element.currentComponent" v-bind="element.currentProps"
                 />
             </div>
-            <SiSkipButton :elements="elements" v-if="isVideoPaused" />
-            <SiPlayButton v-if="!isVideoStart" @playVideo="playVideo()" />
-            <SiReplayButton v-if="isVideoEnd" @replayVideo="replayVideo()" />
-            <SiMutedButton :isMuted="isVideoMuted" @changeVideoSound="changeVideoSound()" />
+            <div v-if="videoLink">
+                <SiSkipButton :elements="elements" v-if="isVideoPaused" />
+                <SiPlayButton v-if="!isVideoStart" @playVideo="playVideo()" />
+                <SiReplayButton v-if="isVideoEnd" @replayVideo="replayVideo()" />
+                <SiMutedButton :isMuted="isVideoMuted" @changeVideoSound="changeVideoSound()" />
+            </div>
         </div>
         
         <video ref="siVideo" class="siVideo" @ended="onEnd()" oncontextmenu="return false">
-            <source src="./../assets/videos/video.mp4" type="video/mp4">
+            <!-- <source src="./../assets/videos/video.mp4" type="video/mp4"> -->
+            <source :src="videoLink" type="video/mp4">
         </video>
 
     </div>
@@ -73,6 +76,12 @@ export default {
             isVideoStart: false,
             isVideoPaused: false,
             elements: [],
+            videoLink: '',
+        }
+    },
+    mounted() {
+        if (localStorage.getItem('videoLink')) {
+            this.videoLink = localStorage.getItem('videoLink');
         }
     },
     async created() {
